@@ -4,6 +4,7 @@ part 'menu.g.dart';
 class Menu{
   final String? icon;
   final String? title;
+
   Menu({this.icon,this.title});
   factory Menu.fromJson(Map<String,dynamic> json) => _$MenuFromJson(json);
 }

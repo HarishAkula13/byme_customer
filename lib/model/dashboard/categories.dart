@@ -4,6 +4,7 @@ part 'categories.g.dart';
 class Categories{
    bool? isClick;
    String? title;
+
   Categories({this.isClick,this.title});
   factory Categories.fromJson(Map<String,dynamic> json) => _$CategoriesFromJson(json);
 }
