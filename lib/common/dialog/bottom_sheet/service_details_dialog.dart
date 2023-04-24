@@ -62,7 +62,6 @@ void ServiceDetailsDialog(BuildContext context,Function() onClick,HomeBloc bloc)
                     child: CustomDropdown(hint: 'Select', value: sna.data, dropdownItems: ['Construction Works'], onChanged:(val){ bloc.addSelectedName.add(val!);}));
               }
             ),
-
             StreamBuilder<String>(
                 initialData: 'Carpentry',
                 stream: bloc.subCate,
