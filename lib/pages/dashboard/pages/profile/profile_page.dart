@@ -1,12 +1,16 @@
+import 'package:byme_app/di/app_injector.dart';
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../app/arch/bloc_provider.dart';
 import '../../../../common/label/item_label_text.dart';
 import '../../../../common/load_container/load_container.dart';
+import '../../../../common/utilities/byme_colors.dart';
 import '../../../../common/utilities/fonts.dart';
 import 'bloc/profile_bloc.dart';
 
@@ -73,7 +77,25 @@ class ProfilePageState extends State<ProfilePage>{
                   ),
                 ),*/
                 SizedBox(height: 3,),
-                DottedLine(direction: Axis.horizontal,dashColor: HexColor('#CDD0CF'),),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0,right: 20,top: 20),
+                  child: InkWell(
+                    onTap: (){
+                      Get.to(AppInjector.instance.ordersHistory);
+                    },
+                    child: Row(
+                      children: [
+                        SvgPicture.asset('assets/images/order.svg',height: 21,width: 21,color:ByMeColors.un_select,),
+                        SizedBox(width: 20,),
+                        ItemLabelText(text: 'Your Orders',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),)
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: DottedLine(direction: Axis.horizontal,dashColor: HexColor('#CDD0CF'),),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0,right: 20,top: 20),
                   child: Column(
@@ -94,7 +116,18 @@ class ProfilePageState extends State<ProfilePage>{
                         children: [
                           Icon(Icons.email_sharp,color: HexColor('#858E8B'),),
                           SizedBox(width: 20,),
-                          ItemLabelText(text: 'a.chandu006@gmail.com',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                          ItemLabelText(text: 'nandakumar@gmail.com',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0,bottom: 10),
+                        child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on_outlined,color: HexColor('#858E8B'),),
+                          SizedBox(width: 20,),
+                          ItemLabelText(text: 'Ammavari Peta, Bhattupalli',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
                         ],
                       ),
                       Padding(

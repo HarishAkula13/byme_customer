@@ -67,7 +67,8 @@ class OTPPageState extends State<OTPPage>{
                             color: Colors.grey, fontFamily: Inter.regular)),
                     TextSpan(text: "7",style: TextStyle(
                         color: Colors.grey, fontFamily: Inter.regular))
-                  ]))),
+                  ]))
+              ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
