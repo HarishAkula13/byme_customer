@@ -107,7 +107,7 @@ class CustomDropdown extends StatelessWidget {
         buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
         buttonDecoration: buttonDecoration ??
             BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(7),
               border: Border.all(
                 color: Colors.grey,
               ),
@@ -121,7 +121,7 @@ class CustomDropdown extends StatelessWidget {
         dropdownPadding: dropdownPadding,
         dropdownDecoration: dropdownDecoration ??
             BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(7),
             ),
         dropdownElevation: dropdownElevation ?? 8,
         scrollbarRadius: scrollbarRadius ?? const Radius.circular(40),

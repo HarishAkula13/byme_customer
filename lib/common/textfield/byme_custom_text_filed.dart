@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import '../fonts/fonts.dart';
 import '../utils/pyc_colors.dart';
 
-class PYCCustomTextField extends StatelessWidget {
+class MyCustomTextField extends StatelessWidget {
   final _controller = TextEditingController();
 
   final labelText;
@@ -22,7 +22,7 @@ class PYCCustomTextField extends StatelessWidget {
   final _validationStream;
   final _onChange;
 
-  PYCCustomTextField(
+  MyCustomTextField(
       {labelText,
         hintText = '',
         initialText = '',
@@ -70,7 +70,7 @@ class PYCCustomTextField extends StatelessWidget {
                   child: Text(labelText, style: TextStyle(color: PYCColors.hint_text_color,fontSize: 14),),
                 ):SizedBox(),
                 SizedBox(
-                  height: 180,
+                  height: 140,
                   child: TextField(
                     key: Key(labelText),
                    // controller: _controller,
@@ -92,11 +92,11 @@ class PYCCustomTextField extends StatelessWidget {
                       focusedBorder:
                       OutlineInputBorder(
                           borderSide: BorderSide(color: PYCColors.line_secondary),
-                          borderRadius: BorderRadius.circular(24)),
+                          borderRadius: BorderRadius.circular(7)),
                       enabledBorder:
                       OutlineInputBorder(
                           borderSide: BorderSide(color: PYCColors.line_secondary),
-                          borderRadius: BorderRadius.circular(24)),
+                          borderRadius: BorderRadius.circular(7)),
                     ),
                   ),
                 ),

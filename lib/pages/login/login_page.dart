@@ -12,7 +12,6 @@ import '../../common/button/byme_button.dart';
 import '../../common/label/item_label_text.dart';
 import '../../common/load_container/load_container.dart';
 import '../../common/textfield/byme_text_field.dart';
-import '../../common/textfield/pyc_text_filed.dart';
 import '../../common/utilities/byme_colors.dart';
 import '../../common/utilities/fonts.dart';
 import '../../di/app_injector.dart';
@@ -107,17 +106,16 @@ class LoginPageState extends State<LoginPage>{
       ),
     ),
     child: Container(
-      height: MediaQuery.of(context).size.height*0.6,
-       alignment: Alignment.center,
+      padding: EdgeInsets.all(30),
+      height: MediaQuery.of(context).size.height*0.4,
+       alignment: Alignment.centerLeft,
        child: Column(
          mainAxisAlignment: MainAxisAlignment.center,
-         crossAxisAlignment: CrossAxisAlignment.center,
+         crossAxisAlignment: CrossAxisAlignment.start,
          children: [
-            SvgPicture.asset('assets/images/shop.svg'),
+           ItemLabelText(text: "Get everything \nsimply delivered",style: TextStyle(fontSize: 32,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w700),),
            SizedBox(height: 10,),
-           ItemLabelText(text: "ByMe for business",style: TextStyle(fontSize: 24,color: Colors.black,fontFamily: Inter.bold),),
-           SizedBox(height: 10,),
-           ItemLabelText(text: "Manage your store from anywhere",style: TextStyle(fontSize: 16,color: ByMeColors.hint_text_color,fontFamily: Inter.regular),)
+           ItemLabelText(text: "Enjoy the hussle-free delivery",style: TextStyle(fontSize: 16,color: ByMeColors.hint_text_color,fontFamily: Inter.regular),)
 
          ],
        ),

@@ -1,8 +1,10 @@
 
+import 'package:byme_app/di/i_login_page.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../app/arch/bloc_provider.dart';
+import '../../di/app_injector.dart';
 import '../../manager/user_data_store/user_data_store.dart';
 import '../../repositories/login/login_api.dart';
 
@@ -29,6 +31,6 @@ class LoginBloc extends BlocBase{
 
   }
   void navigate(){
-
+    Get.to(AppInjector.instance.dashboardPage);
   }
 }
