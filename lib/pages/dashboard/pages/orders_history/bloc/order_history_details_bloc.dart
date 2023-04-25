@@ -4,8 +4,10 @@ import '../../../../../app/arch/bloc_provider.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
 
 
-typedef BlocProvider<OrdersHistoryDetailsBloc> OrdersHistoryFactory();
+typedef BlocProvider<OrdersHistoryDetailsBloc> OrdersHistoryDetailsFactory(int pos,Function(int type) onCallBack);
 class OrdersHistoryDetailsBloc extends BlocBase{
+  int? pos;
+  Function(int type) onCallBack;
   UserDataStore? userDataStore;
   BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   BehaviorSubject<int> _selectPos =BehaviorSubject.seeded(0);
@@ -15,12 +17,16 @@ class OrdersHistoryDetailsBloc extends BlocBase{
   Sink<int> get addSelectPos=> _selectPos;
   Stream<bool> get isSelect=> _isSelect;
   Sink<bool> get addIsSelect => _isSelect;
-  OrdersHistoryDetailsBloc(this.userDataStore){
+  OrdersHistoryDetailsBloc(this.pos,this.userDataStore,this.onCallBack){
     setListeners();
+    _selectPos.add(pos!);
   }
 
   void setListeners() {
 
 
+  }
+  void onNavigate(){
+    onCallBack(0);
   }
 }

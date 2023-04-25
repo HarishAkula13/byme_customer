@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../utilities/byme_colors.dart';
 class MyTextField extends StatelessWidget {
-  final _controller = TextEditingController();
+  final TextEditingController? _controller ;
   final labelText;
   final hintText;
   final initialText;
@@ -21,6 +21,7 @@ class MyTextField extends StatelessWidget {
   final bool? readOnly;
   final Widget? sufix;
   final Icon? prefixIcon;
+  final Function()? onTap;
 
   MyTextField(
       {labelText,
@@ -35,7 +36,7 @@ class MyTextField extends StatelessWidget {
         focusNode,
         onSubmit,
         validationStream,
-        onChange,readOnly,sufix,prefixIcon})
+        onChange,readOnly,sufix,prefixIcon,onTap,controller})
       : this.labelText = labelText,
         this.hintText = hintText,
         this.initialText = initialText,
@@ -49,10 +50,12 @@ class MyTextField extends StatelessWidget {
         _onSubmit = onSubmit,
         _validationStream = validationStream,
         this.readOnly=readOnly,
+        this.onTap=onTap,
         this.sufix=sufix,
         this.prefixIcon=prefixIcon,
+        this._controller=controller,
         _onChange = onChange {
-    _controller.text = initialText;
+   // _controller.text = initialText;
 
   }
 
@@ -93,7 +96,7 @@ class MyTextField extends StatelessWidget {
                         padding:  EdgeInsets.only(left: (prefixIcon!=null)?25.0:0.0),
                         child: TextField(
                           key: Key(labelText),
-                          // controller: _controller,
+                           controller: _controller,
                           keyboardType: keyboardType,
                           textInputAction: inputAction,
                           maxLines: linesLimit,
@@ -103,6 +106,7 @@ class MyTextField extends StatelessWidget {
                           onSubmitted: _onSubmit,
                           obscureText: obscureText,
                           focusNode: _focusNode,
+                          onTap: onTap,
                           inputFormatters: [
                             if (charactersLimit != null)
                               LengthLimitingTextInputFormatter(charactersLimit)

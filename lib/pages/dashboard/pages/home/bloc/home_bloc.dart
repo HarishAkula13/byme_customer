@@ -42,6 +42,7 @@ class HomeBloc extends BlocBase{
   Sink<String> get addInstruction=> _instruction;
   Sink<String> get addWorkDes=> _workDes;
   Sink<String> get addDateTime => _dateTime;
+  Stream<String> get dateTime => _dateTime;
   Stream<bool> get valid => _valid;
   HomeBloc(this.userDataStore){
     setListeners();

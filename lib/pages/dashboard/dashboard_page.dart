@@ -9,7 +9,6 @@ import '../../common/fonts/fonts.dart';
 import '../../common/utilities/byme_colors.dart';
 import '../../di/app_injector.dart';
 import 'dashboard_bloc.dart';
-typedef TabBarPage = Widget Function();
 
 class DashboardPage extends StatefulWidget {
 
@@ -18,12 +17,6 @@ class DashboardPage extends StatefulWidget {
 }
 class DashboardPageState extends State<DashboardPage>{
   DashboardBloc? _bloc;
-  List<TabBarPage> _pages = [
-        ()=> AppInjector.instance.home,
-        ()=> AppInjector.instance.orders,
-        ()=> AppInjector.instance.orders,
-        ()=> AppInjector.instance.profile,
-  ];
   @override
   void initState() {
     _bloc=BlocProvider.of(context);
@@ -38,7 +31,12 @@ class DashboardPageState extends State<DashboardPage>{
         initialData: 0,
         stream: _bloc!.selectedPos,
         builder: (b, s) {
-          return _pages[s.data!]();
+          return StreamBuilder<List<TabBarPage>>(
+              initialData: [()=> AppInjector.instance.home],
+              stream: _bloc!.pagesList,
+              builder: (b,sn){
+                return (sn.data!.length>0)?sn.data![s.data!]():SizedBox();
+              });
         },
       ),
       bottomNavigationBar: Container(

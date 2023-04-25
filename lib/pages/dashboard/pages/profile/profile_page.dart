@@ -56,32 +56,13 @@ class ProfilePageState extends State<ProfilePage>{
           child: SingleChildScrollView(
             child: Column(
               children: [
-              /*  Container(
-                  alignment: Alignment.centerLeft,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height*0.19,
-                  padding: EdgeInsets.only(left: 20),
-                  color: HexColor('#E7F6EA'),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ItemLabelText(text: 'Chandu',style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black),),
-                        SizedBox(height: 5,),
-                        ItemLabelText(text: 'Pilot Service Provider',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: HexColor('#6F7C75')),)
-
-                      ],
-                    ),
-                  ),
-                ),*/
                 SizedBox(height: 3,),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0,right: 20,top: 20),
                   child: InkWell(
                     onTap: (){
-                      Get.to(AppInjector.instance.ordersHistory);
+                      _bloc!.onNavigate();
+                     // Get.to(AppInjector.instance.ordersHistory);
                     },
                     child: Row(
                       children: [

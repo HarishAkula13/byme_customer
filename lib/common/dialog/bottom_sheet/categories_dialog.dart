@@ -64,7 +64,7 @@ void CategoriesDialog(BuildContext context,Function() onClick,HomeBloc bloc){
                       return GestureDetector(
                         onTap: (){
                           s.data![i].isClick=! s.data![i].isClick!;
-                          bloc!.addCategoriesList.add(s.data!);
+                          bloc.addCategoriesList.add(s.data!);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(14.0),
