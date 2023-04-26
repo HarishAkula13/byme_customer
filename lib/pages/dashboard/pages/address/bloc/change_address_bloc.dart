@@ -1,0 +1,99 @@
+import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:tuple/tuple.dart';
+import 'dart:ui' as ui;
+
+import '../../../../../app/arch/bloc_provider.dart';
+import '../../../../../manager/user_data_store/user_data_store.dart';
+import '../../../../../repositories/login/login_api.dart';
+
+typedef BlocProvider<ChangeAddressBloc> ChangeAddressFactory();
+class ChangeAddressBloc extends BlocBase{
+  LoginService? loginService;
+  UserDataStore? userDataStore;
+  BehaviorSubject<Tuple2<LatLng ,List<Marker>>> _data =BehaviorSubject();
+  BehaviorSubject<String> _address = BehaviorSubject.seeded('');
+  BehaviorSubject<bool> _isChange = BehaviorSubject.seeded(false);
+  BehaviorSubject<String> _city = BehaviorSubject();
+  Stream<String> get city => _city;
+  Sink<String> get addCity  => _city;
+  Sink<bool> get addIsChange  => _isChange;
+  Stream<bool> get isChange => _isChange;
+  Stream<Tuple2<LatLng ,List<Marker>>> get data=> _data;
+  Stream<String> get address => _address;
+   LatLng _latLen = LatLng(17.4523004,78.3630278);
+   List<Marker> _markers = [];
+
+
+  ChangeAddressBloc(this.loginService,this.userDataStore){
+
+    setListeners();
+    getLocation();
+  }
+
+  void setListeners() {
+
+
+  }
+
+  Future<void> getLocation() async {
+
+    Uint8List markIcons = await getImages('assets/images/my_loc.png', 100);
+    _markers.add(Marker(
+      markerId: MarkerId("0"),
+      icon: BitmapDescriptor.fromBytes(markIcons),
+      position: _latLen,
+    ));
+
+    _data.add(Tuple2(_latLen,_markers));
+    getUserCurrentLocation().then((value) async {
+      _latLen= LatLng(value.latitude, value.longitude);
+      _markers.add(
+          Marker(
+            markerId: MarkerId("0"),
+            icon: BitmapDescriptor.fromBytes(markIcons),
+            position: LatLng(value.latitude, value.longitude),
+          )
+      );
+
+      GetAddressFromLatLong(value);
+      //print(address);
+      _data.add(Tuple2(_latLen,_markers));
+    });
+
+  }
+  Future<Position> getUserCurrentLocation() async {
+    await Geolocator.requestPermission().then((value){
+    }).onError((error, stackTrace) async {
+      await Geolocator.requestPermission();
+      print("ERROR"+error.toString());
+    });
+    Position position=await Geolocator.getCurrentPosition();
+    return position;
+  }
+  Future<Uint8List> getImages(String path, int width) async{
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetHeight: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return(await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+
+  }
+
+  Future<void> GetAddressFromLatLong(Position position)async {
+    await placemarkFromCoordinates(
+        position.latitude, position.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      String _currentAddress = '${place.street}, ${place.subLocality},${place
+          .subAdministrativeArea}, ${place.postalCode}';
+      _address.add(_currentAddress);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+}

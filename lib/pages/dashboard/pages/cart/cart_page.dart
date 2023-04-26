@@ -58,17 +58,25 @@ class CartPageState extends State<CartPage>{
             return Container(
                 height: 90,
                 margin: EdgeInsets.only(left: 20,right: 20,top: 10),
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: HexColor("#F5F5F5"),
                     borderRadius: BorderRadius.all(Radius.circular(10))
                 ),
                 child: Row(
                   children: [
-                    SvgPicture.asset('assets/images/Construction.svg',height: 50,width: 50,),
-                    SizedBox(width: 5,),
+                    Container(
+                      margin: EdgeInsets.only(right: 10),
+                      height: 44,
+                        alignment: Alignment.center,
+                        width: 44,
+                        decoration: BoxDecoration(
+                            color: HexColor("#E7F6EA"),
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        child: SvgPicture.asset('assets/images/Construction.svg',height: 24,width: 24,)),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ItemLabelText(text: 'Construction Works',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w500),),
@@ -86,7 +94,7 @@ class CartPageState extends State<CartPage>{
 
                       ],
                     ),
-                    SizedBox(width: 30,),
+                    SizedBox(width: 20,),
                     RichText(
                         text: const TextSpan( children: [
                           TextSpan(
@@ -97,8 +105,8 @@ class CartPageState extends State<CartPage>{
                               text: '35',
                               style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
                         ])),
-                    SizedBox(width: 40,),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.close,color: HexColor("#858E8B"),))
+                   Spacer(),
+                    IconButton(onPressed: (){}, icon: Icon(Icons.close,color: HexColor("#858E8B"),size: 16,))
                   ],
                 )
             );

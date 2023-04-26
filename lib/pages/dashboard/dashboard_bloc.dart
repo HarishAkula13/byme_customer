@@ -10,10 +10,11 @@ import '../../manager/user_data_store/user_data_store.dart';
 import '../../repositories/login/login_api.dart';
 typedef TabBarPage = Widget Function();
 
-typedef BlocProvider<DashboardBloc> DashboardFactory();
+typedef BlocProvider<DashboardBloc> DashboardFactory(int type);
 class DashboardBloc extends BlocBase{
   LoginService? loginService;
   UserDataStore? userDataStore;
+  int? type;
   BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   BehaviorSubject<int> _selectedPos= BehaviorSubject.seeded(0);
   BehaviorSubject<bool> _isOrder =BehaviorSubject.seeded(false);
@@ -24,18 +25,38 @@ class DashboardBloc extends BlocBase{
   Sink<int> get addSelectedPos => _selectedPos;
   Stream<bool> get isOrder => _isOrder;
   Sink<bool> get addIsOrder => _isOrder;
-  DashboardBloc(this.loginService,this.userDataStore){
+  DashboardBloc(this.loginService,this.userDataStore,this.type){
     setListeners();
   }
 
   void setListeners() {
 
-    _pagesList.add([
-          ()=> AppInjector.instance.home,
-          ()=> AppInjector.instance.orders,
-          ()=> AppInjector.instance.orders,
-          ()=> AppInjector.instance.profile((){viewOrders();}),
-    ]);
+    if(type==1){
+      _selectedPos.add(3);
+      _pagesList.add([
+            ()=> AppInjector.instance.home,
+            ()=> AppInjector.instance.orders,
+            ()=> AppInjector.instance.cartPage,
+            ()=>  AppInjector.instance.ordersHistoryDetails(4,(type){
+              _pagesList.add([
+                    ()=> AppInjector.instance.home,
+                    ()=> AppInjector.instance.orders,
+                    ()=> AppInjector.instance.cartPage,
+                    ()=> AppInjector.instance.profile((){viewOrders();}),
+              ]);
+        }),
+      ]);
+    }else{
+      _selectedPos.add(0);
+      _pagesList.add([
+            ()=> AppInjector.instance.home,
+            ()=> AppInjector.instance.orders,
+            ()=> AppInjector.instance.cartPage,
+            ()=> AppInjector.instance.profile((){viewOrders();}),
+      ]);
+    }
+
+
 
   }
 
@@ -43,38 +64,38 @@ class DashboardBloc extends BlocBase{
     _pagesList.add([
           ()=> AppInjector.instance.home,
           ()=> AppInjector.instance.orders,
-          ()=> AppInjector.instance.orders,
+          ()=> AppInjector.instance.cartPage,
           ()=> AppInjector.instance.ordersHistory((type,pos){
             if(type==0){
               _pagesList.add([
                     ()=> AppInjector.instance.home,
                     ()=> AppInjector.instance.orders,
-                    ()=> AppInjector.instance.orders,
+                    ()=> AppInjector.instance.cartPage,
                     ()=> AppInjector.instance.profile((){viewOrders();}),
               ]);
             }else _pagesList.add([
                   ()=> AppInjector.instance.home,
                   ()=> AppInjector.instance.orders,
-                  ()=> AppInjector.instance.orders,
+                  ()=> AppInjector.instance.cartPage,
                   ()=>  AppInjector.instance.ordersHistoryDetails(pos,(type){
                     _pagesList.add([
                           ()=> AppInjector.instance.home,
                           ()=> AppInjector.instance.orders,
-                          ()=> AppInjector.instance.orders,
+                          ()=> AppInjector.instance.cartPage,
                           ()=> AppInjector.instance.ordersHistory((type,pos){
                         if(type==0){
                           _pagesList.add([
                                 ()=> AppInjector.instance.home,
                                 ()=> AppInjector.instance.orders,
-                                ()=> AppInjector.instance.orders,
+                                ()=> AppInjector.instance.cartPage,
                                 ()=> AppInjector.instance.profile((){viewOrders();}),
                           ]);
                         }else _pagesList.add([
                               ()=> AppInjector.instance.home,
                               ()=> AppInjector.instance.orders,
-                              ()=> AppInjector.instance.orders,
+                              ()=> AppInjector.instance.cartPage,
                               ()=>  AppInjector.instance.ordersHistoryDetails(pos,(type){
-
+                                    viewOrders();
                           }),
                         ]);
 

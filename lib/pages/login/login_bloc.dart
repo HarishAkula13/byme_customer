@@ -31,6 +31,6 @@ class LoginBloc extends BlocBase{
 
   }
   void navigate(){
-    Get.to(AppInjector.instance.dashboardPage);
+    Get.to(AppInjector.instance.dashboardPage(0));
   }
 }

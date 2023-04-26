@@ -102,7 +102,7 @@ class OrdersHistoryDetailsPageState extends State<OrdersHistoryDetailsPage>{
                                             child:ItemLabelText(text: 'Processing',style:  TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w600,color: HexColor("#D96410")),),
 
 
-                                          ):Container(
+                                          ):(snapshot.data==1)?Container(
                                             height: 25,
                                             width: 200,
                                            alignment: Alignment.center,
@@ -114,7 +114,31 @@ class OrdersHistoryDetailsPageState extends State<OrdersHistoryDetailsPage>{
 
 
 
-                                          )
+                                          ):(snapshot.data==2)?Container(
+                                            height: 25,
+                                            width: 200,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                color: HexColor("#D3F3D9"),
+                                                borderRadius: BorderRadius.all(Radius.circular(20))
+                                            ),
+                                            child:ItemLabelText(text: 'Delivered yesterday 3:43 PM',style:  TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w600,color: HexColor("#0E8E60")),),
+
+
+
+                                          ):(snapshot.data==4)?Container(
+                                            height: 25,
+                                            width: 120,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                color: HexColor("#FF8A3F"),
+                                                borderRadius: BorderRadius.all(Radius.circular(10))
+                                            ),
+                                            child:ItemLabelText(text: 'To Be Delivered',style:  TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w600,color: Colors.white),),
+
+
+
+                                          ):SizedBox()
 
 
 
@@ -303,7 +327,7 @@ class OrdersHistoryDetailsPageState extends State<OrdersHistoryDetailsPage>{
                               ],
                             ),
                             Positioned(top: 10,right: 20,
-                                child: ItemLabelText(text:(snapshot.data==0)?'Today 11:00 AM':(snapshot.data==1)?"Yesterday 2:14 PM":'Jan 2, 2022 8:00 AM',style: const TextStyle(fontSize: 12,fontFamily: Inter.medium,fontWeight: FontWeight.w400,color: Colors.black),)),
+                                child: ItemLabelText(text:(snapshot.data==0)?'Today 11:00 AM':(snapshot.data==1)?"Yesterday 2:14 PM":(snapshot.data==4)?'Today 11:00 AM':'Jan 2, 2022 8:00 AM',style: const TextStyle(fontSize: 12,fontFamily: Inter.medium,fontWeight: FontWeight.w400,color: Colors.black),)),
 
                           ],
                         ),
@@ -313,9 +337,17 @@ class OrdersHistoryDetailsPageState extends State<OrdersHistoryDetailsPage>{
                       (snapshot.data==0)?customOutlineButton(() {
 
                       },
-                          ItemLabelText(text:'Cancel Order',style: TextStyle(fontSize: 16,color: HexColor('#F85959'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#F85959','#ffffff',context):customButton(() {
+                          ItemLabelText(text:'Cancel Order',style: TextStyle(fontSize: 16,color: HexColor('#F85959'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#F85959','#ffffff',context):(snapshot.data==1)?
+                      customButton(() {
 
-                      }, ItemLabelText(text:'Reorder',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
+                      }, ItemLabelText(text:'Reorder',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context):(snapshot.data==2)?
+                      customButton(() {
+
+                      }, ItemLabelText(text:'Reorder',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context):(snapshot.data==4)?
+                      customButton(() {
+                        Get.to(AppInjector.instance.trackOrder);
+
+                      }, ItemLabelText(text:'Track Order',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context):SizedBox(),
 
                       SizedBox(height:20),
                       customButton(() {

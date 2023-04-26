@@ -109,6 +109,23 @@ class ProfilePageState extends State<ProfilePage>{
                           Icon(Icons.location_on_outlined,color: HexColor('#858E8B'),),
                           SizedBox(width: 20,),
                           ItemLabelText(text: 'Ammavari Peta, Bhattupalli',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                          Spacer(),
+                          Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
+
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0,bottom: 10),
+                        child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/images/wallet.svg',height: 16,width: 22,),
+                          SizedBox(width: 20,),
+                          ItemLabelText(text: 'SBI credit card ending with 1007 ',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                          Spacer(),
+                          Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
+
                         ],
                       ),
                       Padding(

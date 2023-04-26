@@ -1,5 +1,6 @@
 
 import 'package:byme_app/common/textfield/byme_search_field.dart';
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -49,15 +50,20 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
 
                 Row(
                   children: [
-                    SvgPicture.asset('assets/images/icon_shop.svg',),
+                    Icon((Icons.location_on_outlined),size: 20,color: Colors.grey,),
                     SizedBox(width: 5,),
+
                     ItemLabelText(text: 'kavuri hills  ',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),),
                               ],
                 ),
               ],
             ),
             Spacer(),
-            SvgPicture.asset('assets/images/edit.svg',),
+            GestureDetector(
+              onTap: (){
+                Get.to(AppInjector.instance.changeAddress);
+              },
+                child: SvgPicture.asset('assets/images/edit.svg',)),
 
           ],
         ),
@@ -132,8 +138,8 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                     }
                   ):SizedBox(),
                   SizedBox(height: 20,),
-                  ItemLabelText(text: 'Orders',style: TextStyle(fontSize: 20,color:  Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w800),),
-                  SizedBox(
+                  (san.data==true)?ItemLabelText(text: 'Orders',style: TextStyle(fontSize: 20,color:  Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w800),):SizedBox(),
+                  (san.data==true)?SizedBox(
                     height: 110,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -144,7 +150,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                             child: SvgPicture.asset('assets/images/order_load.svg'),
                           );
                         }),
-                  )
+                  ):SizedBox()
                 ],
               );
             }

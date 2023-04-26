@@ -30,7 +30,7 @@ class OrdersPageState extends State<OrdersPage>{
           elevation: 0,
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
-          title: ItemLabelText(text: 'Orders',style: TextStyle(fontSize: 22,color: Colors.black,fontFamily: Inter.bold),)
+          title: ItemLabelText(text: '',style: TextStyle(fontSize: 22,color: Colors.black,fontFamily: Inter.bold),)
           ,
         ),
         body: Container(),

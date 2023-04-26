@@ -121,6 +121,9 @@ void requestDialogue ({String? title,String? des,String? amount,String? subTitle
                     width: 96,
                     child: customButton(() {
                       Navigator.pop(context);
+                      if(subTitle!=null)
+                        Get.to(AppInjector.instance.orderDetails(1));
+                      else
                       Get.to(AppInjector.instance.cartPage);
 
                     }, ItemLabelText(text:'pay',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),

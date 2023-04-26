@@ -82,14 +82,14 @@ class DashboardPageState extends State<DashboardPage>{
                     BottomNavigationBarItem(
                       icon: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: SvgPicture.asset('assets/images/order.svg',height: 21,width: 21,color: (snapshot.data ==1)?ByMeColors.app_color:ByMeColors.icon_un_select,),
+                        child: SvgPicture.asset('assets/images/nearby.svg',height: 21,width: 21,color: (snapshot.data ==1)?ByMeColors.app_color:ByMeColors.icon_un_select,),
                       ),
                       label: "Near Me",
                     ),
                     BottomNavigationBarItem(
                       icon: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: SvgPicture.asset('assets/images/home.svg',height: 21,width: 21,color: (snapshot.data ==2)?ByMeColors.app_color:ByMeColors.icon_un_select,),
+                        child: SvgPicture.asset('assets/images/cart.svg',height: 21,width: 21,color: (snapshot.data ==2)?ByMeColors.app_color:ByMeColors.icon_un_select,),
                       ),
                       label: "Cart",
                     ),
