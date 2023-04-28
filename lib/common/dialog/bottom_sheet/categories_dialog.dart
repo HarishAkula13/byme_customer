@@ -1,4 +1,5 @@
 import 'package:byme_app/common/dialog/bottom_sheet/service_details_dialog.dart';
+import 'package:byme_app/common/dialog/bottom_sheet/taxi_service_details_dialog.dart';
 import 'package:byme_app/model/dashboard/categories.dart';
 import 'package:byme_app/pages/dashboard/pages/home/bloc/home_bloc.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -13,7 +14,7 @@ import '../../utilities/byme_colors.dart';
 import '../../utilities/fonts.dart';
 import 'mark_done_dialog.dart';
 
-void CategoriesDialog(BuildContext context,Function() onClick,HomeBloc bloc){
+void CategoriesDialog(BuildContext context,Function() onClick,HomeBloc bloc,int type){
 
   showModalBottomSheet(
     context: context,
@@ -85,9 +86,10 @@ void CategoriesDialog(BuildContext context,Function() onClick,HomeBloc bloc){
             customButton(() {
 
               Navigator.pop(context);
-              ServiceDetailsDialog(context,(){
-
+              if(type==6)
+              TaxiServiceDetailsDialog(context,(){
               },bloc);
+              else ServiceDetailsDialog(context,(){},bloc);
 
             }, ItemLabelText(text:'Proceed',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#00B05A','#ffffff',context),
 

@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:byme_app/common/utilities/logger.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
@@ -68,12 +69,28 @@ class ChangeAddressBloc extends BlocBase{
 
   }
   Future<Position> getUserCurrentLocation() async {
-    await Geolocator.requestPermission().then((value){
-    }).onError((error, stackTrace) async {
-      await Geolocator.requestPermission();
-      print("ERROR"+error.toString());
-    });
-    Position position=await Geolocator.getCurrentPosition();
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    permission = await Geolocator.requestPermission();
+
+    if (permission == LocationPermission.denied) {
+      return Future.error('Location permissions are denied');
+    }
+
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position=await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    printLog("Position", position);
     return position;
   }
   Future<Uint8List> getImages(String path, int width) async{

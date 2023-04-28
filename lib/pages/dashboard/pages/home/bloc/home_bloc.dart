@@ -17,6 +17,8 @@ class HomeBloc extends BlocBase{
   BehaviorSubject<List<Categories>> _categoriesList =BehaviorSubject.seeded([]);
   BehaviorSubject<String> _categorieName =BehaviorSubject.seeded('');
   BehaviorSubject<String> _selectedName =BehaviorSubject.seeded('Construction Works');
+  BehaviorSubject<String> _travelType =BehaviorSubject.seeded('Taxi & Travel');
+  BehaviorSubject<String> _taxiType =BehaviorSubject.seeded('Bike Taxi');
   BehaviorSubject<String> _subCate =BehaviorSubject.seeded('Carpentry');
   BehaviorSubject<String> _serviceType =BehaviorSubject.seeded('Pilot Service (Instant)');
   BehaviorSubject<String> _workDes = BehaviorSubject();
@@ -27,6 +29,10 @@ class HomeBloc extends BlocBase{
   Sink<String> get addServiceType => _serviceType;
   Stream<String> get subCate => _subCate;
   Sink<String> get addSubCate => _subCate;
+  Stream<String> get travelType => _travelType;
+  Sink<String> get addTravelType => _travelType;
+  Stream<String> get taxiType => _taxiType;
+  Sink<String> get addTaxiType => _taxiType;
   Stream<String> get selectedName => _selectedName;
   Sink<String> get addSelectedName => _selectedName;
   Stream<bool> get isLoading=> _isLoading;

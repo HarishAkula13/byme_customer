@@ -122,7 +122,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                             _bloc!.addCategorieName.add(s.data![i].title!);
                               CategoriesDialog(context,(){
 
-                              },_bloc!);
+                              },_bloc!,i);
                           },
                           child: Column(
                             children: [
