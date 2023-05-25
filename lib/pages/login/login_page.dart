@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../app/arch/bloc_provider.dart';
 import '../../common/button/byme_button.dart';
+import '../../common/button/byme_outline_button.dart';
 import '../../common/label/item_label_text.dart';
 import '../../common/load_container/load_container.dart';
 import '../../common/textfield/byme_text_field.dart';
@@ -51,7 +52,7 @@ class LoginPageState extends State<LoginPage>{
         ),
         child: Column(
           children: [
-            Row(
+         /*   Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -78,14 +79,19 @@ class LoginPageState extends State<LoginPage>{
               inputAction: TextInputAction.done,
               onSubmit: (_) => _bloc!.login.add(null),
               onChange: _bloc!.password.add,
-            ),
-            SizedBox(height: 20,),
+            ),*/
+            SizedBox(height: 40,),
             customButton(() {
-             // _bloc!.login.add(null);
-             _bloc!.navigate();
-            }, ItemLabelText(text:'Sign In',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
+              _bloc!.navigate();
+            }, ItemLabelText(text:'Login',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
             SizedBox(height: 20,),
-            Align(alignment: Alignment.center,
+            customOutlineButton(() {
+              //_bloc!.navigate();
+              Get.to(AppInjector.instance.signUpPage(1));
+            }, ItemLabelText(text:'Sign up',style: TextStyle(fontSize: 16,color: HexColor('#00B05A'),fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
+
+              SizedBox(height: 20,),
+           /* Align(alignment: Alignment.center,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,7 +105,52 @@ class LoginPageState extends State<LoginPage>{
                     child: ItemLabelText(text: "Sign Up",style: TextStyle(fontSize: 16,color: ByMeColors.app_color,fontFamily: Inter.regular),)),
 
               ],
-            )),
+            )),*/
+            Container(
+              color: Colors.white,
+              alignment: Alignment.center,
+              child: RichText(
+                text:  TextSpan(
+                  text: 'By creating a passcode you agree with our ',
+                  style: TextStyle(
+                      fontSize: 11,
+                      color: HexColor('#838080'),
+                      fontFamily: Inter.regular,
+                      fontWeight: FontWeight.w400
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'Terms & Conditions ',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: HexColor('#0E8E60'),
+                          fontFamily: Inter.regular,
+                          fontWeight: FontWeight.w600
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' and ',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: HexColor('#838080'),
+                          fontFamily: Inter.regular,
+                          fontWeight: FontWeight.w600
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Privacy Policy',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: HexColor('#0E8E60'),
+                          fontFamily: Inter.regular,
+                          fontWeight: FontWeight.w600
+                      ),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
 
           ],
         ),

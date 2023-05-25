@@ -115,7 +115,7 @@ class OTPPageState extends State<OTPPage>{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween
               ),
               customButton(() {
-              Get.to(AppInjector.instance.createProfilePage);
+                _bloc!.navigate();
               }, ItemLabelText(text:'Proceed',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
               SizedBox(height: 20,),
               Container(

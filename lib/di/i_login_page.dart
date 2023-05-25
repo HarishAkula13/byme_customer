@@ -23,16 +23,16 @@ extension LoginExtension on AppInjector {
 
   registerLogin(){
     container.registerDependency<LoginFactory>((){
-      return()=> BlocProvider<LoginBloc>(bloc: LoginBloc(LoginService(),userDataStore), child:  LoginPage());
+      return(type)=> BlocProvider<LoginBloc>(bloc: LoginBloc(LoginService(),userDataStore,type), child:  LoginPage());
     });
     container.registerDependency<SignUpFactory>((){
-      return()=> BlocProvider<SignUpBloc>(bloc: SignUpBloc(LoginService(),userDataStore), child:  SignUpPage());
+      return(type)=> BlocProvider<SignUpBloc>(bloc: SignUpBloc(LoginService(),userDataStore,type), child:  SignUpPage());
     });
     container.registerDependency<DashboardFactory>((){
       return(type)=> BlocProvider<DashboardBloc>(bloc: DashboardBloc(LoginService(),userDataStore,type), child:  DashboardPage());
     });
     container.registerDependency<OTPFactory>((){
-      return()=> BlocProvider<OTPBloc>(bloc: OTPBloc(LoginService(),userDataStore), child:  OTPPage());
+      return(type)=> BlocProvider<OTPBloc>(bloc: OTPBloc(LoginService(),userDataStore,type), child:  OTPPage());
     });
 
     container.registerDependency<CreateProfileFactory>((){

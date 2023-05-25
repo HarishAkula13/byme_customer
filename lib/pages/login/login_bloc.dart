@@ -8,10 +8,11 @@ import '../../di/app_injector.dart';
 import '../../manager/user_data_store/user_data_store.dart';
 import '../../repositories/login/login_api.dart';
 
-typedef BlocProvider<LoginBloc> LoginFactory();
+typedef BlocProvider<LoginBloc> LoginFactory(int type);
 class LoginBloc extends BlocBase{
   LoginService? loginService;
   UserDataStore? userDataStore;
+  int type=0;
   BehaviorSubject<String> _email = BehaviorSubject();
   BehaviorSubject<String> _password = BehaviorSubject();
   BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
@@ -22,7 +23,7 @@ class LoginBloc extends BlocBase{
   Stream<bool> get isLoading=> _isLoading;
   Sink<void> get login => _login;
 
-  LoginBloc(this.loginService,this.userDataStore){
+  LoginBloc(this.loginService,this.userDataStore,this.type){
     setListeners();
   }
 
@@ -31,6 +32,8 @@ class LoginBloc extends BlocBase{
 
   }
   void navigate(){
-    Get.to(AppInjector.instance.dashboardPage(0));
+    if(type==0)
+      Get.to(AppInjector.instance.signUpPage(0));
+    else if(type==1) Get.offAll(AppInjector.instance.signUpPage(type));
   }
 }

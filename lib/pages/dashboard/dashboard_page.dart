@@ -40,7 +40,7 @@ class DashboardPageState extends State<DashboardPage>{
         },
       ),
       bottomNavigationBar: Container(
-        height: 64,
+        height: 100,
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.15), //color of shadow
@@ -59,11 +59,11 @@ class DashboardPageState extends State<DashboardPage>{
                   unselectedItemColor: ByMeColors.un_select,
                   selectedLabelStyle: TextStyle(
                       fontSize: 14,
-                      fontFamily: Fonts.regular,
+                      fontFamily: Fonts.medium,
                       color: ByMeColors.app_color),
                   unselectedLabelStyle: TextStyle(
                       fontSize: 14,
-                      fontFamily: Fonts.regular,
+                      fontFamily: Fonts.medium,
                       color: ByMeColors.un_select),
                   selectedFontSize: 0.0,
                   unselectedFontSize: 0,

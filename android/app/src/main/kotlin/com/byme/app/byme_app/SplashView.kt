@@ -3,7 +3,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
-import com.byme.app.byme_app.R
+import com.byme.customer.R
 import io.flutter.embedding.android.SplashScreen
 
 class SplashView : SplashScreen {

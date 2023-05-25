@@ -1,4 +1,4 @@
-package com.byme.app.byme_app
+package com.byme.customer
 
 import SplashView
 import io.flutter.embedding.android.FlutterActivity

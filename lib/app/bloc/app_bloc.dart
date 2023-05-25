@@ -34,14 +34,14 @@ class AppBloc extends BlocBase{
   }
 
   void onClick() async{
-       _startPage.add(AppInjector.instance.loginPage());
+       _startPage.add(AppInjector.instance.loginPage(0));
 
        UserInformation? user=await  userDataStore.getUser();
      if(user == null){
-       _startPage.add(AppInjector.instance.loginPage());
+       _startPage.add(AppInjector.instance.loginPage(0));
      }else{
        if(user.userId == null) {
-         _startPage.add(AppInjector.instance.loginPage());
+         _startPage.add(AppInjector.instance.loginPage(0));
        } else {
         // _startPage.add(AppInjector.instance.homePage());
       }

@@ -102,7 +102,7 @@ class SignUpPageState extends State<SignUpPage>{
               ),
               customButton(() {
                 _bloc!.sendOTP.add(null);
-                Get.to(AppInjector.instance.otpPage);
+                _bloc!.navigate();
 
               }, ItemLabelText(text:'Sign In',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
               SizedBox(height: 20,),
