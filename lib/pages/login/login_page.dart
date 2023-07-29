@@ -52,34 +52,6 @@ class LoginPageState extends State<LoginPage>{
         ),
         child: Column(
           children: [
-         /*   Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ItemLabelText(text: "Login",style: TextStyle(fontSize: 16,color: Colors.black,fontFamily: Inter.bold),),
-                ItemLabelText(text: "Forgot Password",style: TextStyle(fontSize: 16,color: Colors.black,fontFamily: Inter.regular),)
-
-              ],
-            ),
-            SizedBox(height: 20,),
-            MyTextField(
-              labelText: '',
-              hintText: 'Enter phone/email',
-              inputAction: TextInputAction.next,
-              keyboardType: TextInputType.emailAddress,
-              onChange: _bloc!.email.add,
-              onSubmit: (_) => _passwordFocus.requestFocus(),
-
-            ),
-            SizedBox(height: 20,),
-            MyTextField(
-              labelText: '',
-              hintText: 'Password',
-              focusNode: _passwordFocus,
-              inputAction: TextInputAction.done,
-              onSubmit: (_) => _bloc!.login.add(null),
-              onChange: _bloc!.password.add,
-            ),*/
             SizedBox(height: 40,),
             customButton(() {
               _bloc!.navigate();

@@ -1,18 +1,14 @@
-import 'package:byme_app/di/i_login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 
 import '../../../app/arch/bloc_provider.dart';
 import '../../../common/button/byme_button.dart';
+import '../../../common/fonts/fonts.dart';
 import '../../../common/label/item_label_text.dart';
 import '../../../common/load_container/load_container.dart';
 import '../../../common/utilities/byme_colors.dart';
-import '../../../common/utilities/fonts.dart';
-import '../../../di/app_injector.dart';
 import 'otp_bloc.dart';
 
 class OTPPage extends StatefulWidget {
@@ -32,6 +28,7 @@ class OTPPageState extends State<OTPPage>{
   @override
   Widget build(BuildContext context) {
     return LoaderContainer(
+      stream: _bloc!.isLoading,
       bottomSheet:  SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(25),
@@ -53,22 +50,21 @@ class OTPPageState extends State<OTPPage>{
             children: [
               Padding(
                   padding: EdgeInsets.only(left: 50),
-              child:RichText(
-                  text: TextSpan(style: TextStyle(fontSize: 11), children: [
-                    TextSpan(
-                        text: "STEP: ",
-                        style: TextStyle(
-                            color: Colors.grey, fontFamily: Inter.regular)),
-                    TextSpan(text: "1",style: TextStyle(
-                        color: ByMeColors.app_color, fontFamily: Inter.regular)),
-                    TextSpan(
-                        text: "/",
-                        style: TextStyle(
-                            color: Colors.grey, fontFamily: Inter.regular)),
-                    TextSpan(text: "7",style: TextStyle(
-                        color: Colors.grey, fontFamily: Inter.regular))
-                  ]))
-              ),
+                  child:RichText(
+                      text: TextSpan(style: TextStyle(fontSize: 11), children: [
+                        TextSpan(
+                            text: "STEP: ",
+                            style: TextStyle(
+                                color: Colors.grey, fontFamily: Fonts.regular)),
+                        TextSpan(text: "1",style: TextStyle(
+                            color: ByMeColors.app_color, fontFamily: Fonts.regular)),
+                        TextSpan(
+                            text: "/",
+                            style: TextStyle(
+                                color: Colors.grey, fontFamily: Fonts.regular)),
+                        TextSpan(text: "7",style: TextStyle(
+                            color: Colors.grey, fontFamily: Fonts.regular))
+                      ]))),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -77,13 +73,13 @@ class OTPPageState extends State<OTPPage>{
                   IconButton(onPressed: (){
                     Navigator.pop(context);
                   }, icon: Icon(Icons.arrow_back_ios,size: 24,color: HexColor("#828785"),)),
-                  ItemLabelText(text: "Enter the code \nsent to your phone",style: TextStyle(fontSize: 20,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w600),),
+                  ItemLabelText(text: "Enter the code \nsent to your phone",style: TextStyle(fontSize: 20,color: Colors.black,fontFamily: Fonts.medium,fontWeight: FontWeight.w600),),
                 ],
               ),
               SizedBox(height: 20,),
               Padding(
                   padding: EdgeInsets.only(left: 50),
-                  child: ItemLabelText(text: "We have sent the code to ******8052",style: TextStyle(fontSize: 13,color: Colors.black,fontFamily: Inter.regular),)),
+                  child: ItemLabelText(text: "We have sent the code to ******8052",style: TextStyle(fontSize: 13,color: Colors.black,fontFamily: Fonts.regular),)),
               SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -115,8 +111,9 @@ class OTPPageState extends State<OTPPage>{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween
               ),
               customButton(() {
-                _bloc!.navigate();
-              }, ItemLabelText(text:'Proceed',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
+                _bloc!.navigate(_otp);
+
+              }, ItemLabelText(text:(_bloc!.type==0)?'Proceed':'Verify OTP',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Fonts.regular)),'#00B05A','#ffffff',context),
               SizedBox(height: 20,),
               Container(
                 color: Colors.white,
@@ -127,7 +124,7 @@ class OTPPageState extends State<OTPPage>{
                     style: TextStyle(
                         fontSize: 11,
                         color: HexColor('#838080'),
-                        fontFamily: Inter.regular,
+                        fontFamily: Fonts.regular,
                         fontWeight: FontWeight.w400
                     ),
                     children: [
@@ -136,7 +133,7 @@ class OTPPageState extends State<OTPPage>{
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#0E8E60'),
-                            fontFamily: Inter.regular,
+                            fontFamily: Fonts.regular,
                             fontWeight: FontWeight.w600
                         ),
                       ),
@@ -145,7 +142,7 @@ class OTPPageState extends State<OTPPage>{
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#838080'),
-                            fontFamily: Inter.regular,
+                            fontFamily: Fonts.regular,
                             fontWeight: FontWeight.w600
                         ),
                       ),
@@ -154,7 +151,7 @@ class OTPPageState extends State<OTPPage>{
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#0E8E60'),
-                            fontFamily: Inter.regular,
+                            fontFamily: Fonts.regular,
                             fontWeight: FontWeight.w600
                         ),
                       ),
@@ -173,9 +170,10 @@ class OTPPageState extends State<OTPPage>{
 
   }
   void _onKeyboardTap(String value) {
+
     setState(() {
       if (_otp.length < 6) {
-        _otp += '0';
+        _otp = _otp+value;
       }
     });
   }

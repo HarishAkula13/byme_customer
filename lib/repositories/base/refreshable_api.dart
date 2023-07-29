@@ -26,7 +26,7 @@ class RefreshableService extends BaseAPIService {
     return userDataStore.getUser().then((u) {
       if (u != null) {
         Map<String, dynamic> allHeaders = {
-         // 'Authorization':  u.token!
+          'Authorization':  u.token!
         };
 
         if (headers != null && headers.isNotEmpty) {

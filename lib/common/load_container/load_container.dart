@@ -26,10 +26,16 @@ class LoaderContainer extends StatelessWidget {
             children: <Widget>[
               SvgPicture.asset('assets/images/bg.svg'),
               if (child != null) ...[child],
-              Positioned.fill(child: _getIndicator(s.data ?? false))
+              (bottomSheet!=null)?SizedBox():Positioned.fill(child: _getIndicator(s.data ?? false)),
             ],
           ),
-          bottomSheet: (bottomSheet!=null)?bottomSheet:SizedBox(),
+          bottomSheet: Stack(
+            children: [
+              (bottomSheet!=null)?bottomSheet!:SizedBox(),
+              (bottomSheet!=null)?Positioned.fill(child: _getIndicator(s.data ?? false)):SizedBox()
+
+            ],
+          ),
         );
       },
     );

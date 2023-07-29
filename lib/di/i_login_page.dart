@@ -32,11 +32,11 @@ extension LoginExtension on AppInjector {
       return(type)=> BlocProvider<DashboardBloc>(bloc: DashboardBloc(LoginService(),userDataStore,type), child:  DashboardPage());
     });
     container.registerDependency<OTPFactory>((){
-      return(type)=> BlocProvider<OTPBloc>(bloc: OTPBloc(LoginService(),userDataStore,type), child:  OTPPage());
+      return(type,verifyData)=> BlocProvider<OTPBloc>(bloc: OTPBloc(LoginService(),userDataStore,type,verifyData), child:  OTPPage());
     });
 
     container.registerDependency<CreateProfileFactory>((){
-      return()=> BlocProvider<CreateProfileBloc>(bloc: CreateProfileBloc(LoginService(),userDataStore), child:  CreateProfilePage());
+      return(verifyData)=> BlocProvider<CreateProfileBloc>(bloc: CreateProfileBloc(LoginService(),userDataStore,verifyData), child:  CreateProfilePage());
     });
 
 

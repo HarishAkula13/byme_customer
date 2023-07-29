@@ -1,15 +1,6 @@
-CREATE TABLE UserInformation (
+CREATE TABLE UserData (
     user_id varchar,
-    user_name varchar,
-    first_name varchar,
-    email varchar,
-    password varchar,
-    mobile_no varchar,
-    user_image varchar,
-    auth_level varchar,
-    login_status varchar,
-    role varchar,
-    register_date varchar,
-    address varchar,
-    city varchar
-);
+    full_name varchar,
+    mobile_number varchar,
+    token varchar
+  );

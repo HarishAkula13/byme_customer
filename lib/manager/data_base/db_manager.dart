@@ -6,7 +6,7 @@ import '../../common/utilities/logger.dart';
 
 class DBManager {
   static Database? _database;
-  int versionCode=3;
+  int versionCode=1;
   Future<Database> get database async {
 
     if (_database == null) {

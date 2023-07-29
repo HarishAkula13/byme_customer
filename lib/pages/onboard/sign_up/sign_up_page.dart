@@ -1,5 +1,6 @@
 
-import 'package:byme_app/di/i_login_page.dart';
+
+import 'package:byme_app/common/fonts/fonts.dart';
 import 'package:byme_app/pages/onboard/sign_up/sign_up_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import '../../../common/label/item_label_text.dart';
 import '../../../common/load_container/load_container.dart';
 import '../../../common/utilities/byme_colors.dart';
 import '../../../common/utilities/fonts.dart';
-import '../../../di/app_injector.dart';
+import '../../../common/validators/validators.dart';
 
 
 class SignUpPage extends StatefulWidget {
@@ -33,6 +34,7 @@ class SignUpPageState extends State<SignUpPage>{
   @override
   Widget build(BuildContext context) {
     return LoaderContainer(
+      stream: _bloc!.isLoading,
       bottomSheet: SingleChildScrollView(
         child: Container(
 
@@ -59,12 +61,12 @@ class SignUpPageState extends State<SignUpPage>{
                   IconButton(onPressed: (){
                     Navigator.pop(context);
                   }, icon: Icon(Icons.arrow_back_ios,size: 24,color: HexColor("#828785"),)),
-                  Flexible(child: ItemLabelText(text: "Enter your \nmobile Number",style: TextStyle(fontSize: 24,color: Colors.black,fontFamily: Inter.bold),)),
+                  Flexible(child: ItemLabelText(text: "Enter your \nmobile Number",style: TextStyle(fontSize: 24,color: Colors.black,fontFamily: Fonts.bold),)),
                 ],
               ),
-             
+
               SizedBox(height: 20,),
-              ItemLabelText(text: "We will send you a conformation code ",style: TextStyle(fontSize: 13,color: Colors.black,fontFamily: Inter.regular),),
+              ItemLabelText(text: "We will send you a conformation code ",style: TextStyle(fontSize: 13,color: Colors.black,fontFamily: Fonts.regular),),
               SizedBox(height: 20,),
               SizedBox(
                 width: MediaQuery.of(context).size.width*0.8,
@@ -73,19 +75,33 @@ class SignUpPageState extends State<SignUpPage>{
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ItemLabelText(text: '+91 ',style: TextStyle(fontSize: 22,color: HexColor('#C4C4C4'),fontWeight: FontWeight.w600),),
-                    SizedBox(
-                      height: 48,
-                      width: MediaQuery.of(context).size.width*0.4,
-                      child: TextField(
-                        controller: _number,
-                        readOnly: true,
-                        showCursor: true,
-                        style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.w600),
-                        cursorColor: ByMeColors.app_color,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 48,
+                          width: MediaQuery.of(context).size.width*0.4,
+                          child: TextField(
+                            controller: _number,
+                            readOnly: true,
+                            showCursor: true,
+                            style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.w600),
+                            cursorColor: ByMeColors.app_color,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                          ),
                         ),
-                      ),
+                        StreamBuilder<String>(
+                            initialData: '',
+                            stream: _bloc!.validationMsg,
+                            builder: (context, snp) {
+                              return ItemLabelText(text: snp.data,style: TextStyle(fontSize: 10,color: Colors.red,fontFamily: Fonts.medium),);
+                            }
+                        )
+                      ],
                     ),
                   ],
                 ),
@@ -96,15 +112,24 @@ class SignUpPageState extends State<SignUpPage>{
                   rightButtonFn: () {
                     text = text.substring(0, text.length - 1);
                     _number.text=text;
+                    _bloc!.addValidationMsg.add(FormValidator().isValidMobileNumber(_number.text)!);
+
                   },
                   rightIcon: Icon(Icons.backspace, color: Colors.black,),
                   mainAxisAlignment: MainAxisAlignment.spaceBetween
               ),
               customButton(() {
-                _bloc!.sendOTP.add(null);
-                _bloc!.navigate();
+                // _bloc!.sendOTP.add(null);
+                if(_number.text.isNotEmpty){
+                  _bloc!.addValidationMsg.add(FormValidator().isValidMobileNumber(_number.text)!);
+                  if(FormValidator().isValidMobileNumber(_number.text)!.isEmpty)
+                    _bloc!.navigate(_number.text);
+                }
 
-              }, ItemLabelText(text:'Sign In',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
+
+
+
+              }, ItemLabelText(text:(_bloc!.type==0)?'Send OTP':'Get OTP',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Fonts.regular)),'#00B05A','#ffffff',context),
               SizedBox(height: 20,),
               Container(
                 color: Colors.white,
@@ -116,7 +141,7 @@ class SignUpPageState extends State<SignUpPage>{
                     style: TextStyle(
                         fontSize: 11,
                         color: HexColor('#838080'),
-                        fontFamily: Inter.regular,
+                        fontFamily: Fonts.regular,
                         fontWeight: FontWeight.w400
                     ),
                     children: [
@@ -125,7 +150,7 @@ class SignUpPageState extends State<SignUpPage>{
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#0E8E60'),
-                            fontFamily: Inter.regular,
+                            fontFamily: Fonts.regular,
                             fontWeight: FontWeight.w600
                         ),
                       ),
@@ -134,7 +159,7 @@ class SignUpPageState extends State<SignUpPage>{
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#838080'),
-                            fontFamily: Inter.regular,
+                            fontFamily: Fonts.regular,
                             fontWeight: FontWeight.w600
                         ),
                       ),
@@ -143,7 +168,7 @@ class SignUpPageState extends State<SignUpPage>{
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#0E8E60'),
-                            fontFamily: Inter.regular,
+                            fontFamily: Fonts.regular,
                             fontWeight: FontWeight.w600
                         ),
                       ),
@@ -158,7 +183,7 @@ class SignUpPageState extends State<SignUpPage>{
 
         ),
       )
-,
+      ,
     );
 
 
@@ -166,7 +191,9 @@ class SignUpPageState extends State<SignUpPage>{
   void _onKeyboardTap(String value) {
     text = text + value;
     _number.text=text;
-   /* setState(() {
+    _bloc!.addValidationMsg.add(FormValidator().isValidMobileNumber(_number.text)!);
+
+    /* setState(() {
       text = text + value;
     });*/
   }

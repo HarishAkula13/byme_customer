@@ -85,6 +85,7 @@ class CreateProfilePageState extends State<CreateProfilePage>{
                inputAction: TextInputAction.next,
                keyboardType: TextInputType.emailAddress,
                onChange: _bloc!.name.add,
+               validationStream: _bloc!.nameValidationData,
              ),
              SizedBox(height: 20,),
              MyTextField(
@@ -93,10 +94,11 @@ class CreateProfilePageState extends State<CreateProfilePage>{
                inputAction: TextInputAction.next,
                keyboardType: TextInputType.emailAddress,
                onChange: _bloc!.email.add,
+               validationStream: _bloc!.emailValidation,
              ), SizedBox(height: 20,),
              SizedBox(height: 40,),
              customButton(() {
-               Get.to(AppInjector.instance.dashboardPage(0));
+             _bloc!.proceed.add(null);
              }, ItemLabelText(text:'Finish',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
 
            ],

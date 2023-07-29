@@ -1,6 +1,7 @@
 import 'package:byme_app/pages/dashboard/pages/orders_history/bloc/orders_history_bloc.dart';
 import 'package:byme_app/pages/payment_method/bloc/payment_method_bloc.dart';
 import 'package:byme_app/pages/payment_method/payment_method_page.dart';
+import 'package:byme_app/repositories/profile/Profile_api.dart';
 
 import '../app/arch/bloc_provider.dart';
 import '../pages/dashboard/pages/address/bloc/change_address_bloc.dart';
@@ -52,7 +53,7 @@ extension HomePageExtension on AppInjector {
       );
     });
     container.registerDependency<ProfileFactory>((){
-      return(Function() onCallBack)=> BlocProvider<ProfileBloc>(bloc: ProfileBloc(userDataStore,onCallBack), child:  ProfilePage());
+      return(Function() onCallBack)=> BlocProvider<ProfileBloc>(bloc: ProfileBloc(ProfileService(),userDataStore,onCallBack), child:  ProfilePage());
     });
     container.registerDependency<OrdersHistoryFactory>((){
       return(Function(int type,int pos) onCallBack)=> BlocProvider<OrdersHistoryBloc>(bloc: OrdersHistoryBloc(userDataStore,onCallBack), child:  OrdersHistoryPage());
