@@ -8,6 +8,7 @@ import '../end_point/end_point.dart';
 
 abstract class ProfileAPI{
   Future<RequestResponse<UserProfile>> getUserData(Map<String,dynamic> data);
+  Future<RequestResponse<UserProfile>> saveAddress(Map<String,dynamic> data);
 
 }
 class ProfileService extends BaseAPIService implements ProfileAPI{
@@ -15,8 +16,22 @@ class ProfileService extends BaseAPIService implements ProfileAPI{
 
   @override
   Future<RequestResponse<UserProfile>> getUserData(Map<String,dynamic> data) {
-    printLog("login",data);
     return make(RequestType.POST, EndPoints.userProfile, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        printLog("response", result.data);
+        var data=UserProfile.fromJson(result.data);
+        return RequestResponse(data: data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
+
+  @override
+  Future<RequestResponse<UserProfile>> saveAddress(Map<String,dynamic> data) {
+    return make(RequestType.POST, EndPoints.saveAddress, body: data,contentType: ContentType.json)
         .then((result) {
       if (result.data != null) {
         printLog("response", result.data);

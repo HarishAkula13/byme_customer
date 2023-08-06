@@ -2,7 +2,6 @@ import 'package:byme_app/common/dialog/bottom_sheet/service_details_dialog.dart'
 import 'package:byme_app/common/dropdown/custom_dropdown.dart';
 import 'package:byme_app/common/textfield/byme_custom_text_filed.dart';
 import 'package:byme_app/common/textfield/byme_text_field.dart';
-import 'package:byme_app/model/dashboard/categories.dart';
 import 'package:byme_app/pages/dashboard/pages/home/bloc/home_bloc.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';

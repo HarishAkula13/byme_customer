@@ -10,8 +10,10 @@ class UserProfile {
   String? emailId;
   String? gender;
   String? recentPaymentMethod;
+  String? addressTitle;
+  String? addressId;
   UserProfile(this.age, this.phoneNumber, this.userId, this.fullName,
-      this.emailId, this.gender, this.recentPaymentMethod);
+      this.emailId, this.gender, this.recentPaymentMethod,this.addressId,this.addressTitle);
 
 
 

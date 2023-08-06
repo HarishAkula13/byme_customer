@@ -1,6 +1,9 @@
 
+
 import 'package:byme_app/app/arch/bloc_provider.dart';
-import 'package:byme_app/model/dashboard/categories.dart';
+import 'package:byme_app/model/dashboard/service_list.dart';
+import 'package:byme_app/repositories/dashboard/dashboard_api.dart';
+import 'package:byme_app/repositories/end_point/end_point.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../../../common/utilities/logger.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
@@ -10,21 +13,27 @@ import '../../../../../model/dashboard/menu.dart';
 typedef BlocProvider<HomeBloc> HomeFactory();
 class HomeBloc extends BlocBase{
   UserDataStore? userDataStore;
-  BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
-  BehaviorSubject<bool> _isOnline =BehaviorSubject.seeded(true);
-  BehaviorSubject<bool> _isService =BehaviorSubject.seeded(false);
-  BehaviorSubject<List<Menu>> _menuList =BehaviorSubject.seeded([]);
-  BehaviorSubject<List<Categories>> _categoriesList =BehaviorSubject.seeded([]);
-  BehaviorSubject<String> _categorieName =BehaviorSubject.seeded('');
-  BehaviorSubject<String> _selectedName =BehaviorSubject.seeded('Construction Works');
-  BehaviorSubject<String> _travelType =BehaviorSubject.seeded('Taxi & Travel');
-  BehaviorSubject<String> _taxiType =BehaviorSubject.seeded('Bike Taxi');
-  BehaviorSubject<String> _subCate =BehaviorSubject.seeded('Carpentry');
-  BehaviorSubject<String> _serviceType =BehaviorSubject.seeded('Pilot Service (Instant)');
-  BehaviorSubject<String> _workDes = BehaviorSubject();
-  BehaviorSubject<String> _instruction = BehaviorSubject();
-  BehaviorSubject<String> _dateTime = BehaviorSubject();
-  BehaviorSubject<bool> _valid=BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _isOnline =BehaviorSubject.seeded(true);
+  final BehaviorSubject<bool> _isService =BehaviorSubject.seeded(false);
+  final BehaviorSubject<List<Menu>> _menuList =BehaviorSubject.seeded([]);
+  final BehaviorSubject<String> _categorieName =BehaviorSubject.seeded('');
+  final BehaviorSubject<String> _selectedName =BehaviorSubject.seeded('Construction Works');
+  final BehaviorSubject<String> _travelType =BehaviorSubject.seeded('Taxi & Travel');
+  final BehaviorSubject<String> _taxiType =BehaviorSubject.seeded('Bike Taxi');
+  final BehaviorSubject<String> _subCate =BehaviorSubject();
+  final BehaviorSubject<String> _serviceType =BehaviorSubject.seeded('Pilot Service (Instant)');
+  final BehaviorSubject<String> _workDes = BehaviorSubject();
+  final BehaviorSubject<String> _instruction = BehaviorSubject();
+  final BehaviorSubject<String> _dateTime = BehaviorSubject();
+  final BehaviorSubject<bool> _valid=BehaviorSubject.seeded(false);
+  final BehaviorSubject<List<ServicesList>> _serviceList=BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<Subcategory>> _subcategoryList=BehaviorSubject.seeded([]);
+  Sink<List<Subcategory>> get addSubcategoryList=>_subcategoryList;
+  Stream<List<Subcategory>> get subcategoryList=>_subcategoryList;
+
+  Sink<List<ServicesList>> get addServiceList=>_serviceList;
+  Stream<List<ServicesList>> get serviceListData=>_serviceList;
   Stream<String> get serviceType => _serviceType;
   Sink<String> get addServiceType => _serviceType;
   Stream<String> get subCate => _subCate;
@@ -43,19 +52,22 @@ class HomeBloc extends BlocBase{
   Stream<String> get categorieName=> _categorieName;
   Sink<String> get addCategorieName=> _categorieName;
   Stream<List<Menu>> get menuList=> _menuList;
-  Stream<List<Categories>> get categoriesList=> _categoriesList;
-  Sink<List<Categories>> get addCategoriesList=> _categoriesList;
+
   Sink<String> get addInstruction=> _instruction;
   Sink<String> get addWorkDes=> _workDes;
   Sink<String> get addDateTime => _dateTime;
   Stream<String> get dateTime => _dateTime;
   Stream<bool> get valid => _valid;
+
+  List<ServicesList> serviceList=[];
+
   HomeBloc(this.userDataStore){
     setListeners();
   }
 
   void setListeners() {
 
+    _isLoading.add(true);
     List<Menu> list=[
       Menu(icon: 'assets/images/house.svg',title: 'Household \nChores'),
       Menu(icon: 'assets/images/personal.svg',title: 'Personal \nCare'),
@@ -68,24 +80,31 @@ class HomeBloc extends BlocBase{
       Menu(icon: 'assets/images/medical.svg',title: 'Medical'),
     ];
     _menuList.add(list);
-    List<Categories> categories=[
-      Categories(title: 'Maid Service',isClick: false),
-      Categories(title: 'Sweeping / Moping / Cleaning',isClick: false),
-      Categories(title: 'Room Cleaning',isClick: false),
-      Categories(title: 'Moping',isClick: false),
-      Categories(title: 'Cooking',isClick: false),
-      Categories(title: 'Dish Washing',isClick: false),
-      Categories(title: 'Washer man',isClick: false),
-      Categories(title: 'Key Making Service',isClick: false),
-      Categories(title: 'Duplicate Key',isClick: false),
-      Categories(title: 'Lock Opening',isClick: false),
-      Categories(title: 'Milk man',isClick: false),
-      Categories(title: 'Security Guard',isClick: false),
-      Categories(title: 'Watchmen',isClick: false),
-      Categories(title: 'Car Driver',isClick: false),
+    DashboardService().getService({
+      "environment": EndPoints.env,
+      "hash": "4f199925662bc27b8196fc18428f8e3434a"
+    }).then((val) {
+      _isLoading.add(false);
+      printLog("myMap", val.data!['key']);
+      Map keyData=val.data!['key'];
+      keyData.forEach((service, serviceData) {
+        List<Category> categoryList=[];
+        serviceData.forEach((categoryName,subCategoryList){
+          List  list=subCategoryList as List<dynamic>;
+          List<Subcategory>? subCategory=[];
+          for(int i=0;i<list.length;i++){
+            subCategory.add(Subcategory(serviceName: list[i]['service_name'],serviceId: list[i]['service_id'],serviceType: list[i]['service_type'],status: list[i]['status']));
+          }
 
-    ];
-    _categoriesList.add(categories);
+          categoryList.add(Category(categoryName: categoryName,subCategory: subCategory,isClick: false));
+        });
+        serviceList.add(ServicesList(serviceName: service,category: categoryList));
+        _serviceList.add(serviceList);
+      });
+
+    });
+    
+
 
 
     CombineLatestStream.combine5(_selectedName, _subCate,_serviceType,_workDes,_instruction,

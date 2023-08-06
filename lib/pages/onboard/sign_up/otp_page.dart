@@ -79,7 +79,7 @@ class OTPPageState extends State<OTPPage>{
               SizedBox(height: 20,),
               Padding(
                   padding: EdgeInsets.only(left: 50),
-                  child: ItemLabelText(text: "We have sent the code to ******8052",style: TextStyle(fontSize: 13,color: Colors.black,fontFamily: Fonts.regular),)),
+                  child: ItemLabelText(text: "We have sent the code to ${_bloc!.verifyData!.mobileNumber}",style: TextStyle(fontSize: 13,color: Colors.black,fontFamily: Fonts.regular),)),
               SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

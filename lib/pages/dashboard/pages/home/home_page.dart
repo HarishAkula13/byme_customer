@@ -1,5 +1,6 @@
 
 import 'package:byme_app/common/textfield/byme_search_field.dart';
+import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

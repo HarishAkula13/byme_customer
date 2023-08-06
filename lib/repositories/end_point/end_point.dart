@@ -8,6 +8,9 @@ class EndPoint {
 class EndPoints {
   static String _devBase = "hm34q0wcx8.execute-api.ap-south-1.amazonaws.com";
   static String _devAfterLoginBase = "9r6k2x4sph.execute-api.ap-south-1.amazonaws.com";
+  static String _devDashboard = "jfdcmi11o9.execute-api.ap-south-1.amazonaws.com";
+  static String _devAdress = "99q5c2c7pj.execute-api.ap-south-1.amazonaws.com";
+
   static String get _base {return _devBase;}
   static String get _afterLoginBase {return _devAfterLoginBase;}
 
@@ -19,6 +22,8 @@ class EndPoints {
   static EndPoint get verifyOTP => _getEndPointWithPath(_api + 'verify-otp');
   static EndPoint get newRegister => _getEndPointWithPath(_api + 'new-registration');
   static EndPoint get userProfile => _getEndPointAfterLogin(_api + 'user-profile');
+  static EndPoint get fetchServices => _getEndPointAfterDashboard(_api + 'fetch-services');
+  static EndPoint get saveAddress => _getEndPointAddress(_api + 'new-add');
 
 
 
@@ -30,4 +35,10 @@ class EndPoints {
     return EndPoint(base: _afterLoginBase, path: path);
   }
 
+  static EndPoint _getEndPointAfterDashboard(String path) {
+    return EndPoint(base: _devDashboard, path: path);
+  }
+  static EndPoint _getEndPointAddress(String path) {
+    return EndPoint(base: _devAdress, path: path);
+  }
 }

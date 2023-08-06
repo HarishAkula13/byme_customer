@@ -1,17 +1,23 @@
 import 'dart:typed_data';
 import 'package:byme_app/common/utilities/logger.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 import 'dart:ui' as ui;
 
 import '../../../../../app/arch/bloc_provider.dart';
+import '../../../../../common/utils/pyc_colors.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
+import '../../../../../model/signup/user_data.dart';
+import '../../../../../repositories/end_point/end_point.dart';
 import '../../../../../repositories/login/login_api.dart';
+import '../../../../../repositories/profile/Profile_api.dart';
 
 typedef BlocProvider<ChangeAddressBloc> ChangeAddressFactory();
 class ChangeAddressBloc extends BlocBase{
@@ -21,6 +27,8 @@ class ChangeAddressBloc extends BlocBase{
   BehaviorSubject<String> _address = BehaviorSubject.seeded('');
   BehaviorSubject<bool> _isChange = BehaviorSubject.seeded(false);
   BehaviorSubject<String> _city = BehaviorSubject();
+  BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
+  Stream<bool> get isLoading=> _isLoading;
   Stream<String> get city => _city;
   Sink<String> get addCity  => _city;
   Sink<bool> get addIsChange  => _isChange;
@@ -29,6 +37,14 @@ class ChangeAddressBloc extends BlocBase{
   Stream<String> get address => _address;
    LatLng _latLen = LatLng(17.4523004,78.3630278);
    List<Marker> _markers = [];
+   String? pincode='';
+   String? cityName='';
+  String? state='';
+   String? landmark='';
+   String? areName='';
+  String? _currentAddress='';
+
+
 
 
   ChangeAddressBloc(this.loginService,this.userDataStore){
@@ -38,6 +54,42 @@ class ChangeAddressBloc extends BlocBase{
   }
 
   void setListeners() {
+
+
+  }
+  void addAddress(String type) async{
+    if(_currentAddress!.isNotEmpty){
+      _isLoading.add(true);
+      UserData? user= await userDataStore!.getUser();
+      ProfileService().saveAddress({
+        "environment": EndPoints.env,
+        "address": _currentAddress,
+        "user_id_value": user!.userId,
+        "area_name": areName,
+        "landmark": landmark,
+        "city_name": cityName,
+        "pin_code": pincode,
+        "state": state,
+        "address_title": "${user.fullName} ${type}",
+        "latitude": _latLen.latitude,
+        "longitude":_latLen.longitude
+      }).then((value) {
+        _isLoading.add(false);
+        if(value.error==null){
+          if(value.data!.addressId!=null){
+            Get.snackbar('Success',
+              "Address Saved Successfully",
+              colorText: Colors.white,
+              backgroundColor: PYCColors.app_color,
+              icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+            );
+          }
+
+
+        }
+
+      });
+    }
 
 
   }
@@ -106,9 +158,13 @@ class ChangeAddressBloc extends BlocBase{
         position.latitude, position.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
-      String _currentAddress = '${place.street}, ${place.subLocality},${place
-          .subAdministrativeArea}, ${place.postalCode}';
-      _address.add(_currentAddress);
+      pincode=place.postalCode;
+      state=place.subAdministrativeArea;
+       cityName=place.subLocality;
+       landmark=place.street;
+       areName=place.street;
+       _currentAddress = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+      _address.add(_currentAddress!);
     }).catchError((e) {
       debugPrint(e);
     });

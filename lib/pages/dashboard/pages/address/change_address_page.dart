@@ -35,6 +35,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
   @override
   Widget build(BuildContext context) {
     return LoaderContainer(
+      stream: _bloc!.isLoading,
       bottomSheet: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(25),
@@ -102,6 +103,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                         width: 72,
                         height: 40,
                         child: customOutlineButton(() {
+                          _bloc!.addAddress('Home');
 
                         }, ItemLabelText(text:'Home',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w400)),'#00B05A','#ffffff',context),
                       ),
@@ -110,6 +112,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                         width: 72,
                         height: 40,
                         child: customOutlineButton(() {
+                          _bloc!.addAddress('Office');
 
                         }, ItemLabelText(text:'Office',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w400)),'#00B05A','#ffffff',context),
                       ),
