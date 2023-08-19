@@ -4,6 +4,8 @@ import 'package:byme_app/pages/payment_method/payment_method_page.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
 
 import '../app/arch/bloc_provider.dart';
+import '../pages/dashboard/pages/address/address_list_page.dart';
+import '../pages/dashboard/pages/address/bloc/address_list_bloc.dart';
 import '../pages/dashboard/pages/address/bloc/change_address_bloc.dart';
 import '../pages/dashboard/pages/address/change_address_page.dart';
 import '../pages/dashboard/pages/cart/bloc/cart_bloc.dart';
@@ -35,7 +37,7 @@ extension HomePageExtension on AppInjector {
   TrackOrderFactory get  trackOrder => container.get();
   OrdersDetailsFactory get  orderDetails => container.get();
   ChangeAddressFactory get  changeAddress => container.get();
-
+  AddressListFactory get  addressList => container.get();
 
   registerHomePage(){
 
@@ -84,6 +86,11 @@ extension HomePageExtension on AppInjector {
     container.registerDependency<ChangeAddressFactory>((){
       return()=> BlocProvider<ChangeAddressBloc>(bloc: ChangeAddressBloc(LoginService(),userDataStore), child: ChangeAddressPage());
     });
+
+    container.registerDependency<AddressListFactory>((){
+      return()=> BlocProvider<AddressListBloc>(bloc: AddressListBloc(userDataStore), child: AddressListPage());
+    });
+
   }
 
 }

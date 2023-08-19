@@ -12,8 +12,9 @@ class UserProfile {
   String? recentPaymentMethod;
   String? addressTitle;
   String? addressId;
+  List<dynamic> savedAddresses;
   UserProfile(this.age, this.phoneNumber, this.userId, this.fullName,
-      this.emailId, this.gender, this.recentPaymentMethod,this.addressId,this.addressTitle);
+      this.emailId, this.gender, this.recentPaymentMethod,this.addressId,this.addressTitle,this.savedAddresses);
 
 
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:byme_app/common/button/byme_outline_button.dart';
 import 'package:byme_app/common/dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'dart:ui' as ui;
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -226,17 +227,29 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
             updateCamera(s.data!.item1);
 
 
-          return (s.data!.item1.latitude>0.0)?GoogleMap(
-            markers: Set<Marker>.of(s.data!.item2),
-            mapType: MapType.normal,
-            initialCameraPosition: CameraPosition(
-              target: s.data!.item1,
-              zoom: 14.4746,
-            ),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
+          return (s.data!.item1.latitude>0.0)?Stack(
+            children: [
+              GoogleMap(
+                markers: Set<Marker>.of(s.data!.item2),
+                mapType: MapType.normal,
+                initialCameraPosition: CameraPosition(
+                  target: s.data!.item1,
+                  zoom: 14.4746,
+                ),
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
 
-            },
+                },
+              ),
+              Positioned(
+                  top: 30,
+                  left: 10,
+                  child: GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: SvgPicture.asset('assets/images/arrow_back.svg'))),
+            ],
           ):SizedBox();
         }
       ),

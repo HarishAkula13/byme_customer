@@ -62,7 +62,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
             Spacer(),
             GestureDetector(
               onTap: (){
-                Get.to(AppInjector.instance.changeAddress);
+                Get.to(AppInjector.instance.addressList);
               },
                 child: SvgPicture.asset('assets/images/edit.svg',)),
 
