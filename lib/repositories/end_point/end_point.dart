@@ -26,6 +26,7 @@ class EndPoints {
   static EndPoint get saveAddress => _getEndPointAddress(_api + 'new-add');
   static EndPoint get getAddress => _getEndPointAddress(_api + 'saved-add');
   static EndPoint get getAddressCheck => _getEndPointAddress(_api + 'add-check');
+  static EndPoint get getorderList => _getEndPointAddress(_api + 'sn-order-list');
 
 
 
