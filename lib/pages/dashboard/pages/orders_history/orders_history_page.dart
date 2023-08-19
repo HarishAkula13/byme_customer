@@ -87,7 +87,7 @@ class OrdersHistoryPageState extends State<OrdersHistoryPage>{
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            ItemLabelText(text: '11 items',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w600,color: Colors.black),),
+                                            ItemLabelText(text: '15 items',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w600,color: Colors.black),),
                                             const SizedBox(height: 5,),
                                             RichText(
                                                 text: const TextSpan(style: TextStyle(fontSize: 12), children: [

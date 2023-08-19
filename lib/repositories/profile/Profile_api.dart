@@ -1,3 +1,4 @@
+import 'package:byme_app/model/order_list/orders_list.dart';
 import 'package:byme_app/model/user/user_profile.dart';
 
 import '../../../model/base_response/request_response.dart';
@@ -12,6 +13,7 @@ abstract class ProfileAPI{
   Future<RequestResponse<UserProfile>> saveAddress(Map<String,dynamic> data);
   Future<RequestResponse<UserProfile>> getAddress(Map<String,dynamic> data);
   Future<RequestResponse<AddressData>> getAddressCheck(Map<String,dynamic> data);
+  Future<RequestResponse<OrdersList>> getOrdersList(Map<String,dynamic> data);
 
 }
 class ProfileService extends BaseAPIService implements ProfileAPI{
@@ -74,5 +76,21 @@ class ProfileService extends BaseAPIService implements ProfileAPI{
         printLog("response error", result.error!.error);
         return RequestResponse(error: result.error);
       }
-    });  }
+    });
+  }
+
+  @override
+  Future<RequestResponse<OrdersList>> getOrdersList(Map<String, dynamic> data) {
+    return make(RequestType.POST, EndPoints.getorderList, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        printLog("response", result.data);
+        var data=OrdersList.fromJson(result.data);
+        return RequestResponse(data: data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
 }
