@@ -30,7 +30,8 @@ class EndPoints {
   static EndPoint get getAddressCheck => _getEndPointAddress(_api + 'add-check');
   static EndPoint get getorderList => _getEndPointOrderList(_api + 'sn-order-list');
   static EndPoint get addCart => _getEndPointCart(_api + 'sn-add-item');
-
+  static EndPoint get cartList => _getEndPointCart(_api + 'sn-fetch-cart');
+  static EndPoint get removeCartItem => _getEndPointCart(_api + 'sn-remove-item');
 
   static EndPoint _getEndPointWithPath(String path) {
     return EndPoint(base: _base, path: path);

@@ -4,6 +4,7 @@ import 'package:byme_app/app/arch/bloc_provider.dart';
 import 'package:byme_app/common/load_container/load_container.dart';
 import 'package:byme_app/di/app_injector.dart';
 import 'package:byme_app/di/i_home_page.dart';
+import 'package:byme_app/model/order_list/cart_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,10 @@ import '../../../../common/utilities/fonts.dart';
 import 'bloc/cart_bloc.dart';
 
 class CartPage extends StatefulWidget{
+  const CartPage({super.key});
 
+
+  @override
   CartPageState createState()=> CartPageState();
 }
 class CartPageState extends State<CartPage>{
@@ -42,88 +46,105 @@ class CartPageState extends State<CartPage>{
             padding: const EdgeInsets.only(left: 14.0),
             child: Row(
               children: [
-                Icon(Icons.arrow_back_ios_new_rounded,color: Colors.grey,size: 16,),
-                SizedBox(width: 10,),
-                ItemLabelText(text: 'Cart',style: TextStyle(fontSize: 20,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w700),)
+                const Icon(Icons.arrow_back_ios_new_rounded,color: Colors.grey,size: 16,),
+                const SizedBox(width: 10,),
+                ItemLabelText(text: 'Cart',style: const TextStyle(fontSize: 20,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w700),)
               ],
             ),
           ),
         ),
       ),
-      body: ListView.builder(
-          itemCount: 2,
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          itemBuilder: (b,i){
-            return Container(
-                height: 90,
-                margin: EdgeInsets.only(left: 20,right: 20,top: 10),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: HexColor("#F5F5F5"),
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 10),
-                      height: 44,
-                        alignment: Alignment.center,
-                        width: 44,
+      body: LoaderContainer(
+        stream: _bloc!.isLoading,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.white,
+          child: StreamBuilder<List<CartList>>(
+            initialData: [],
+            stream: _bloc!.cartList,
+            builder: (context, s) {
+              return ListView.builder(
+                  itemCount: s.data!.length,
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemBuilder: (b,i){
+                    return Container(
+                        height: 90,
+                        margin: const EdgeInsets.only(left: 20,right: 20,top: 10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: HexColor("#E7F6EA"),
-                            borderRadius: BorderRadius.all(Radius.circular(10))
+                            color: HexColor("#F5F5F5"),
+                            borderRadius: const BorderRadius.all(Radius.circular(10))
                         ),
-                        child: SvgPicture.asset('assets/images/Construction.svg',height: 24,width: 24,)),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ItemLabelText(text: 'Construction Works',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w500),),
-                        SizedBox(height: 5,),
-                        Container(
-                            height: 20,
-                            alignment: Alignment.center,
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: HexColor("#E9E9E9"),
-                                borderRadius: BorderRadius.all(Radius.circular(10))
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              height: 44,
+                                alignment: Alignment.center,
+                                width: 44,
+                                decoration: BoxDecoration(
+                                    color: HexColor("#E7F6EA"),
+                                    borderRadius: const BorderRadius.all(Radius.circular(10))
+                                ),
+                                child: SvgPicture.asset('assets/images/Construction.svg',height: 24,width: 24,)),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ItemLabelText(text: s.data![i].category,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w500),),
+                                const SizedBox(height: 5,),
+                                Container(
+                                    height: 20,
+                                    alignment: Alignment.center,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                        color: HexColor("#E9E9E9"),
+                                        borderRadius: const BorderRadius.all(Radius.circular(10))
+                                    ),
+                                    child: ItemLabelText(text: '${s.data![i].subCategory} - 1 No',style: const TextStyle(fontSize: 11,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w400),)),
+
+
+                              ],
                             ),
-                            child: ItemLabelText(text: 'Plumber - 1 No',style: TextStyle(fontSize: 11,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w400),)),
+                            const SizedBox(width: 20,),
+                            RichText(
+                                text: const TextSpan( children: [
+                                  TextSpan(
+                                      text: "₹",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                                  TextSpan(
+                                      text: '',
+                                      style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                ])),
+                           const Spacer(),
+                            IconButton(onPressed: (){
+                              _bloc!.removeCart(s.data![i]);
 
-
-                      ],
-                    ),
-                    SizedBox(width: 20,),
-                    RichText(
-                        text: const TextSpan( children: [
-                          TextSpan(
-                              text: "₹",
-                              style: TextStyle(
-                                  color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
-                          TextSpan(
-                              text: '35',
-                              style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
-                        ])),
-                   Spacer(),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.close,color: HexColor("#858E8B"),size: 16,))
-                  ],
-                )
-            );
-          }),
+                            }, icon: Icon(Icons.close,color: HexColor("#858E8B"),size: 16,))
+                          ],
+                        )
+                    );
+                  });
+            }
+          ),
+        ),
+      ),
 
       bottomSheet: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
+              borderRadius: const BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
                   spreadRadius: 0,
                   blurRadius: 16,
-                  offset: Offset(0, -6),
+                  offset: const Offset(0, -6),
                 )
               ]
           ),
@@ -144,16 +165,16 @@ class CartPageState extends State<CartPage>{
                               style: TextStyle(
                                   color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
                           TextSpan(
-                              text: '70',
+                              text: '',
                               style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
                         ])),
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               customButton(() {
                 Get.to(AppInjector.instance.paymentMethodPage);
-              }, ItemLabelText(text:'Pay',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
+              }, ItemLabelText(text:'Pay',style: const TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
 
             ],
           ),
