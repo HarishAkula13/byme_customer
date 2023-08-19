@@ -63,27 +63,31 @@ class AddressListPageState extends State<AddressListPage>{
                       children: [
                         Expanded(
                           flex: 4,
-                          child: Column(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(children: [
-                                SvgPicture.asset('assets/images/gps.svg'),
-                                SizedBox(width: 10,),
-                                ItemLabelText(text: 'Use Current Location',style:  TextStyle(fontSize: 14,color: HexColor('#828785'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
-
-                              ],),
-                              StreamBuilder<String>(
-                                  initialData: '',
-                                  stream: _bloc!.address,
-                                  builder: (context, s) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(left: 20.0),
-                                      child: ItemLabelText(text: s.data,style:  const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
-                                    );
-                                  }
+                            SvgPicture.asset('assets/images/gps.svg'),
+                            SizedBox(width: 10,),
+                            Flexible(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ItemLabelText(text: 'Use Current Location',style:  TextStyle(fontSize: 14,color: HexColor('#828785'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
+                                  SizedBox(height: 5,),
+                                  StreamBuilder<String>(
+                                      initialData: '',
+                                      stream: _bloc!.address,
+                                      builder: (context, s) {
+                                        return ItemLabelText(text: s.data,style:  const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500));
+                                      }
+                                  ),
+                                ],
                               ),
+                            ),
 
-                            ],
-                          ),
+                          ],),
                         ),
                         Expanded(flex:1,child: Align(alignment:Alignment.centerRight,child: Icon(Icons.arrow_right_outlined)))
                       ],
@@ -181,7 +185,7 @@ class AddressListPageState extends State<AddressListPage>{
                   },
                 ),
                 Positioned(
-                   top: 30,
+                   top: 50,
                     left: 10,
                     child: GestureDetector(
                         onTap: (){
