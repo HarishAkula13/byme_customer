@@ -2,6 +2,7 @@
 import 'package:byme_app/common/textfield/byme_search_field.dart';
 import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
+import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,7 +47,12 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ItemLabelText(text: 'Ranjith Kumar',style: TextStyle(fontSize: 22,color: Colors.black,fontFamily: Inter.bold),),
+                StreamBuilder<String>(
+                  stream: _bloc!.userName,
+                  builder: (context, snap) {
+                    return ItemLabelText(text: '${snap.data}',style: TextStyle(fontSize: 22,color: Colors.black,fontFamily: Inter.bold),);
+                  }
+                ),
                 SizedBox(width: 10,),
 
                 Row(
@@ -54,7 +60,12 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                     Icon((Icons.location_on_outlined),size: 20,color: Colors.grey,),
                     SizedBox(width: 5,),
 
-                    ItemLabelText(text: 'kavuri hills  ',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),),
+                    StreamBuilder<AddressData>(
+                      stream: _bloc!.addressData,
+                      builder: (c, s) {
+                        return ItemLabelText(text: '${(s.data!.addressTitle!=null)?s.data!.addressTitle:""}',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),);
+                      }
+                    ),
                               ],
                 ),
               ],

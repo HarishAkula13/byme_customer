@@ -1,13 +1,17 @@
 
 
 import 'package:byme_app/app/arch/bloc_provider.dart';
+import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:byme_app/model/dashboard/service_list.dart';
 import 'package:byme_app/repositories/dashboard/dashboard_api.dart';
 import 'package:byme_app/repositories/end_point/end_point.dart';
+import 'package:byme_app/repositories/profile/Profile_api.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../../../common/utilities/logger.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
 import '../../../../../model/dashboard/menu.dart';
+import '../../../../../model/signup/user_data.dart';
 
 
 typedef BlocProvider<HomeBloc> HomeFactory();
@@ -26,12 +30,15 @@ class HomeBloc extends BlocBase{
   final BehaviorSubject<String> _workDes = BehaviorSubject();
   final BehaviorSubject<String> _instruction = BehaviorSubject();
   final BehaviorSubject<String> _dateTime = BehaviorSubject();
+  final BehaviorSubject<String> _userName = BehaviorSubject();
+   Stream<String> get userName => _userName;
   final BehaviorSubject<bool> _valid=BehaviorSubject.seeded(false);
   final BehaviorSubject<List<ServicesList>> _serviceList=BehaviorSubject.seeded([]);
   final BehaviorSubject<List<Subcategory>> _subcategoryList=BehaviorSubject.seeded([]);
   Sink<List<Subcategory>> get addSubcategoryList=>_subcategoryList;
   Stream<List<Subcategory>> get subcategoryList=>_subcategoryList;
-
+  BehaviorSubject<AddressData> _addressData =BehaviorSubject();
+  Stream<AddressData> get addressData => _addressData;
   Sink<List<ServicesList>> get addServiceList=>_serviceList;
   Stream<List<ServicesList>> get serviceListData=>_serviceList;
   Stream<String> get serviceType => _serviceType;
@@ -60,14 +67,16 @@ class HomeBloc extends BlocBase{
   Stream<bool> get valid => _valid;
 
   List<ServicesList> serviceList=[];
+  LatLng _latLen = LatLng(17.4523004,78.3630278);
 
   HomeBloc(this.userDataStore){
     setListeners();
   }
 
-  void setListeners() {
+  void setListeners() async{
 
     _isLoading.add(true);
+
     List<Menu> list=[
       Menu(icon: 'assets/images/house.svg',title: 'Household \nChores'),
       Menu(icon: 'assets/images/personal.svg',title: 'Personal \nCare'),
@@ -103,9 +112,21 @@ class HomeBloc extends BlocBase{
       });
 
     });
-    
 
+    UserData? user= await userDataStore!.getUser();
+    _userName.add(user!.fullName!);
+    ProfileService().getAddressCheck({
+      "environment" : EndPoints.env,
+      "user_id_value" : user.userId,
+      "latitude": _latLen.latitude,
+      "longitude":_latLen.longitude
+    }).then((value) {
+      _isLoading.add(false);
+      if(value.error==null){
+      _addressData.add(value.data!);
+      }
 
+    });
 
     CombineLatestStream.combine5(_selectedName, _subCate,_serviceType,_workDes,_instruction,
             (String a, String b,String c,String d,String e)

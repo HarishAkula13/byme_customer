@@ -25,6 +25,7 @@ class EndPoints {
   static EndPoint get fetchServices => _getEndPointAfterDashboard(_api + 'fetch-services');
   static EndPoint get saveAddress => _getEndPointAddress(_api + 'new-add');
   static EndPoint get getAddress => _getEndPointAddress(_api + 'saved-add');
+  static EndPoint get getAddressCheck => _getEndPointAddress(_api + 'add-check');
 
 
 
