@@ -14,7 +14,7 @@ import '../label/item_label_text.dart';
 import '../utilities/byme_colors.dart';
 import '../utilities/fonts.dart';
 
-void requestDialogue ({String? title,String? des,String? amount,String? subTitle}){
+void requestDialogue ({String? title,String? des,String? amount,String? subTitle,dynamic bloc}){
   showDialog(
       barrierColor: Color(0x99070707),
       barrierDismissible: false,
@@ -123,8 +123,10 @@ void requestDialogue ({String? title,String? des,String? amount,String? subTitle
                       Navigator.pop(context);
                       if(subTitle!=null)
                         Get.to(AppInjector.instance.orderDetails(1));
-                      else
-                      Get.to(AppInjector.instance.cartPage);
+                      else {
+
+                        bloc.submit.add(null);
+                      }
 
                     }, ItemLabelText(text:'pay',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
                   ),

@@ -8,7 +8,7 @@ import '../end_point/end_point.dart';
 
 abstract class DashboardAPI{
   Future<RequestResponse<Map<String,dynamic>>> getService(Map<String,dynamic> data);
-
+  Future<RequestResponse<Map<String,dynamic>>> addCart(Map<String,dynamic> data);
 }
 class DashboardService extends BaseAPIService implements DashboardAPI{
   DashboardService();
@@ -19,6 +19,22 @@ class DashboardService extends BaseAPIService implements DashboardAPI{
         .then((result) {
       if (result.data != null) {
        // printLog("response", result.data);
+
+        return RequestResponse(data: result.data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
+
+
+  @override
+  Future<RequestResponse<Map<String,dynamic>>> addCart(Map<String,dynamic> data) {
+    return make(RequestType.POST, EndPoints.addCart, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        // printLog("response", result.data);
 
         return RequestResponse(data: result.data);
       } else {

@@ -61,7 +61,6 @@ void CategoriesDialog(BuildContext context,Function() onClick,HomeBloc bloc,int 
                                   s.data![type].category![k].isClick=!s.data![type].category![k].isClick!;
                                   if(s.data![type].category![k].isClick==true) {
                                     bloc.addSelectedName.add(s.data![type].category![k].categoryName!);
-
                                     bloc.addSubcategoryList.add(s.data![type].category![k].subCategory!);
                                     bloc.addSubCate.add(s.data![type].category![k].subCategory![0].serviceName!);
 

@@ -1,14 +1,21 @@
 
 
 import 'package:byme_app/app/arch/bloc_provider.dart';
+import 'package:byme_app/common/utilities/byme_colors.dart';
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:byme_app/model/dashboard/service_list.dart';
 import 'package:byme_app/repositories/dashboard/dashboard_api.dart';
 import 'package:byme_app/repositories/end_point/end_point.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../../../common/utilities/logger.dart';
+import '../../../../../common/utils/pyc_colors.dart';
+import '../../../../../di/app_injector.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
 import '../../../../../model/dashboard/menu.dart';
 import '../../../../../model/signup/user_data.dart';
@@ -26,10 +33,10 @@ class HomeBloc extends BlocBase{
   final BehaviorSubject<String> _travelType =BehaviorSubject.seeded('Taxi & Travel');
   final BehaviorSubject<String> _taxiType =BehaviorSubject.seeded('Bike Taxi');
   final BehaviorSubject<String> _subCate =BehaviorSubject();
-  final BehaviorSubject<String> _serviceType =BehaviorSubject.seeded('Pilot Service (Instant)');
+  final BehaviorSubject<String> _serviceType =BehaviorSubject.seeded('Pilot Service');
   final BehaviorSubject<String> _workDes = BehaviorSubject();
   final BehaviorSubject<String> _instruction = BehaviorSubject();
-  final BehaviorSubject<String> _dateTime = BehaviorSubject();
+  final BehaviorSubject<String> _dateTime = BehaviorSubject.seeded(DateFormat("dd MMMM yyyy").format(DateTime.now()));
   final BehaviorSubject<String> _userName = BehaviorSubject();
    Stream<String> get userName => _userName;
   final BehaviorSubject<bool> _valid=BehaviorSubject.seeded(false);
@@ -38,6 +45,8 @@ class HomeBloc extends BlocBase{
   Sink<List<Subcategory>> get addSubcategoryList=>_subcategoryList;
   Stream<List<Subcategory>> get subcategoryList=>_subcategoryList;
   BehaviorSubject<AddressData> _addressData =BehaviorSubject();
+  BehaviorSubject<void>  _submit = BehaviorSubject();
+  Sink<void> get submit => _submit;
   Stream<AddressData> get addressData => _addressData;
   Sink<List<ServicesList>> get addServiceList=>_serviceList;
   Stream<List<ServicesList>> get serviceListData=>_serviceList;
@@ -128,14 +137,56 @@ class HomeBloc extends BlocBase{
 
     });
 
-    CombineLatestStream.combine5(_selectedName, _subCate,_serviceType,_workDes,_instruction,
-            (String a, String b,String c,String d,String e)
+    CombineLatestStream.combine6(_selectedName, _subCate,_serviceType,_workDes,_instruction,_categorieName,
+            (String a, String b,String c,String d,String e,String f)
         {
-          printLog("data", '${a} ${b} ${c} ${d} ${e}');
+          printLog("data", '${a} ${b} ${c} ${d} ${e} ${f}');
           return a.isNotEmpty&&b.isNotEmpty&&c.isNotEmpty&&d.isNotEmpty&&e.isNotEmpty;})
         .listen(_valid.add)
         .addTo(disposeBag);
 
+
+    _submit
+        .withLatestFrom(_valid, (_, bool v) => v)
+        .where((event)=>event)
+        .withLatestFrom7(_selectedName, _subCate,_serviceType,_workDes,_instruction,_categorieName,_dateTime,
+            (t,String a, String b,String c,String d,String e,String f,String g)
+        {
+
+          return {
+            "environment": EndPoints.env,
+            "user_id": user.userId,
+            "service_name": b,
+            "category": f.replaceAll("\n", ''),
+            "sub_category": a,
+            "service_type": (c=='Firm Service')?'firm':'pilot',
+            "date": g,
+            "additional_instructions": e,
+            "description_of_work": d
+          };})
+        .listen(addCart)
+        .addTo(disposeBag);
+
+
+  }
+
+  void addCart(Map<String,dynamic> data){
+    _isLoading.add(true);
+    DashboardService().addCart(data).then((val) {
+      if(val.error==null){
+        if(val.data!['message']!=null){
+          Get.snackbar('Success',
+            val.data!['message'],
+            colorText: Colors.white,
+            backgroundColor: ByMeColors.app_color,
+            icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+          );
+          Get.to(AppInjector.instance.cartPage);
+        }
+      }
+
+    }
+    );
 
   }
 }

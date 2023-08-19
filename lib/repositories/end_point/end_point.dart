@@ -10,6 +10,7 @@ class EndPoints {
   static String _devAfterLoginBase = "9r6k2x4sph.execute-api.ap-south-1.amazonaws.com";
   static String _devDashboard = "jfdcmi11o9.execute-api.ap-south-1.amazonaws.com";
   static String _devAdress = "99q5c2c7pj.execute-api.ap-south-1.amazonaws.com";
+  static String _devCart='1qohp0sd3j.execute-api.ap-south-1.amazonaws.com';
 
   static String get _base {return _devBase;}
   static String get _afterLoginBase {return _devAfterLoginBase;}
@@ -27,7 +28,7 @@ class EndPoints {
   static EndPoint get getAddress => _getEndPointAddress(_api + 'saved-add');
   static EndPoint get getAddressCheck => _getEndPointAddress(_api + 'add-check');
   static EndPoint get getorderList => _getEndPointAddress(_api + 'sn-order-list');
-
+  static EndPoint get addCart => _getEndPointCart(_api + 'sn-add-item');
 
 
   static EndPoint _getEndPointWithPath(String path) {
@@ -44,4 +45,8 @@ class EndPoints {
   static EndPoint _getEndPointAddress(String path) {
     return EndPoint(base: _devAdress, path: path);
   }
+  static EndPoint _getEndPointCart(String path) {
+    return EndPoint(base: _devCart, path: path);
+  }
+  
 }

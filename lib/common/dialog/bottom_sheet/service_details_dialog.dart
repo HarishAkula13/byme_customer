@@ -98,14 +98,14 @@ void ServiceDetailsDialog(BuildContext context,Function() onClick,HomeBloc bloc)
                         return Container(
                             margin: EdgeInsets.only(top: 15),
                             width: MediaQuery.of(context).size.width,
-                            child: CustomDropdown(hint: 'Service type', value: sna.data, dropdownItems: ['Pilot Service (Instant)','Firm Service (Appointment)'], onChanged:(val){ bloc.addServiceType.add(val!);}));
+                            child: CustomDropdown(hint: 'Service type', value: sna.data, dropdownItems: ['Pilot Service','Firm Service'], onChanged:(val){ bloc.addServiceType.add(val!);}));
                       }
                   ),
                   StreamBuilder<String>(
-                    initialData: 'Pilot Service (Instant)',
+                    initialData: 'Pilot Service',
                     stream: bloc.serviceType,
                     builder: (context, sna) {
-                      return (sna.data=='Pilot Service (Instant)')?SizedBox(height: 15,):Column(
+                      return (sna.data=='Pilot Service')?SizedBox(height: 15,):Column(
                         children: [
                           SizedBox(height: 15,),
                           StreamBuilder<String>(
@@ -124,7 +124,7 @@ void ServiceDetailsDialog(BuildContext context,Function() onClick,HomeBloc bloc)
                                       firstDate: DateTime(1950),
                                       lastDate: DateTime(2050)).then((value) {
                                     if (value != null) {
-                                      var text = DateFormat("dd-MM-yyyy").format(value);
+                                      var text = DateFormat("dd MMMM yyyy").format(value);
                                       printLog("text", text);
                                       bloc.addDateTime.add(text);
                                     }
@@ -168,7 +168,7 @@ void ServiceDetailsDialog(BuildContext context,Function() onClick,HomeBloc bloc)
                       return customButton(() {
                         if(snap.data==true) {
                           Navigator.pop(context);
-                          requestDialogue(title: 'Service Order Request',amount: '20',des: 'Would you like to place the order with selected service?');
+                          requestDialogue(title: 'Service Order Request',amount: '20',des: 'Would you like to place the order with selected service?',bloc: bloc);
                         }
 
                       }, ItemLabelText(text:(snap.data==true)?'Proceed to checkout':'Proceed',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#00B05A','#ffffff',context);
