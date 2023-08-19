@@ -62,7 +62,7 @@ class AddressListBloc extends BlocBase{
       _isLoading.add(false);
       if(value.error==null){
         if(value.data!.savedAddresses!=null){
-          _addressList.add(value.data!.savedAddresses);
+          _addressList.add(value.data!.savedAddresses!);
         }
 
       }
