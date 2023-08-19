@@ -92,7 +92,7 @@ class AddressListPageState extends State<AddressListPage>{
                   Divider(color: HexColor('#CDD0CF'),thickness: 0.5,),
                   GestureDetector(
                     onTap: (){
-                      Get.to(AppInjector.instance.changeAddress);
+                      Get.to(AppInjector.instance.changeAddress)!.then((value) => _bloc!.getAddress());
                     },
                     child: Padding(padding: EdgeInsets.all(15),
                     child: Row(children: [
