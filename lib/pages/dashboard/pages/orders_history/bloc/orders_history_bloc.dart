@@ -32,6 +32,7 @@ class OrdersHistoryBloc extends BlocBase{
 
   void setListeners() async {
     UserData? user= await userDataStore!.getUser();
+    _isLoading.add(true);
     ProfileService().getOrdersList({
       "environment" : EndPoints.env,
       "user_id" : user!.userId}).then((value) {

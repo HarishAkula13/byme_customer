@@ -35,6 +35,7 @@ class OrdersHistoryPageState extends State<OrdersHistoryPage>{
   @override
   Widget build(BuildContext context) {
     return LoaderContainer(
+      stream: _bloc!.isLoading,
       child: WillPopScope(
         onWillPop: () async {
       _bloc!.onCallBack(0,0);
