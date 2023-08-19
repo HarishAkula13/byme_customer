@@ -73,7 +73,8 @@ class DashboardBloc extends BlocBase{
                     ()=> AppInjector.instance.cartPage,
                     ()=> AppInjector.instance.profile((){viewOrders();}),
               ]);
-            }else _pagesList.add([
+            }else {
+              _pagesList.add([
                   ()=> AppInjector.instance.home,
                   ()=> AppInjector.instance.orders,
                   ()=> AppInjector.instance.cartPage,
@@ -90,7 +91,8 @@ class DashboardBloc extends BlocBase{
                                 ()=> AppInjector.instance.cartPage,
                                 ()=> AppInjector.instance.profile((){viewOrders();}),
                           ]);
-                        }else _pagesList.add([
+                        }else {
+                          _pagesList.add([
                               ()=> AppInjector.instance.home,
                               ()=> AppInjector.instance.orders,
                               ()=> AppInjector.instance.cartPage,
@@ -98,11 +100,13 @@ class DashboardBloc extends BlocBase{
                                     viewOrders();
                           }),
                         ]);
+                        }
 
                       }),
                     ]);
                   }),
             ]);
+            }
 
           }),
     ]);

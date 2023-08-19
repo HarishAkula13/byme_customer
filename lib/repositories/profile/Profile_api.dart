@@ -81,7 +81,7 @@ class ProfileService extends BaseAPIService implements ProfileAPI{
 
   @override
   Future<RequestResponse<OrdersList>> getOrdersList(Map<String, dynamic> data) {
-    return make(RequestType.POST, EndPoints.getorderList, body: data,contentType: ContentType.json)
+    return make(RequestType.POST, EndPoints.getOrderList, body: data,contentType: ContentType.json)
         .then((result) {
       if (result.data != null) {
         printLog("response", result.data);

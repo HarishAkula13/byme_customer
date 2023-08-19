@@ -10,15 +10,15 @@ class OrdersList {
   String? shopId;
   String? shopName;
   String? shopPhoto;
-  String? orderCost;
-  String? deliveryCharges;
-  String? gst;
-  String? subTotal;
+  double? orderCost;
+  double? deliveryCharges;
+  double? gst;
+  double? subTotal;
   String? orderStatus;
   String? shopCategoryImg;
   String? serviceCategory;
   String? serviceSubcategory;
-  String? total;
+  double? total;
   String? servcieOwnerName;
 
   OrdersList(this.orderList, this.orderType, this.orderId, this.orderDateTime, this.productInfo, this.shopId,
@@ -34,7 +34,7 @@ class ProductInfo {
   String? productName;
   String? qty;
   String? unit;
-  String? amount;
+  double? amount;
   ProductInfo(this.productName, this.qty, this.unit, this.amount);
 
   factory ProductInfo.fromJson(Map<String,dynamic> json) => _$ProductInfoFromJson(json);
