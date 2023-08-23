@@ -109,16 +109,22 @@ class CartPageState extends State<CartPage>{
                               ],
                             ),
                             const SizedBox(width: 20,),
-                            RichText(
-                                text: const TextSpan( children: [
-                                  TextSpan(
-                                      text: "₹",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
-                                  TextSpan(
-                                      text: '',
-                                      style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
-                                ])),
+                            StreamBuilder<String>(
+                              initialData: '',
+                              stream: _bloc!.cartPrice,
+                              builder: (context, s) {
+                                return RichText(
+                                    text:  TextSpan( children: [
+                                      TextSpan(
+                                          text: "₹",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                                      TextSpan(
+                                          text: s.data.toString(),
+                                          style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                    ]));
+                              }
+                            ),
                            const Spacer(),
                             IconButton(onPressed: (){
                               _bloc!.removeCart(s.data![i]);
@@ -158,16 +164,22 @@ class CartPageState extends State<CartPage>{
                   children: [
                     ItemLabelText(text: 'Total Amount: ',style: TextStyle(fontSize: 18,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
 
-                    RichText(
-                        text: const TextSpan( children: [
-                          TextSpan(
-                              text: "₹",
-                              style: TextStyle(
-                                  color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
-                          TextSpan(
-                              text: '',
-                              style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
-                        ])),
+                    StreamBuilder<String>(
+                      initialData: '',
+                      stream: _bloc!.cartPrice,
+                      builder: (context, s) {
+                        return RichText(
+                            text:  TextSpan( children: [
+                              TextSpan(
+                                  text: "₹",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                              TextSpan(
+                                  text: '${s.data.toString()}',
+                                  style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                            ]));
+                      }
+                    ),
                   ],
                 ),
               ),

@@ -14,7 +14,9 @@ typedef BlocProvider<CartBloc> CartFactory();
 class CartBloc extends BlocBase {
   UserDataStore? userDataStore;
   BehaviorSubject<bool> _isLoading = BehaviorSubject.seeded(false);
+  BehaviorSubject<String> _price = BehaviorSubject.seeded('');
   BehaviorSubject<List<CartList>> _cartList = BehaviorSubject.seeded([]);
+  Stream<String> get cartPrice=> _price;
   Stream<List<CartList>> get cartList=> _cartList;
   Stream<bool> get isLoading=> _isLoading;
   CartBloc(this.userDataStore){
@@ -36,6 +38,7 @@ class CartBloc extends BlocBase {
     }).then((value) {
       _isLoading.add(false);
       if(value.error==null){
+        _price.add(value.data!.servicePrice!.toString());
         if(value.data!.fetchCart!=null){
           _cartList.add(value.data!.fetchCart!);
         }

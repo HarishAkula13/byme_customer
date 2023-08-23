@@ -168,7 +168,7 @@ void ServiceDetailsDialog(BuildContext context,Function() onClick,HomeBloc bloc)
                       return customButton(() {
                         if(snap.data==true) {
                           Navigator.pop(context);
-                          requestDialogue(title: 'Service Order Request',amount: '20',des: 'Would you like to place the order with selected service?',bloc: bloc);
+                          requestDialogue(title: 'Service Order Request',amount: '35',des: 'Would you like to place the order with selected service?',bloc: bloc);
                         }
 
                       }, ItemLabelText(text:(snap.data==true)?'Proceed to checkout':'Proceed',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#00B05A','#ffffff',context);
