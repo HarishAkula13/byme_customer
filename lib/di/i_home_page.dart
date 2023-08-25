@@ -21,6 +21,8 @@ import '../pages/dashboard/pages/profile/bloc/profile_bloc.dart';
 import '../pages/dashboard/pages/profile/profile_page.dart';
 import '../pages/order_details/bloc/order_details_bloc.dart';
 import '../pages/order_details/order_details.dart';
+import '../pages/payment_method/bloc/upis_list_bloc.dart';
+import '../pages/payment_method/upis_list_page.dart';
 import '../pages/track_order/bloc/track_order_bloc.dart';
 import '../pages/track_order/track_order.dart';
 import '../repositories/login/login_api.dart';
@@ -38,6 +40,7 @@ extension HomePageExtension on AppInjector {
   OrdersDetailsFactory get  orderDetails => container.get();
   ChangeAddressFactory get  changeAddress => container.get();
   AddressListFactory get  addressList => container.get();
+  UPISListFactory get  upisList => container.get();
 
   registerHomePage(){
 
@@ -90,7 +93,9 @@ extension HomePageExtension on AppInjector {
     container.registerDependency<AddressListFactory>((){
       return()=> BlocProvider<AddressListBloc>(bloc: AddressListBloc(userDataStore), child: AddressListPage());
     });
-
+    container.registerDependency<UPISListFactory>((){
+      return()=> BlocProvider<UPISListBloc>(bloc: UPISListBloc(userDataStore), child: UPISListPage());
+    });
   }
 
 }

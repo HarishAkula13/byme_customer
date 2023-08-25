@@ -1,12 +1,18 @@
+import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
+
 import 'package:byme_app/app/arch/bloc_provider.dart';
 import 'package:byme_app/common/utilities/byme_colors.dart';
+import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
-import 'package:flutter/foundation.dart';
+import 'package:byme_app/pages/payment_method/upis_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:phone_pe_pg/phone_pe_pg.dart';
 import '../../../../common/label/item_label_text.dart';
 import '../../../../common/utilities/fonts.dart';
 import '../../di/app_injector.dart';
@@ -18,6 +24,36 @@ class PaymentmethodPage extends StatefulWidget{
 }
 class PaymentmethodPageState extends State<PaymentmethodPage>{
   PaymentmethodBloc? _bloc;
+  PhonePePg pePg = PhonePePg(
+    isUAT: true,
+    saltKey: "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399",
+    saltIndex: "1",
+  );
+  PaymentRequest _paymentRequest({String? merchantCallBackScheme}) {
+    PaymentRequest paymentRequest = PaymentRequest(
+      amount: 35,
+      callbackUrl: "https://webhook.site/845cb8cc-5d74-4494-95ea-3003c9c518ab",
+      deviceContext: DeviceContext.getDefaultDeviceContext(
+          merchantCallBackScheme: merchantCallBackScheme),
+      merchantId: "PGTESTPAYUAT",
+      merchantTransactionId: DateTime.now().millisecondsSinceEpoch.toString(),
+      merchantUserId: "1234567890",
+      mobileNumber: "9440702795",
+    );
+    return paymentRequest;
+  }
+
+  PaymentRequest upipaymentRequest(UpiAppInfo e,
+      {String? merchantCallBackScheme}) =>
+      _paymentRequest(merchantCallBackScheme: merchantCallBackScheme).copyWith(
+          paymentInstrument: UpiIntentPaymentInstrument(
+            targetApp: Platform.isAndroid ? e.packageName! : e.iOSAppName!,
+          ));
+  PaymentRequest paypageRequestModel({String? merchantCallBackScheme}) =>
+      _paymentRequest(merchantCallBackScheme: merchantCallBackScheme).copyWith(
+          redirectUrl: "http://127.0.0.1/test/view",
+          redirectMode: 'GET',
+          paymentInstrument: PayPagePaymentInstrument());
 
   bool toggle = false;
   @override
@@ -25,6 +61,11 @@ class PaymentmethodPageState extends State<PaymentmethodPage>{
     // TODO: implement initState
     super.initState();
     _bloc=BlocProvider.of(context);
+    PhonePePg pePg = PhonePePg(
+      isUAT: true,
+      saltKey: "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399",
+      saltIndex: "1",
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -51,29 +92,34 @@ class PaymentmethodPageState extends State<PaymentmethodPage>{
       body: Container(
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: HexColor('#69706D26').withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: Offset(0, 2),
-                    )
-                  ]
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset('assets/images/upi.png'),
-                 ItemLabelText(text: 'Set Bank Account',style: TextStyle(fontSize: 14,color: ByMeColors.app_color,fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
-
-                ],
+            GestureDetector(
+              onTap: (){
+                Get.to(AppInjector.instance.upisList);
+              },
+              child: Container(
+                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: HexColor('#69706D26').withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: Offset(0, 2),
+                      )
+                    ]
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset('assets/images/upi.png'),
+                    Spacer(),
+                    Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 18,)
+                  ],
+                ),
               ),
             ),
             Container(
@@ -134,32 +180,59 @@ class PaymentmethodPageState extends State<PaymentmethodPage>{
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: HexColor('#69706D26').withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: Offset(0, 2),
-                    )
-                  ]
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset('assets/images/netbanking.svg',height: 24,width: 24,),
-                  SizedBox(width: 20,),
-                  ItemLabelText(text: 'Net Banking',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 18,)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => pePg.startPayPageTransaction(
+                          onPaymentComplete:
+                              (paymentResponse, paymentError) {
+                            Navigator.pop(context);
+                            if (paymentResponse != null &&
+                                paymentResponse.code ==
+                                    PaymentStatus.success) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      "Transaction Successful")));
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      "Transaction Failed")));
+                            }
+                          },
+                          paymentRequest: paypageRequestModel(),
+                        )));
+              },
+              child: Container(
+                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: HexColor('#69706D26').withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: Offset(0, 2),
+                      )
+                    ]
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/images/netbanking.svg',height: 24,width: 24,),
+                    SizedBox(width: 20,),
+                    ItemLabelText(text: 'Net Banking',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
+                    Spacer(),
+                    Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 18,)
 
-                ],
+                  ],
+                ),
               ),
             ),
             Container(
@@ -248,32 +321,36 @@ class PaymentmethodPageState extends State<PaymentmethodPage>{
                 ),
               )
             ),
-            Container(
-                margin: EdgeInsets.only(left: 20,right: 20),
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: HexColor('#69706D26').withOpacity(0.1),
-                        spreadRadius: 2,
-                        blurRadius: 7,
-                        offset: Offset(0, 2),
-                      )
-                    ]
-                ),
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ItemLabelText(text: 'Others',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
-                    Spacer(),
-                    Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 18,)
+           /* GestureDetector(
+              onTap:(){
+                            },
+              child: Container(
+                  margin: EdgeInsets.only(left: 20,right: 20),
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: HexColor('#69706D26').withOpacity(0.1),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset: Offset(0, 2),
+                        )
+                      ]
+                  ),
+                  child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ItemLabelText(text: 'Others',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
+                      Spacer(),
+                      Icon(Icons.arrow_forward_ios,color: Colors.grey,size: 18,)
 
-                  ],
-                )
-            ),
+                    ],
+                  )
+              ),
+            ),*/
 
           ],
         ),
