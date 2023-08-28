@@ -2,7 +2,6 @@ import 'package:byme_app/pages/dashboard/pages/orders_history/bloc/orders_histor
 import 'package:byme_app/pages/payment_method/bloc/payment_method_bloc.dart';
 import 'package:byme_app/pages/payment_method/payment_method_page.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
-
 import '../app/arch/bloc_provider.dart';
 import '../pages/dashboard/pages/address/address_list_page.dart';
 import '../pages/dashboard/pages/address/bloc/address_list_bloc.dart';
@@ -21,8 +20,6 @@ import '../pages/dashboard/pages/profile/bloc/profile_bloc.dart';
 import '../pages/dashboard/pages/profile/profile_page.dart';
 import '../pages/order_details/bloc/order_details_bloc.dart';
 import '../pages/order_details/order_details.dart';
-import '../pages/payment_method/bloc/upis_list_bloc.dart';
-import '../pages/payment_method/upis_list_page.dart';
 import '../pages/track_order/bloc/track_order_bloc.dart';
 import '../pages/track_order/track_order.dart';
 import '../repositories/login/login_api.dart';
@@ -40,10 +37,8 @@ extension HomePageExtension on AppInjector {
   OrdersDetailsFactory get  orderDetails => container.get();
   ChangeAddressFactory get  changeAddress => container.get();
   AddressListFactory get  addressList => container.get();
-  UPISListFactory get  upisList => container.get();
 
   registerHomePage(){
-
     container.registerDependency<BlocProvider<HomeBloc>>(() {
       return BlocProvider<HomeBloc>(
         bloc: HomeBloc(userDataStore),
@@ -93,9 +88,7 @@ extension HomePageExtension on AppInjector {
     container.registerDependency<AddressListFactory>((){
       return()=> BlocProvider<AddressListBloc>(bloc: AddressListBloc(userDataStore), child: AddressListPage());
     });
-    container.registerDependency<UPISListFactory>((){
-      return()=> BlocProvider<UPISListBloc>(bloc: UPISListBloc(userDataStore), child: UPISListPage());
-    });
+
   }
 
 }
