@@ -75,14 +75,13 @@ void ServiceDetailsDialog(BuildContext context,Function() onClick,HomeBloc bloc)
                     }
                   ),
                   StreamBuilder<String>(
-                      initialData: 'Carpentry',
+                      initialData: null,
                       stream: bloc.subCate,
                       builder: (context, sna) {
                         List<String> list=[];
                         for(int i=0;i<s.data!.length;i++){
                           list.add(s.data![i].serviceName!);
                         }
-                        printLog("title", list[0]);
                         return Container(
                             margin: EdgeInsets.only(top: 15),
                             width: MediaQuery.of(context).size.width,
@@ -92,7 +91,7 @@ void ServiceDetailsDialog(BuildContext context,Function() onClick,HomeBloc bloc)
                       }
                   ),
                   StreamBuilder<String>(
-                      initialData: 'Pilot Service (Instant)',
+                      initialData: 'Pilot Service',
                       stream: bloc.serviceType,
                       builder: (context, sna) {
                         return Container(

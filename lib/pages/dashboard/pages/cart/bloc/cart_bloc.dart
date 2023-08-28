@@ -38,8 +38,9 @@ class CartBloc extends BlocBase {
     }).then((value) {
       _isLoading.add(false);
       if(value.error==null){
-        _price.add(value.data!.servicePrice!.toString());
+
         if(value.data!.fetchCart!=null){
+          _price.add(value.data!.servicePrice!.toString() ?? '');
           _cartList.add(value.data!.fetchCart!);
         }
         else {
@@ -55,7 +56,7 @@ class CartBloc extends BlocBase {
     CartService().removeCart({
       "environment": EndPoints.env,
       "user_id": user!.userId,
-      "product_info":cartList.category
+      "product_info":cartList.productId
     }).then((val) {
       _isLoading.add(false);
       if(val.error==null){
