@@ -96,7 +96,7 @@ class AddressListPageState extends State<AddressListPage>{
                   Divider(color: HexColor('#CDD0CF'),thickness: 0.5,),
                   GestureDetector(
                     onTap: (){
-                      Get.to(AppInjector.instance.changeAddress)!.then((value) => _bloc!.getAddress());
+                      Get.to(AppInjector.instance.changeAddress(null))!.then((value) => _bloc!.getAddress());
                     },
                     child: Padding(padding: EdgeInsets.all(15),
                     child: Row(children: [
@@ -143,7 +143,11 @@ class AddressListPageState extends State<AddressListPage>{
                                           ],
                                         ),
                                       ),
-
+                                      GestureDetector(
+                                          onTap: (){
+                                            Get.to(AppInjector.instance.changeAddress(sp.data![i][0]))!.then((value) => _bloc!.getAddress());
+                                          },
+                                          child: SvgPicture.asset('assets/images/edit.svg')),
                                     ],
                                   ),
                                 ),

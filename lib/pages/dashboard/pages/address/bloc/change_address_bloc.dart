@@ -19,10 +19,11 @@ import '../../../../../repositories/end_point/end_point.dart';
 import '../../../../../repositories/login/login_api.dart';
 import '../../../../../repositories/profile/Profile_api.dart';
 
-typedef BlocProvider<ChangeAddressBloc> ChangeAddressFactory();
+typedef BlocProvider<ChangeAddressBloc> ChangeAddressFactory(String? addressId);
 class ChangeAddressBloc extends BlocBase{
   LoginService? loginService;
   UserDataStore? userDataStore;
+  String? addressId;
   BehaviorSubject<Tuple2<LatLng ,List<Marker>>> _data =BehaviorSubject();
   BehaviorSubject<String> _address = BehaviorSubject.seeded('');
   BehaviorSubject<bool> _isChange = BehaviorSubject.seeded(false);
@@ -47,7 +48,7 @@ class ChangeAddressBloc extends BlocBase{
 
 
 
-  ChangeAddressBloc(this.loginService,this.userDataStore){
+  ChangeAddressBloc(this.loginService,this.userDataStore,this.addressId){
 
     setListeners();
     getLocation();
@@ -61,34 +62,75 @@ class ChangeAddressBloc extends BlocBase{
     if(_currentAddress!.isNotEmpty){
       _isLoading.add(true);
       UserData? user= await userDataStore!.getUser();
-      ProfileService().saveAddress({
-        "environment": EndPoints.env,
-        "address": _currentAddress,
-        "user_id_value": user!.userId,
-        "area_name": areName,
-        "landmark": landmark,
-        "city_name": cityName,
-        "pin_code": pincode,
-        "state": state,
-        "address_title": "${user.fullName} ${type}",
-        "latitude": _latLen.latitude,
-        "longitude":_latLen.longitude
-      }).then((value) {
-        _isLoading.add(false);
-        if(value.error==null){
-          if(value.data!.addressId!=null){
-            Get.snackbar('Success',
-              "Address Saved Successfully",
-              colorText: Colors.white,
-              backgroundColor: PYCColors.app_color,
-              icon: const Icon(Icons.verified_outlined,color: Colors.white,),
-            );
+      if(addressId!=null){
+        ProfileService().updateAddress({
+              "environment": EndPoints.env,
+              "address_id":addressId,
+              "address": _currentAddress,
+              "user_id_value": user!.userId,
+              "area_name": areName,
+              "landmark": landmark,
+              "city_name": cityName,
+              "pin_code": pincode,
+              "state": state,
+              "address_title": "${user.fullName} ${type}",
+              "latitude": _latLen.latitude,
+              "longitude":_latLen.longitude
+            }).then((value) {
+          _isLoading.add(false);
+          if(value.error==null){
+            if(value.data!.addressId!=null){
+              Get.snackbar('Success',
+                "Address Saved Successfully",
+                colorText: Colors.white,
+                backgroundColor: PYCColors.app_color,
+                icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+              );
+            }else{
+              Get.snackbar('Success',
+                "Address updated Successfully",
+                colorText: Colors.white,
+                backgroundColor: PYCColors.app_color,
+                icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+              );
+            }
+
+
           }
 
+        });
+      }else{
+        ProfileService().saveAddress(
+            {
+              "environment": EndPoints.env,
+              "address": _currentAddress,
+              "user_id_value": user!.userId,
+              "area_name": areName,
+              "landmark": landmark,
+              "city_name": cityName,
+              "pin_code": pincode,
+              "state": state,
+              "address_title": "${user.fullName} ${type}",
+              "latitude": _latLen.latitude,
+              "longitude":_latLen.longitude
+            }).then((value) {
+          _isLoading.add(false);
+          if(value.error==null){
+            if(value.data!.addressId!=null){
+              Get.snackbar('Success',
+                "Address Saved Successfully",
+                colorText: Colors.white,
+                backgroundColor: PYCColors.app_color,
+                icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+              );
+            }
 
-        }
 
-      });
+          }
+
+        });
+      }
+
     }
 
 

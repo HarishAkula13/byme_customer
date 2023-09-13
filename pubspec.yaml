@@ -58,6 +58,7 @@ dependencies:
   geocoding: ^2.1.0
   platform_device_id: ^1.0.1
   phone_pe_pg: ^0.0.2
+  location: ^5.0.3
 dev_dependencies:
   json_serializable: ^6.3.1
   build_runner: ^2.4.4

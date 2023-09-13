@@ -6,13 +6,17 @@ class CartList{
   List<CartList>? fetchCart;
   String? category;
   CartList(this.fetchCart, this.category, this.subCategory, this.serviceType,
-      this.date, this.additionalInstructions, this.descriptionOfWork,this.servicePrice,this.productId);
+      this.date, this.additionalInstructions, this.descriptionOfWork,this.servicePrice,this.productId,this.baseCharges,this.GST,this.total);
   String? subCategory;
   String?  serviceType;
   String?  date;
   String?  additionalInstructions;
   String?  descriptionOfWork;
   String? productId;
+  double? baseCharges;
+  double? GST;
+  double? total;
+  String? serviceId;
 
   factory CartList.fromJson(Map<String,dynamic> json) => _$CartListFromJson(json);
 

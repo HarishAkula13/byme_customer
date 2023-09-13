@@ -10,8 +10,8 @@ import 'package:byme_app/repositories/end_point/end_point.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../../../common/utilities/logger.dart';
 import '../../../../../common/utils/pyc_colors.dart';
@@ -20,7 +20,9 @@ import '../../../../../manager/user_data_store/user_data_store.dart';
 import '../../../../../model/dashboard/menu.dart';
 import '../../../../../model/signup/user_data.dart';
 
-
+enum Permission{
+  denied,granted
+}
 typedef BlocProvider<HomeBloc> HomeFactory();
 class HomeBloc extends BlocBase{
   UserDataStore? userDataStore;
@@ -76,10 +78,10 @@ class HomeBloc extends BlocBase{
   Stream<bool> get valid => _valid;
 
   List<ServicesList> serviceList=[];
-  LatLng _latLen = LatLng(17.4523004,78.3630278);
 
   HomeBloc(this.userDataStore){
     setListeners();
+    requestLocationPermission();
   }
 
   void setListeners() async{
@@ -103,7 +105,6 @@ class HomeBloc extends BlocBase{
       "hash": "4f199925662bc27b8196fc18428f8e3434a"
     }).then((val) {
       _isLoading.add(false);
-      printLog("myMap", val.data!['key']);
       Map keyData=val.data!['key'];
       keyData.forEach((service, serviceData) {
         List<Category> categoryList=[];
@@ -124,23 +125,11 @@ class HomeBloc extends BlocBase{
 
     UserData? user= await userDataStore!.getUser();
     _userName.add(user!.fullName!);
-    ProfileService().getAddressCheck({
-      "environment" : EndPoints.env,
-      "user_id_value" : user.userId,
-      "latitude": _latLen.latitude,
-      "longitude":_latLen.longitude
-    }).then((value) {
-      _isLoading.add(false);
-      if(value.error==null){
-      _addressData.add(value.data!);
-      }
 
-    });
 
     CombineLatestStream.combine6(_selectedName, _subCate,_serviceType,_workDes,_instruction,_categorieName,
             (String a, String b,String c,String d,String e,String f)
         {
-          printLog("data", '${a} ${b} ${c} ${d} ${e} ${f}');
           return a.isNotEmpty&&b.isNotEmpty&&c.isNotEmpty&&d.isNotEmpty&&e.isNotEmpty;})
         .listen(_valid.add)
         .addTo(disposeBag);
@@ -188,5 +177,45 @@ class HomeBloc extends BlocBase{
     }
     );
 
+  }
+
+
+
+  void requestLocationPermission() async{
+    UserData? user= await userDataStore!.getUser();
+    Location location =  Location();
+    late PermissionStatus _permissionStatus;
+    bool _serviceEnabled;
+    LocationData _locationData;
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+    _permissionStatus = await location.hasPermission();
+    if (_permissionStatus == Permission.denied) {
+      _permissionStatus =  await location.requestPermission();
+      if (_permissionStatus != Permission.granted) {
+        return;
+      }
+    }
+    _locationData = await location.getLocation();
+    _isLoading.add(true);
+    ProfileService().getAddressCheck({
+      "environment" : EndPoints.env,
+      "user_id_value" : user!.userId,
+      "latitude": _locationData.latitude,
+      "longitude":_locationData.longitude
+    }).then((value) {
+      _isLoading.add(false);
+      if(value.error==null){
+        _addressData.add(value.data!);
+      }
+
+    });
+
+    printLog("lang ", _locationData.longitude);
   }
 }

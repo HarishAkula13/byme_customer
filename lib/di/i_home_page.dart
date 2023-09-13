@@ -82,7 +82,7 @@ extension HomePageExtension on AppInjector {
       return(type)=> BlocProvider<OrderDetailsBloc>(bloc: OrderDetailsBloc(userDataStore,type), child: OrderDetailsPage());
     });
     container.registerDependency<ChangeAddressFactory>((){
-      return()=> BlocProvider<ChangeAddressBloc>(bloc: ChangeAddressBloc(LoginService(),userDataStore), child: ChangeAddressPage());
+      return(addressId)=> BlocProvider<ChangeAddressBloc>(bloc: ChangeAddressBloc(LoginService(),userDataStore,addressId), child: ChangeAddressPage());
     });
 
     container.registerDependency<AddressListFactory>((){

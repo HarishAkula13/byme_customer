@@ -16,6 +16,8 @@ class CartBloc extends BlocBase {
   BehaviorSubject<bool> _isLoading = BehaviorSubject.seeded(false);
   BehaviorSubject<String> _price = BehaviorSubject.seeded('');
   BehaviorSubject<List<CartList>> _cartList = BehaviorSubject.seeded([]);
+  BehaviorSubject<CartList> _cartPricesInfo=BehaviorSubject();
+  Stream<CartList> get cartPricesInfo=> _cartPricesInfo;
   Stream<String> get cartPrice=> _price;
   Stream<List<CartList>> get cartList=> _cartList;
   Stream<bool> get isLoading=> _isLoading;
@@ -42,12 +44,26 @@ class CartBloc extends BlocBase {
         if(value.data!.fetchCart!=null){
           _price.add(value.data!.servicePrice!.toString() ?? '');
           _cartList.add(value.data!.fetchCart!);
+          if(value.data!.fetchCart!.isNotEmpty){
+            _isLoading.add(true);
+            CartService().getPriceSchedule({
+              "environment": EndPoints.env,
+              "service_id": value.data!.fetchCart![0].serviceId
+            }).then((value) {
+              _isLoading.add(false);
+              if(value.error==null){
+                _cartPricesInfo.add(value.data!);
+              }
+            });
+          }
+
         }
         else {
           _cartList.add([]);
         }
       }
     });
+
     
   }
   void removeCart(CartList cartList) async{
