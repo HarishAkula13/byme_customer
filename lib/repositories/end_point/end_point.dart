@@ -35,6 +35,7 @@ class EndPoints {
   static EndPoint get cartList => _getEndPointCart(_api + 'fetch-cart');
   static EndPoint get removeCartItem => _getEndPointCart(_api + 'sn-remove-item');
   static EndPoint get priceSchedule => _getEndPriceSchedule(_api + 'sn-price-schedule');
+  static EndPoint get paymentStatusUpdate => _getEndPriceSchedule(_api + 'sn-payment-status-update');
 
   static EndPoint _getEndPointWithPath(String path) {
     return EndPoint(base: _base, path: path);

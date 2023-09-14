@@ -61,11 +61,11 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                     Icon((Icons.location_on_outlined),size: 20,color: Colors.grey,),
                     SizedBox(width: 5,),
 
-                    StreamBuilder<AddressData>(
-                      initialData: null,
+                    StreamBuilder<String>(
+                      initialData: '',
                       stream: _bloc!.addressData,
-                      builder: (c, s) {
-                        return ItemLabelText(text: (s.data!=null)?s.data!.addressTitle ?? '':"",style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),);
+                      builder: (c, np) {
+                        return ItemLabelText(text:np.data! ?? '',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),);
                       }
                     ),
                               ],

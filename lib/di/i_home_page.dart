@@ -71,7 +71,7 @@ extension HomePageExtension on AppInjector {
     });
 
     container.registerDependency<PaymentmethodFactory>((){
-      return()=> BlocProvider<PaymentmethodBloc>(bloc: PaymentmethodBloc(userDataStore), child: PaymentmethodPage());
+      return(mapData)=> BlocProvider<PaymentmethodBloc>(bloc: PaymentmethodBloc(userDataStore,mapData), child: PaymentmethodPage());
     });
 
     container.registerDependency<TrackOrderFactory>((){

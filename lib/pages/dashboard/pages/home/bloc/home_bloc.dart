@@ -46,10 +46,10 @@ class HomeBloc extends BlocBase{
   final BehaviorSubject<List<Subcategory>> _subcategoryList=BehaviorSubject.seeded([]);
   Sink<List<Subcategory>> get addSubcategoryList=>_subcategoryList;
   Stream<List<Subcategory>> get subcategoryList=>_subcategoryList;
-  BehaviorSubject<AddressData> _addressData =BehaviorSubject();
+  BehaviorSubject<String> _addressData =BehaviorSubject.seeded('');
   BehaviorSubject<void>  _submit = BehaviorSubject();
   Sink<void> get submit => _submit;
-  Stream<AddressData> get addressData => _addressData;
+  Stream<String> get addressData => _addressData;
   Sink<List<ServicesList>> get addServiceList=>_serviceList;
   Stream<List<ServicesList>> get serviceListData=>_serviceList;
   Stream<String> get serviceType => _serviceType;
@@ -182,6 +182,7 @@ class HomeBloc extends BlocBase{
 
 
   void requestLocationPermission() async{
+    _isLoading.add(true);
     UserData? user= await userDataStore!.getUser();
     Location location =  Location();
     late PermissionStatus _permissionStatus;
@@ -202,16 +203,18 @@ class HomeBloc extends BlocBase{
       }
     }
     _locationData = await location.getLocation();
-    _isLoading.add(true);
+
     ProfileService().getAddressCheck({
       "environment" : EndPoints.env,
       "user_id_value" : user!.userId,
       "latitude": _locationData.latitude,
       "longitude":_locationData.longitude
     }).then((value) {
-      _isLoading.add(false);
+      _isLoading.add(true);
       if(value.error==null){
-        _addressData.add(value.data!);
+        printLog("address", value.data!.addressTitle);
+        _addressData.add(value.data!.addressTitle!);
+        _isLoading.add(false);
       }
 
     });

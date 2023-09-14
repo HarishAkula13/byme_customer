@@ -3,8 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'address_data.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class AddressData {
-  String? longitude;
-  String? latitude;
+  double? longitude;
+  double? latitude;
   String? address;
   String? addressTitle;
   String? addressId;

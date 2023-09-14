@@ -47,7 +47,20 @@ class CartService extends BaseAPIService implements CartAPI{
       }
     });
   }
-
+  @override
+  Future<RequestResponse<CartList>> getPaymentStatus(Map<String, dynamic> data) {
+    return make(RequestType.POST, EndPoints.paymentStatusUpdate, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        printLog("response", result.data);
+        var data=CartList.fromJson(result.data);
+        return RequestResponse(data: data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
 
   @override
   Future<RequestResponse<Map<String,dynamic>>> removeCart(Map<String,dynamic> data) {

@@ -225,7 +225,7 @@ class CartPageState extends State<CartPage>{
                   ),
                   const SizedBox(height: 20,),
                   customButton(() {
-                    Get.to(AppInjector.instance.paymentMethodPage);
+                    _bloc!.submit.add(null);
                   }, ItemLabelText(text:'Pay',style: const TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
 
                 ],
