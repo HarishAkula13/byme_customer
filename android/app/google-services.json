@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "479525861138",
+    "project_id": "byme-customer",
+    "storage_bucket": "byme-customer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479525861138:android:6dd6d526fb0bc11cef25cb",
+        "android_client_info": {
+          "package_name": "com.byme.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479525861138-15t2l69glc41ve1qavsitthf641r2gon.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc4wDgtwQP5c4GNFqHTdKDU1O7uXjlhBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479525861138-15t2l69glc41ve1qavsitthf641r2gon.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "479525861138-q8eol0blie166fbp66ffpb4oi2uvus6d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.byme.customer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
