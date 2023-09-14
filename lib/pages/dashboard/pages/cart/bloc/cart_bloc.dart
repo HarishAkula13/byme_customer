@@ -22,8 +22,6 @@ class CartBloc extends BlocBase {
   UserDataStore? userDataStore;
   BehaviorSubject<bool> _isLoading = BehaviorSubject.seeded(false);
   BehaviorSubject<String> _price = BehaviorSubject.seeded('');
-  BehaviorSubject<String> _cartPriceInfo = BehaviorSubject.seeded('');
-  BehaviorSubject<String> _cartListInfo = BehaviorSubject.seeded('');
   BehaviorSubject<AddressData> _addressDataInfo = BehaviorSubject();
   BehaviorSubject<List<CartList>> _cartList = BehaviorSubject.seeded([]);
   BehaviorSubject<CartList> _cartPricesInfo=BehaviorSubject();
@@ -32,8 +30,6 @@ class CartBloc extends BlocBase {
   Stream<CartList> get cartPricesInfo=> _cartPricesInfo;
   Stream<String> get cartPrice=> _price;
   Stream<AddressData> get addressDataInfo=> _addressDataInfo;
-  Stream<String> get cartPriceInfo=> _cartPriceInfo;
-  Stream<String> get cartListInfo=> _cartListInfo;
   Stream<List<CartList>> get cartList=> _cartList;
   Stream<bool> get isLoading=> _isLoading;
   Stream<bool> get valid => _valid;
