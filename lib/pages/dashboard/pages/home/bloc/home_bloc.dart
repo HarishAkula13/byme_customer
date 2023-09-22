@@ -28,7 +28,7 @@ class HomeBloc extends BlocBase{
   UserDataStore? userDataStore;
   final BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   final BehaviorSubject<bool> _isOnline =BehaviorSubject.seeded(true);
-  final BehaviorSubject<bool> _isService =BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _isService =BehaviorSubject.seeded(true);
   final BehaviorSubject<List<Menu>> _menuList =BehaviorSubject.seeded([]);
   final BehaviorSubject<String> _categorieName =BehaviorSubject.seeded('');
   final BehaviorSubject<String> _selectedName =BehaviorSubject.seeded('Construction Works');

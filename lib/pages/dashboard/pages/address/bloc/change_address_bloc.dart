@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:byme_app/common/utilities/logger.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,11 +41,11 @@ class ChangeAddressBloc extends BlocBase{
    List<Marker> _markers = [];
    String? pincode='';
    String? cityName='';
-  String? state='';
+  String? state='Telangana';
    String? landmark='';
    String? areName='';
   String? _currentAddress='';
-
+  List<String> cities=[];
 
 
 
@@ -54,8 +55,13 @@ class ChangeAddressBloc extends BlocBase{
     getLocation();
   }
 
-  void setListeners() {
-
+  void setListeners() async {
+    var data = await rootBundle.loadString("assets/response/cities.txt");
+    json.decode(data);
+    List<dynamic> listArray =json.decode(data);
+    for(int i=0;i<listArray.length;i++) {
+      cities.add(listArray[i]["name"]);
+    }
 
   }
   void addAddress(String type) async{
@@ -75,7 +81,8 @@ class ChangeAddressBloc extends BlocBase{
               "state": state,
               "address_title": "${user.fullName} ${type}",
               "latitude": _latLen.latitude,
-              "longitude":_latLen.longitude
+              "longitude":_latLen.longitude,
+              "address_type": "shop_add",
             }).then((value) {
           _isLoading.add(false);
           if(value.error==null){
@@ -112,7 +119,8 @@ class ChangeAddressBloc extends BlocBase{
               "state": state,
               "address_title": "${user.fullName} ${type}",
               "latitude": _latLen.latitude,
-              "longitude":_latLen.longitude
+              "longitude":_latLen.longitude,
+              "address_type":"eu_del_add"
             }).then((value) {
           _isLoading.add(false);
           if(value.error==null){
@@ -133,6 +141,43 @@ class ChangeAddressBloc extends BlocBase{
 
     }
 
+
+  }
+  void  saveManualAddress(Map<String,dynamic> data) async {
+    _isLoading.add(true);
+    UserData? user= await userDataStore!.getUser();
+    _currentAddress='${data['house']},${data['area_name']},${data['landmark']},$cityName,$state,${data['pin_code']}';
+    ProfileService().saveAddress(
+        {
+          "environment": EndPoints.env,
+          "address": _currentAddress,
+          "user_id_value": user!.userId,
+          "area_name":  data['area_name'],
+          "landmark":  data['landmark'],
+          "city_name": cityName,
+          "pin_code": data['pin_code'],
+          "state": state,
+          "address_title": '${user.fullName} ${data['address_title']}',
+          "latitude": _latLen.latitude,
+          "longitude":_latLen.longitude,
+          "address_type":"eu_del_add"
+        }).then((value) {
+      _isLoading.add(false);
+      if(value.error==null){
+        if(value.data!.addressId!=null){
+          Get.snackbar('Success',
+            "Address Saved Successfully",
+            colorText: Colors.white,
+            backgroundColor: PYCColors.app_color,
+            icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+          );
+
+        }
+
+
+      }
+
+    });
 
   }
 
@@ -201,7 +246,7 @@ class ChangeAddressBloc extends BlocBase{
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       pincode=place.postalCode;
-      state=place.subAdministrativeArea;
+      state=place.subAdministrativeArea!=null?place.subAdministrativeArea!.isNotEmpty?place.subAdministrativeArea:'Telangana':'Telangana';
        cityName=place.subLocality;
        landmark=place.street;
        areName=place.street;

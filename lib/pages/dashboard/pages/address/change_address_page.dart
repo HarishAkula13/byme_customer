@@ -15,11 +15,14 @@ import '../../../../common/load_container/load_container.dart';
 import '../../../../common/textfield/byme_text_field.dart';
 import '../../../../common/utilities/byme_colors.dart';
 import '../../../../common/utilities/fonts.dart';
+import '../../../../repositories/end_point/end_point.dart';
 import 'bloc/change_address_bloc.dart';
 
 
 class ChangeAddressPage extends StatefulWidget{
+  const ChangeAddressPage({super.key});
 
+  @override
   ChangeAddressPageState createState()=> ChangeAddressPageState();
 }
 class ChangeAddressPageState extends State<ChangeAddressPage>{
@@ -27,10 +30,15 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
   ChangeAddressBloc? _bloc;
   final Completer<GoogleMapController> _controller =
   Completer<GoogleMapController>();
+  TextEditingController houseNumber= TextEditingController();
+  TextEditingController pinCode= TextEditingController();
+  TextEditingController street= TextEditingController();
+  TextEditingController landmark= TextEditingController();
+  TextEditingController addressType= TextEditingController();
 
+  @override
   void initState() {
     _bloc=BlocProvider.of(context);
-
     super.initState();
   }
   @override
@@ -39,16 +47,16 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
       stream: _bloc!.isLoading,
       bottomSheet: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(25),
+          padding: const EdgeInsets.all(25),
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
+              borderRadius: const BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
                   spreadRadius: 0,
                   blurRadius: 16,
-                  offset: Offset(0, -6),
+                  offset: const Offset(0, -6),
                 )
               ]
           ),
@@ -61,43 +69,40 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ItemLabelText(text: "Select location",style: TextStyle(fontSize: 18,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w600),),
+                  ItemLabelText(text: "Select location",style: const TextStyle(fontSize: 18,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w600),),
+                  const SizedBox(height: 10,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ItemLabelText(text: "Your Location",style: TextStyle(fontSize: 13,color: HexColor('#858E8B'),fontFamily: Inter.regular,fontWeight: FontWeight.w400),),
+                      StreamBuilder<String>(
+                        initialData: '',
+                        stream: _bloc!.address,
+                        builder: (context, sn) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                  flex: 8,
+                                  child: ItemLabelText(text: sn.data,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500),)),
+                          Expanded(
+                          flex: 2,
+                          child:ItemLabelText(text: 'CHANGE',style:  TextStyle(fontSize: 14,color: ByMeColors.app_color,fontFamily: Inter.regular,fontWeight: FontWeight.w500),),)
 
-                  SizedBox(height: 10,),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ItemLabelText(text: "Your Location",style: TextStyle(fontSize: 13,color: HexColor('#858E8B'),fontFamily: Inter.regular,fontWeight: FontWeight.w400),),
-                        StreamBuilder<String>(
-                          initialData: '',
-                          stream: _bloc!.address,
-                          builder: (context, sn) {
-                            return Row(
-                              children: [
-                                Expanded(
-                                    flex: 8,
-                                    child: ItemLabelText(text: sn.data,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500),)),
-                            Expanded(
-                            flex: 2,
-                            child:ItemLabelText(text: 'CHANGE',style:  TextStyle(fontSize: 14,color: ByMeColors.app_color,fontFamily: Inter.regular,fontWeight: FontWeight.w500),),)
-
-                              ],
-                            );
-                          }
-                        ),
+                            ],
+                          );
+                        }
+                      ),
 
 
 
-                      ],
-                    ),
+                    ],
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Divider(color: HexColor('#CDD0CF'),thickness: 0.5,),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   ItemLabelText(text: "Your Location",style: TextStyle(fontSize: 13,color: HexColor('#858E8B'),fontFamily: Inter.regular,fontWeight: FontWeight.w400),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
                       SizedBox(
@@ -106,18 +111,18 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                         child: customOutlineButton(() {
                           _bloc!.addAddress('Home');
 
-                        }, ItemLabelText(text:'Home',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w400)),'#00B05A','#ffffff',context),
+                        }, ItemLabelText(text:'Home',style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w400)),'#00B05A','#ffffff',context),
                       ),
-                      SizedBox(width: 5,),
+                      const SizedBox(width: 5,),
                       SizedBox(
                         width: 72,
                         height: 40,
                         child: customOutlineButton(() {
                           _bloc!.addAddress('Office');
 
-                        }, ItemLabelText(text:'Office',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w400)),'#00B05A','#ffffff',context),
+                        }, ItemLabelText(text:'Office',style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w400)),'#00B05A','#ffffff',context),
                       ),
-                      SizedBox(width: 5,),
+                      const SizedBox(width: 5,),
                       SizedBox(
                         width: 100,
                         height: 40,
@@ -128,8 +133,8 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
 
                           children: [
                             Icon(Icons.edit_outlined,color: HexColor('#B6B6B6'),size: 16,),
-                            SizedBox(width: 5,),
-                            ItemLabelText(text:'Custom',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w400)),
+                            const SizedBox(width: 5,),
+                            ItemLabelText(text:'Custom',style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w400)),
                           ],
                         ),'#00B05A','#ffffff',context),
                       )
@@ -141,25 +146,41 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                 children: [
                   Align(
                       alignment: Alignment.centerLeft,
-                      child: ItemLabelText(text: "Change Manually",style: TextStyle(fontSize: 18,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w600),)),
-                  SizedBox(height: 15,),
+                      child: ItemLabelText(text: "Change Manually",style: const TextStyle(fontSize: 18,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w600),)),
+                  const SizedBox(height: 15,),
                   MyTextField(
+                    controller: houseNumber,
                     labelText: "",
                     hintText: "House/Flat Number",
                     inputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
                     //onChange: _bloc!.name.add,
                   ),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   MyTextField(
+                    controller: street,
                     labelText: "",
                     hintText: "Street/Area",
                     inputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
                     //onChange: _bloc!.email.add,
                   ),
-                  SizedBox(height: 15,),
-                  StreamBuilder<String>(
+                 /* StreamBuilder<String>(
+                      stream: _bloc!.city,
+                      builder: (context, snapshot) {
+                        return CustomDropdown(
+                          hint: 'Choose City',
+                          dropdownItems: _bloc!.cities,
+                          buttonWidth: 500,
+                          buttonHeight: 50,
+                          value: snapshot.data,
+                          onChanged: (value) {
+                            _bloc!.addCity.add(value!);
+                          },
+                        );
+                      }
+                  ),*/
+                 /* StreamBuilder<String>(
                     stream: _bloc!.city,
                     builder: (context, snap) {
                       return CustomDropdown(
@@ -170,19 +191,30 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                           dropdownItems: ['Hyderabad','Vizag'],
                           onChanged:(value)=> _bloc!.addCity.add(value!));
                     }
-                  ),
-                  SizedBox(height: 15,),
+                  ),*/
+                  const SizedBox(height: 15,),
                   MyTextField(
+                    controller: pinCode,
                     labelText: "",
                     hintText: "PIN Code",
                     inputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
                     //onChange: _bloc!.email.add,
                   ),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   MyTextField(
+                    controller: landmark,
                     labelText: "",
                     hintText: "Land mark",
+                    inputAction: TextInputAction.next,
+                    keyboardType: TextInputType.text,
+                    //onChange: _bloc!.email.add,
+                  ),
+                  const SizedBox(height: 15,),
+                  MyTextField(
+                    controller: addressType,
+                    labelText: "",
+                    hintText: "Address Title",
                     inputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
                     //onChange: _bloc!.email.add,
@@ -198,17 +230,28 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                           Navigator.pop(context);
 
 
-                        }, ItemLabelText(text:'Cancel',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#C4C4C4','#ffffff',context),
+                        }, ItemLabelText(text:'Cancel',style: const TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#C4C4C4','#ffffff',context),
                       ),
-                      SizedBox(width: 20,),
+                      const SizedBox(width: 20,),
                       Expanded(
                         flex: 4,
                         child: customButton(() {
+                          if(street.text.isNotEmpty&&landmark.text.isNotEmpty&&pinCode.text.isNotEmpty&&addressType.text.isNotEmpty&&houseNumber.text.isNotEmpty){
+                            var map={
+                              "environment": EndPoints.env,
+                              "house": houseNumber.text,
+                              "area_name": street.text,
+                              "landmark": landmark.text,
+                              "pin_code": pinCode.text,
+                              "address_title": addressType.text,
+                            };
+                            _bloc!.saveManualAddress(map);
+                          }
 
-                          Navigator.pop(context);
+                         // Navigator.pop(context);
 
 
-                        }, ItemLabelText(text:'Done',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#00B05A','#ffffff',context),
+                        }, ItemLabelText(text:'Done',style: const TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),'#00B05A','#ffffff',context),
                       ),
 
                     ],
@@ -220,7 +263,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
         ),
       ),
       child: StreamBuilder<Tuple2<LatLng ,List<Marker>>>(
-          initialData: Tuple2(LatLng(0.0,0.0),[]),
+          initialData: const Tuple2(LatLng(0.0,0.0),[]),
         stream: _bloc!.data,
         builder: (context, s) {
 
@@ -250,7 +293,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                       },
                       child: SvgPicture.asset('assets/images/arrow_back.svg'))),
             ],
-          ):SizedBox();
+          ):const SizedBox();
         }
       ),
     );

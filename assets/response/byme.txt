@@ -1,0 +1,36 @@
+{
+  "Household Chores": [
+    "Sweeping/Moping/Cleaning",
+    "Room Cleaning",
+    "Moping"
+  ],
+  "Personal Care": [
+    "Makeup",
+    "Haircut",
+    "Facials",
+    "Shaving or Trimmer",
+    "Hair Color"
+  ],
+  "Event Management": [
+    "Marriage",
+    "Mehandi",
+    "Pandit",
+    "Birthday",
+    "Anniversary"
+  ],
+  "Construction Works": [
+    "FLoor Lying Service",
+    "Tiles Lying",
+    "Marble Works"
+  ],
+  "Automobile Repairs": [
+    "Car Mechanic",
+    "Bike Mechanic",
+    "Heavy Vehicle Mechanic"
+  ],
+  "Electronics Repairs": [
+    "Home Repairs",
+    "Ac Technician",
+    "TV Technician"
+  ]
+}

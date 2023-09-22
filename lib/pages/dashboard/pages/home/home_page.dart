@@ -157,7 +157,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                     ):SizedBox(),
                     SizedBox(height: 20,),
                     (san.data==true)?ItemLabelText(text: 'Orders',style: TextStyle(fontSize: 20,color:  Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w800),):SizedBox(),
-                    (san.data==true)?SizedBox(
+                    /*(san.data==true)?SizedBox(
                       height: 110,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
@@ -168,7 +168,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                               child: SvgPicture.asset('assets/images/order_load.svg'),
                             );
                           }),
-                    ):SizedBox()
+                    ):SizedBox()*/
                   ],
                 );
               }
