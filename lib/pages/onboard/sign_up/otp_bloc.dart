@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:byme_app/common/utils/pyc_colors.dart';
 import 'package:byme_app/di/i_login_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../app/arch/bloc_provider.dart';
+import '../../../common/utilities/logger.dart';
 import '../../../di/app_injector.dart';
 import '../../../manager/user_data_store/user_data_store.dart';
 import '../../../model/signup/user_data.dart';
@@ -29,6 +31,7 @@ class OTPBloc extends BlocBase{
   PublishSubject<void> _sendOTP = PublishSubject();
   Stream<bool> get isLoading=> _isLoading;
   Sink<void> get sendOTP => _sendOTP;
+
   OTPBloc(this.loginService,this.userDataStore,this.type,this.verifyData){
 
     setListeners();
@@ -43,6 +46,7 @@ class OTPBloc extends BlocBase{
   }
 
   Future<void> navigate(String? otp) async {
+    FirebaseMessaging.instance.getToken().then((value) => printLog("FCM TOKEN", value));
 
 
 
@@ -53,19 +57,21 @@ class OTPBloc extends BlocBase{
         "phone": verifyData!.mobileNumber,
         "otp": otp,
         "device_type": Platform.isIOS?'ios':"android",
-        "device_id": await PlatformDeviceId.getDeviceId
+        "device_id": await FirebaseMessaging.instance.getToken()
       }).then((value) async {
         _isLoading.add(false);
         if(value.data!.key=='registered') {
           await userDataStore!.insert(UserData(fullName: value.data!.fullName,mobileNumber: value.data!.mobileNumber,userId: value.data!.userId,token: value.data!.token));
           Get.to(AppInjector.instance.dashboardPage(0));
-        }else  Get.to(AppInjector.instance.createProfilePage({
+        }else {
+          Get.to(AppInjector.instance.createProfilePage({
           "environment": EndPoints.env,
           "phone": verifyData!.mobileNumber,
           "otp": otp,
           "device_type": Platform.isIOS?'ios':"android",
-          "device_id": await PlatformDeviceId.getDeviceId
+          "device_id": await FirebaseMessaging.instance.getToken()
         }));
+        }
       });
       }else{
       Get.snackbar(

@@ -210,7 +210,6 @@ class HomeBloc extends BlocBase{
       "latitude": _locationData.latitude,
       "longitude":_locationData.longitude
     }).then((value) {
-      _isLoading.add(true);
       if(value.error==null){
         printLog("address", value.data!.addressTitle);
         _addressData.add(value.data!.addressTitle!);

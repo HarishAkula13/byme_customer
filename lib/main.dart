@@ -14,6 +14,7 @@ void main() async{
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   pushNotification.initialise();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
+  FirebaseMessaging.instance.setAutoInitEnabled(true);
   FirebaseMessaging.instance.getToken().then((value) => printLog("FCM TOKEN", value));
   runApp( MaterialApp(home: AppInjector.instance.app));
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

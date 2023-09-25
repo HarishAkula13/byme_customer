@@ -64,7 +64,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                     StreamBuilder<String>(
                       initialData: '',
                       stream: _bloc!.addressData,
-                      builder: (c, np) {
+                      builder: (con, np) {
                         return ItemLabelText(text:np.data! ?? '',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),);
                       }
                     ),

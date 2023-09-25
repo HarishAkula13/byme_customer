@@ -1,8 +1,11 @@
 
+import 'package:byme_app/di/app_injector.dart';
+import 'package:byme_app/di/i_login_page.dart';
 import 'package:byme_app/model/signup/user_data.dart';
 import 'package:byme_app/model/user/user_profile.dart';
 import 'package:byme_app/repositories/end_point/end_point.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../../../app/arch/bloc_provider.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
@@ -39,5 +42,9 @@ class ProfileBloc extends BlocBase{
   }
   onNavigate(){
     onCallBack();
+  }
+  userLogout() async{
+    await userDataStore!.deleteUser();
+    Get.offAll(AppInjector.instance.loginPage(0));
   }
 }

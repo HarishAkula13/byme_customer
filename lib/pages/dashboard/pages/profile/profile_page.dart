@@ -1,3 +1,4 @@
+import 'package:byme_app/common/fonts/fonts.dart';
 import 'package:byme_app/di/app_injector.dart';
 import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/model/user/user_profile.dart';
@@ -45,8 +46,8 @@ class ProfilePageState extends State<ProfilePage>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ItemLabelText(text: (sna.data!=null)? sna.data!.fullName:'',style: TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black),),
-                  SizedBox(height: 5,),
+                  ItemLabelText(text: (sna.data!=null)? sna.data!.fullName:'',style: const TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black),),
+                  const SizedBox(height: 5,),
                   ItemLabelText(text: '@${(sna.data!=null)? sna.data!.phoneNumber:''}',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: HexColor('#6F7C75')),)
                 ],
               ),
@@ -61,7 +62,7 @@ class ProfilePageState extends State<ProfilePage>{
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 3,),
+                    const SizedBox(height: 3,),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0,right: 20,top: 20),
                       child: InkWell(
@@ -72,8 +73,8 @@ class ProfilePageState extends State<ProfilePage>{
                         child: Row(
                           children: [
                             SvgPicture.asset('assets/images/order.svg',height: 21,width: 21,color:ByMeColors.un_select,),
-                            SizedBox(width: 20,),
-                            ItemLabelText(text: 'Your Orders',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),)
+                            const SizedBox(width: 20,),
+                            ItemLabelText(text: 'Your Orders',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),)
                           ],
                         ),
                       ),
@@ -89,8 +90,8 @@ class ProfilePageState extends State<ProfilePage>{
                           Row(
                             children: [
                               Icon(Icons.call,color: HexColor('#858E8B'),),
-                              SizedBox(width: 20,),
-                              ItemLabelText(text: '+91-${(sna.data!=null)? sna.data!.phoneNumber:''}',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),)
+                              const SizedBox(width: 20,),
+                              ItemLabelText(text: '+91-${(sna.data!=null)? sna.data!.phoneNumber:''}',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),)
                             ],
                           ),
                           Padding(
@@ -101,8 +102,8 @@ class ProfilePageState extends State<ProfilePage>{
                           Row(
                             children: [
                               Icon(Icons.email_sharp,color: HexColor('#858E8B'),),
-                              SizedBox(width: 20,),
-                              ItemLabelText(text: '${(sna.data!=null)? sna.data!.emailId:''}',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                              const SizedBox(width: 20,),
+                              ItemLabelText(text: '${(sna.data!=null)? sna.data!.emailId:''}',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
                             ],
                           ),
                           Padding(
@@ -112,9 +113,9 @@ class ProfilePageState extends State<ProfilePage>{
                           Row(
                             children: [
                               Icon(Icons.location_on_outlined,color: HexColor('#858E8B'),),
-                              SizedBox(width: 20,),
-                              ItemLabelText(text: 'Ammavari Peta, Bhattupalli',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
-                              Spacer(),
+                              const SizedBox(width: 20,),
+                              ItemLabelText(text: 'Ammavari Peta, Bhattupalli',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                              const Spacer(),
                               Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
 
                             ],
@@ -126,9 +127,9 @@ class ProfilePageState extends State<ProfilePage>{
                           Row(
                             children: [
                               SvgPicture.asset('assets/images/wallet.svg',height: 16,width: 22,),
-                              SizedBox(width: 20,),
-                              ItemLabelText(text: '${(sna.data!=null)? sna.data!.recentPaymentMethod:''}',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
-                              Spacer(),
+                              const SizedBox(width: 20,),
+                              ItemLabelText(text: '${(sna.data!=null)? sna.data!.recentPaymentMethod:''}',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                              const Spacer(),
                               Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
 
                             ],
@@ -140,9 +141,9 @@ class ProfilePageState extends State<ProfilePage>{
                           Row(
                             children: [
                               Icon(Icons.settings_sharp,color: HexColor('#858E8B'),),
-                              SizedBox(width: 20,),
+                              const SizedBox(width: 20,),
                               ItemLabelText(text: 'Settings',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: HexColor('#292929')),),
-                              Spacer(),
+                              const Spacer(),
                               Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
                             ],
                           ),
@@ -153,9 +154,9 @@ class ProfilePageState extends State<ProfilePage>{
                           Row(
                             children: [
                               SvgPicture.asset('assets/images/terms.svg'),
-                              SizedBox(width: 20,),
-                              ItemLabelText(text: 'Terms & Conditions',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
-                              Spacer(),
+                              const SizedBox(width: 20,),
+                              ItemLabelText(text: 'Terms & Conditions',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                              const Spacer(),
                               Icon(Icons.chevron_right,color: HexColor('#C4C4C4'),)
                             ],
                           ),
@@ -166,9 +167,9 @@ class ProfilePageState extends State<ProfilePage>{
                           Row(
                             children: [
                               Icon(Icons.star_border_sharp,color: HexColor('#858E8B'),),
-                              SizedBox(width: 20,),
+                              const SizedBox(width: 20,),
                               ItemLabelText(text: 'Rate Our App',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: HexColor('#292929')),),
-                              Spacer(),
+                              const Spacer(),
                               Icon(Icons.chevron_right,color: HexColor('#C4C4C4'),)
                             ],
                           ),
@@ -176,16 +177,21 @@ class ProfilePageState extends State<ProfilePage>{
                             padding: const EdgeInsets.only(top: 10.0,bottom: 10),
                             child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
                           ),
-                          Row(
-                            children: [
-                              RotatedBox(
-                                  quarterTurns: 90,
-                                  child: Icon(Icons.exit_to_app_sharp,color: HexColor('#858E8B'),)),
-                              SizedBox(width: 20,),
-                              ItemLabelText(text: 'Log Out',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: HexColor('#292929')),),
-                              Spacer(),
-                              Icon(Icons.chevron_right,color: HexColor('#C4C4C4'),)
-                            ],
+                          InkWell(
+                            onTap: (){
+                              showAlertDialog(context);
+                            },
+                            child: Row(
+                              children: [
+                                RotatedBox(
+                                    quarterTurns: 90,
+                                    child: Icon(Icons.exit_to_app_sharp,color: HexColor('#858E8B'),)),
+                                const SizedBox(width: 20,),
+                                ItemLabelText(text: 'Log Out',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: HexColor('#292929')),),
+                                const Spacer(),
+                                Icon(Icons.chevron_right,color: HexColor('#C4C4C4'),)
+                              ],
+                            ),
                           ),
 
                         ],
@@ -204,6 +210,39 @@ class ProfilePageState extends State<ProfilePage>{
     );
 
 
+  }
+  showAlertDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: ItemLabelText(text:'Logout',style: const TextStyle(fontSize: 16,fontFamily: Fonts.semibold)),
+          content: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                ItemLabelText( text: 'Are you sure do you want to logout?',style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: ItemLabelText( text:'Logout',style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular,color: Colors.red)),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _bloc!.userLogout();
+              },
+            ),
+            TextButton(
+              child: ItemLabelText( text:'Cancel',style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular,color: Colors.green)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
 
