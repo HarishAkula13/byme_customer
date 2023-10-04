@@ -72,7 +72,7 @@ class CartBloc extends BlocBase {
               }
             ],
             "total_amount": b.baseCharges ?? 0.0,
-            "tax": b.GST ?? 0.0,
+            "tax": b.gst ?? 0.0,
             "overall_discount": 0.0,
             "final_amount": b.total ?? 0.0,
             "latitude": c.latitude,

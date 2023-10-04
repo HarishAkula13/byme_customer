@@ -196,7 +196,7 @@ class CartPageState extends State<CartPage>{
                                   style: TextStyle(
                                       color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
                               TextSpan(
-                                  text: '${(sp.data!=null)?sp.data!.GST ?? '':''}',
+                                  text: '${(sp.data!=null)?sp.data!.gst ?? '':''}',
                                   style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
                             ]))
                       ],

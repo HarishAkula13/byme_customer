@@ -6,7 +6,7 @@ class CartList{
   List<CartList>? fetchCart;
   String? category;
   CartList(this.fetchCart, this.category, this.subCategory, this.serviceType,
-      this.date, this.additionalInstructions, this.descriptionOfWork,this.servicePrice,this.productId,this.baseCharges,this.GST,this.total);
+      this.date, this.additionalInstructions, this.descriptionOfWork,this.servicePrice,this.productId,this.baseCharges,this.gst,this.total);
   String? subCategory;
   String?  serviceType;
   String?  date;
@@ -14,7 +14,7 @@ class CartList{
   String?  descriptionOfWork;
   String? productId;
   double? baseCharges;
-  double? GST;
+  double? gst;
   double? total;
   String? serviceId;
 
