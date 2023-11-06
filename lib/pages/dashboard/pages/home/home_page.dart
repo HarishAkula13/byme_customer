@@ -4,6 +4,7 @@ import 'package:byme_app/common/textfield/byme_search_field.dart';
 import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/model/address_data/address_data.dart';
+import 'package:byme_app/model/shop/shop_list_deatils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -183,19 +184,51 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                         }
                     ),
                     SizedBox(height: 20,),
-                    (san.data==true)?ItemLabelText(text: 'Orders',style: TextStyle(fontSize: 20,color:  Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w800),):SizedBox(),
-                    /*(san.data==true)?SizedBox(
-                      height: 110,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 8,
-                          itemBuilder: (b,j){
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset('assets/images/order_load.svg'),
-                            );
-                          }),
-                    ):SizedBox()*/
+                    ItemLabelText(text: (san.data==true)?'Orders':"Nearby",style: TextStyle(fontSize: 20,color:  Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w800),),
+                    (san.data==false)?SizedBox(
+                      height: 100,
+                      child: StreamBuilder<List<ShopListDetails>>(
+                        initialData: [],
+                        stream: _bloc!.shopList,
+                        builder: (context, snap) {
+                          return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snap.data!.length,
+                              shrinkWrap: true,
+                              //physics:  NeverScrollableScrollPhysics(),
+                              itemBuilder: (b,j){
+                                return Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 75,
+                                    width: 85,
+                                    alignment: Alignment.bottomCenter,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        image: DecorationImage(image:
+                                        NetworkImage("https://images.unsplash.com/photo-1579202673506-ca3ce28943ef"),
+                                            fit: BoxFit.fill
+
+                                      )
+                                    ),
+                                    child: Container(
+                                      width: Get.width,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.4),
+                                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
+
+                                      ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: ItemLabelText(text:snap.data![j].shopDetails!.shopName,textAlignment: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 10,overflow: TextOverflow.ellipsis,fontFamily: Inter.medium,),),
+                                        )),
+
+                                  ),
+                                );
+                              });
+                        }
+                      ),
+                    ):SizedBox()
                   ],
                 );
               }

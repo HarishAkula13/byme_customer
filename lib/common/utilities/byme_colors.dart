@@ -17,5 +17,7 @@ abstract class ByMeColors{
   static final item_bg=HexColor('#0B8BCB');
   static final un_select=HexColor('#444444');
   static final icon_un_select=HexColor('#828785');
-
+  static final green_color=HexColor('#0E8E60');
+  static final text_red_color=HexColor('#F76507');
+  static final text_unselect_color=HexColor('#858E8B');
 }

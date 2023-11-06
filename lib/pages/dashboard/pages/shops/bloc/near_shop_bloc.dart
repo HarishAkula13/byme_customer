@@ -9,6 +9,7 @@ import '../../../../../app/arch/bloc_provider.dart';
 import '../../../../../common/utilities/logger.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
 import '../../../../../model/dashboard/menu.dart';
+import '../../../../../model/shop/shop_list_deatils.dart';
 import '../../../../../repositories/end_point/end_point.dart';
 
 
@@ -18,6 +19,8 @@ class NearShopsBloc extends BlocBase{
   final BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   final BehaviorSubject<List<Menu>> _shopCategories =BehaviorSubject.seeded([]);
   Stream<List<Menu>> get shopCategories => _shopCategories;
+  final BehaviorSubject<List<ShopListDetails>> _shopList =BehaviorSubject();
+  Stream<List<ShopListDetails>> get shopList => _shopList;
   Stream<bool> get isLoading=> _isLoading;
 
   NearShopsBloc(this.userDataStore){
@@ -68,14 +71,19 @@ class NearShopsBloc extends BlocBase{
           '${place.street}, ${place.subLocality},${place.locality},${place.administrativeArea} ,${place.country},${place.postalCode}';
       ShopService().getNearShopList({
         "environment" : EndPoints.env,
-        "city_name":place.locality,
-        "latitude": position.latitude,
-        "longitude":position.longitude
+        // "city_name":place.locality,
+        // "latitude": position.latitude,
+        // "longitude":position.longitude
+        "city_name":"Karimnagar",
+        "latitude": 17.4134871,
+        "longitude":78.3012398
       }).then((value) {
         _isLoading.add(false);
         if(value.data!=null){
+          if(value.data!.shopsListDistance!.shopsList!=null){
+            _shopList.add(value.data!.shopsListDistance!.shopsList!);
+         }
 
-          _isLoading.add(false);
         }
 
       });

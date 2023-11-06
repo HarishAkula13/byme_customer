@@ -3,22 +3,24 @@
 import 'package:byme_app/app/arch/bloc_provider.dart';
 import 'package:byme_app/common/utilities/byme_colors.dart';
 import 'package:byme_app/di/i_home_page.dart';
-import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:byme_app/model/dashboard/service_list.dart';
 import 'package:byme_app/repositories/dashboard/dashboard_api.dart';
 import 'package:byme_app/repositories/end_point/end_point.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../../../common/utilities/logger.dart';
-import '../../../../../common/utils/pyc_colors.dart';
 import '../../../../../di/app_injector.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
 import '../../../../../model/dashboard/menu.dart';
+import '../../../../../model/shop/shop_list_deatils.dart';
 import '../../../../../model/signup/user_data.dart';
+import '../../../../../repositories/shop/shop_api.dart';
 
 enum Permission{
   denied,granted
@@ -77,12 +79,13 @@ class HomeBloc extends BlocBase{
   Sink<String> get addDateTime => _dateTime;
   Stream<String> get dateTime => _dateTime;
   Stream<bool> get valid => _valid;
-
+  final BehaviorSubject<List<ShopListDetails>> _shopList =BehaviorSubject();
+  Stream<List<ShopListDetails>> get shopList => _shopList;
   List<ServicesList> serviceList=[];
 
   HomeBloc(this.userDataStore){
     setListeners();
-
+    requestLocationPermission();
   }
 
   void setListeners() async{
@@ -211,6 +214,7 @@ class HomeBloc extends BlocBase{
     }
 
     _locationData = await location.getLocation();
+    GetAddressFromLatLong(LatLng(_locationData.latitude!, _locationData.longitude!));
 
     ProfileService().getAddressCheck({
       "environment" : EndPoints.env,
@@ -227,6 +231,35 @@ class HomeBloc extends BlocBase{
 
     });
 
+
     printLog("lang ", _locationData.longitude);
+  }
+  void GetAddressFromLatLong(LatLng position) async {
+    await placemarkFromCoordinates(position.latitude, position.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      String _currentAddress =
+          '${place.street}, ${place.subLocality},${place.locality},${place.administrativeArea} ,${place.country},${place.postalCode}';
+      ShopService().getNearShopList({
+        "environment" : EndPoints.env,
+        // "city_name":place.locality,
+        // "latitude": position.latitude,
+        // "longitude":position.longitude
+        "city_name":"Karimnagar",
+        "latitude": 17.4134871,
+        "longitude":78.3012398
+      }).then((value) {
+        _isLoading.add(false);
+        if(value.data!=null){
+          if(value.data!.shopsListDistance!.shopsList!=null){
+            _shopList.add(value.data!.shopsListDistance!.shopsList!);
+          }
+
+        }
+
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
   }
 }
