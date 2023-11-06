@@ -35,12 +35,12 @@ class DashboardBloc extends BlocBase{
       _selectedPos.add(3);
       _pagesList.add([
             ()=> AppInjector.instance.home,
-            ()=> AppInjector.instance.orders,
+            ()=> AppInjector.instance.nearShop(),
             ()=> AppInjector.instance.cartPage,
             ()=>  AppInjector.instance.ordersHistoryDetails(4,(type){
               _pagesList.add([
                     ()=> AppInjector.instance.home,
-                    ()=> AppInjector.instance.orders,
+                    ()=> AppInjector.instance.nearShop(),
                     ()=> AppInjector.instance.cartPage,
                     ()=> AppInjector.instance.profile((){viewOrders();}),
               ]);
@@ -50,7 +50,7 @@ class DashboardBloc extends BlocBase{
       _selectedPos.add(0);
       _pagesList.add([
             ()=> AppInjector.instance.home,
-            ()=> AppInjector.instance.orders,
+            ()=> AppInjector.instance.nearShop(),
             ()=> AppInjector.instance.cartPage,
             ()=> AppInjector.instance.profile((){viewOrders();}),
       ]);
@@ -63,38 +63,38 @@ class DashboardBloc extends BlocBase{
   void viewOrders(){
     _pagesList.add([
           ()=> AppInjector.instance.home,
-          ()=> AppInjector.instance.orders,
+          ()=> AppInjector.instance.nearShop(),
           ()=> AppInjector.instance.cartPage,
           ()=> AppInjector.instance.ordersHistory((type,pos){
             if(type==0){
               _pagesList.add([
                     ()=> AppInjector.instance.home,
-                    ()=> AppInjector.instance.orders,
+                    ()=> AppInjector.instance.nearShop(),
                     ()=> AppInjector.instance.cartPage,
                     ()=> AppInjector.instance.profile((){viewOrders();}),
               ]);
             }else {
               _pagesList.add([
                   ()=> AppInjector.instance.home,
-                  ()=> AppInjector.instance.orders,
+                    ()=> AppInjector.instance.nearShop(),
                   ()=> AppInjector.instance.cartPage,
                   ()=>  AppInjector.instance.ordersHistoryDetails(pos,(type){
                     _pagesList.add([
                           ()=> AppInjector.instance.home,
-                          ()=> AppInjector.instance.orders,
+                          ()=> AppInjector.instance.nearShop(),
                           ()=> AppInjector.instance.cartPage,
                           ()=> AppInjector.instance.ordersHistory((type,pos){
                         if(type==0){
                           _pagesList.add([
                                 ()=> AppInjector.instance.home,
-                                ()=> AppInjector.instance.orders,
+                                ()=> AppInjector.instance.nearShop(),
                                 ()=> AppInjector.instance.cartPage,
                                 ()=> AppInjector.instance.profile((){viewOrders();}),
                           ]);
                         }else {
                           _pagesList.add([
                               ()=> AppInjector.instance.home,
-                              ()=> AppInjector.instance.orders,
+                                ()=> AppInjector.instance.nearShop(),
                               ()=> AppInjector.instance.cartPage,
                               ()=>  AppInjector.instance.ordersHistoryDetails(pos,(type){
                                     viewOrders();

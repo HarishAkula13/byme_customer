@@ -1,6 +1,8 @@
 
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/di/i_login_page.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -93,6 +95,7 @@ class LoginPageState extends State<LoginPage>{
                   children: [
                     TextSpan(
                       text: 'Terms & Conditions ',
+                      recognizer: TapGestureRecognizer()..onTap = () =>Get.to(AppInjector.instance.privacyPolicy(2)),
                       style: TextStyle(
                           fontSize: 11,
                           color: HexColor('#0E8E60'),
@@ -111,6 +114,7 @@ class LoginPageState extends State<LoginPage>{
                     ),
                     TextSpan(
                       text: 'Privacy Policy',
+                      recognizer: TapGestureRecognizer()..onTap = () =>Get.to(AppInjector.instance.privacyPolicy(1)),
                       style: TextStyle(
                           fontSize: 11,
                           color: HexColor('#0E8E60'),

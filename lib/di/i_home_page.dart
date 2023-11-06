@@ -1,4 +1,6 @@
 import 'package:byme_app/pages/dashboard/pages/orders_history/bloc/orders_history_bloc.dart';
+import 'package:byme_app/pages/dashboard/pages/profile/privacy_policy_page.dart';
+import 'package:byme_app/pages/dashboard/pages/shops/near_shops.dart';
 import 'package:byme_app/pages/payment_method/bloc/payment_method_bloc.dart';
 import 'package:byme_app/pages/payment_method/payment_method_page.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
@@ -16,8 +18,10 @@ import '../pages/dashboard/pages/order/orders_page.dart';
 import '../pages/dashboard/pages/orders_history/bloc/order_history_details_bloc.dart';
 import '../pages/dashboard/pages/orders_history/order_history_details_page.dart';
 import '../pages/dashboard/pages/orders_history/orders_history_page.dart';
+import '../pages/dashboard/pages/profile/bloc/privacy_policy_page_bloc.dart';
 import '../pages/dashboard/pages/profile/bloc/profile_bloc.dart';
 import '../pages/dashboard/pages/profile/profile_page.dart';
+import '../pages/dashboard/pages/shops/bloc/near_shop_bloc.dart';
 import '../pages/order_details/bloc/order_details_bloc.dart';
 import '../pages/order_details/order_details.dart';
 import '../pages/track_order/bloc/track_order_bloc.dart';
@@ -29,6 +33,7 @@ extension HomePageExtension on AppInjector {
   BlocProvider<HomeBloc> get  home => container.get();
   BlocProvider<OrdersBloc> get  orders => container.get();
   ProfileFactory get  profile => container.get();
+  NearShopFactory get  nearShop => container.get();
   OrdersHistoryFactory get  ordersHistory => container.get();
   OrdersHistoryDetailsFactory get  ordersHistoryDetails => container.get();
   BlocProvider<CartBloc> get  cartPage => container.get();
@@ -37,6 +42,7 @@ extension HomePageExtension on AppInjector {
   OrdersDetailsFactory get  orderDetails => container.get();
   ChangeAddressFactory get  changeAddress => container.get();
   AddressListFactory get  addressList => container.get();
+  PrivacyPolicyPageFactory get  privacyPolicy => container.get();
 
   registerHomePage(){
     container.registerDependency<BlocProvider<HomeBloc>>(() {
@@ -55,6 +61,11 @@ extension HomePageExtension on AppInjector {
     container.registerDependency<ProfileFactory>((){
       return(Function() onCallBack)=> BlocProvider<ProfileBloc>(bloc: ProfileBloc(ProfileService(),userDataStore,onCallBack), child:  ProfilePage());
     });
+
+    container.registerDependency<NearShopFactory>((){
+      return()=> BlocProvider<NearShopsBloc>(bloc: NearShopsBloc(userDataStore), child:  const NearShops());
+    });
+
     container.registerDependency<OrdersHistoryFactory>((){
       return(Function(int type,int pos) onCallBack)=> BlocProvider<OrdersHistoryBloc>(bloc: OrdersHistoryBloc(userDataStore,onCallBack), child:  OrdersHistoryPage());
     });
@@ -66,7 +77,7 @@ extension HomePageExtension on AppInjector {
     container.registerDependency<BlocProvider<CartBloc>>(() {
       return BlocProvider<CartBloc>(
         bloc: CartBloc(userDataStore),
-        child: CartPage(),
+        child: const CartPage(),
       );
     });
 
@@ -82,11 +93,15 @@ extension HomePageExtension on AppInjector {
       return(type)=> BlocProvider<OrderDetailsBloc>(bloc: OrderDetailsBloc(userDataStore,type), child: OrderDetailsPage());
     });
     container.registerDependency<ChangeAddressFactory>((){
-      return(addressId)=> BlocProvider<ChangeAddressBloc>(bloc: ChangeAddressBloc(LoginService(),userDataStore,addressId), child: ChangeAddressPage());
+      return(addressId)=> BlocProvider<ChangeAddressBloc>(bloc: ChangeAddressBloc(LoginService(),userDataStore,addressId), child: const ChangeAddressPage());
     });
 
     container.registerDependency<AddressListFactory>((){
       return()=> BlocProvider<AddressListBloc>(bloc: AddressListBloc(userDataStore), child: AddressListPage());
+    });
+
+    container.registerDependency<PrivacyPolicyPageFactory>((){
+      return(type)=> BlocProvider<PrivacyPolicyPageBloc>(bloc: PrivacyPolicyPageBloc(userDataStore: userDataStore,type: type), child: const PrivacyPolicyPage());
     });
 
   }

@@ -1,0 +1,33 @@
+
+
+import '../../../model/base_response/request_response.dart';
+import '../../common/utilities/logger.dart';
+import '../../model/shop/shop_list_deatils.dart';
+import '../base/base_api_service.dart';
+import '../end_point/end_point.dart';
+
+abstract class ShopAPI{
+
+  Future<RequestResponse<ShopListDetails>> getNearShopList(Map<String,dynamic> data);
+
+}
+class ShopService extends BaseAPIService implements ShopAPI{
+  ShopService();
+
+
+
+  @override
+  Future<RequestResponse<ShopListDetails>> getNearShopList(Map<String, dynamic> data) {
+    return make(RequestType.POST, EndPoints.getNearShops, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        printLog("response", result.data);
+        var data=ShopListDetails.fromJson(result.data);
+        return RequestResponse(data: data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
+}

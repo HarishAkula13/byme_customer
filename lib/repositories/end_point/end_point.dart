@@ -6,18 +6,22 @@ class EndPoint {
 }
 
 class EndPoints {
-  static String _devBase = "hm34q0wcx8.execute-api.ap-south-1.amazonaws.com";
-  static String _devAfterLoginBase = "9r6k2x4sph.execute-api.ap-south-1.amazonaws.com";
-  static String _devDashboard = "jfdcmi11o9.execute-api.ap-south-1.amazonaws.com";
-  static String _devAdress = "99q5c2c7pj.execute-api.ap-south-1.amazonaws.com";
-  static String _devCart='1qohp0sd3j.execute-api.ap-south-1.amazonaws.com';
-  static String _devOrderList='hjnqjilzbl.execute-api.ap-south-1.amazonaws.com';
-  static String _devPriceSchedule="vcm4lx6avh.execute-api.ap-south-1.amazonaws.com";
+  static const String _devBase = "hm34q0wcx8.execute-api.ap-south-1.amazonaws.com";
+  static const String _devAfterLoginBase = "9r6k2x4sph.execute-api.ap-south-1.amazonaws.com";
+  static const String _devDashboard = "jfdcmi11o9.execute-api.ap-south-1.amazonaws.com";
+  static const String _devAdress = "99q5c2c7pj.execute-api.ap-south-1.amazonaws.com";
+  static const String _devCart='1qohp0sd3j.execute-api.ap-south-1.amazonaws.com';
+  static const String _devOrderList='hjnqjilzbl.execute-api.ap-south-1.amazonaws.com';
+  static const String _devPriceSchedule="vcm4lx6avh.execute-api.ap-south-1.amazonaws.com";
+  static const String _devShop='qb3kkl0w03.execute-api.ap-south-1.amazonaws.com';
+  static String terms="https://eutnc.by-me.in/terms-and-conditions";
+  static String privacy="https://eutnc.by-me.in/privacy-policy";
+  static String refund="https://eutnc.by-me.in/refund-policy";
 
   static String get _base {return _devBase;}
   static String get _afterLoginBase {return _devAfterLoginBase;}
 
-  static final  _api = '/Prod/';
+  static const  _api = '/Prod/';
   static String  env = 'dev';
 
   //verify user
@@ -36,6 +40,8 @@ class EndPoints {
   static EndPoint get removeCartItem => _getEndPointCart(_api + 'sn-remove-item');
   static EndPoint get priceSchedule => _getEndPriceSchedule(_api + 'sn-price-schedule');
   static EndPoint get paymentStatusUpdate => _getEndPriceSchedule(_api + 'sn-payment-status-update');
+
+  static EndPoint get getNearShops => _getEndShop(_api + 'shops-list-distance');
 
   static EndPoint _getEndPointWithPath(String path) {
     return EndPoint(base: _base, path: path);
@@ -59,5 +65,8 @@ class EndPoints {
   }
   static EndPoint _getEndPriceSchedule(String path) {
     return EndPoint(base: _devPriceSchedule, path: path);
+  }
+  static EndPoint _getEndShop(String path) {
+    return EndPoint(base: _devShop, path: path);
   }
 }

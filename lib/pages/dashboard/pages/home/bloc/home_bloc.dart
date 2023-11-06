@@ -28,8 +28,9 @@ class HomeBloc extends BlocBase{
   UserDataStore? userDataStore;
   final BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   final BehaviorSubject<bool> _isOnline =BehaviorSubject.seeded(true);
-  final BehaviorSubject<bool> _isService =BehaviorSubject.seeded(true);
+  final BehaviorSubject<bool> _isService =BehaviorSubject.seeded(false);
   final BehaviorSubject<List<Menu>> _menuList =BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<Menu>> _shopCategories =BehaviorSubject.seeded([]);
   final BehaviorSubject<String> _categorieName =BehaviorSubject.seeded('');
   final BehaviorSubject<String> _selectedName =BehaviorSubject.seeded('Construction Works');
   final BehaviorSubject<String> _travelType =BehaviorSubject.seeded('Taxi & Travel');
@@ -70,7 +71,7 @@ class HomeBloc extends BlocBase{
   Stream<String> get categorieName=> _categorieName;
   Sink<String> get addCategorieName=> _categorieName;
   Stream<List<Menu>> get menuList=> _menuList;
-
+  Stream<List<Menu>> get shopCategories => _shopCategories;
   Sink<String> get addInstruction=> _instruction;
   Sink<String> get addWorkDes=> _workDes;
   Sink<String> get addDateTime => _dateTime;
@@ -81,7 +82,7 @@ class HomeBloc extends BlocBase{
 
   HomeBloc(this.userDataStore){
     setListeners();
-    requestLocationPermission();
+
   }
 
   void setListeners() async{
@@ -100,6 +101,20 @@ class HomeBloc extends BlocBase{
       Menu(icon: 'assets/images/medical.svg',title: 'Medical'),
     ];
     _menuList.add(list);
+
+    List<Menu> categoryList=[
+      Menu(icon: 'assets/images/kg.svg',title: 'Kirana & General stores',tag: 'KG'),
+      Menu(icon: 'assets/images/ph.svg',title: 'Pharmacy',tag: 'PH'),
+      Menu(icon: 'assets/images/lab.svg',title: 'Lab Tests',tag: 'LT'),
+      Menu(icon: 'assets/images/meat.svg',title: 'Meat & Eggs',tag: 'ME'),
+      Menu(icon: 'assets/images/meat.svg',title: 'Fruits & Vegetables',tag: 'FV'),
+      Menu(icon: 'assets/images/meat.svg',title: 'Food & Beverages',tag: 'FB'),
+      Menu(icon: 'assets/images/auto.svg',title: 'Hardware',tag: 'HW'),
+      Menu(icon: 'assets/images/milk.svg',title: 'Milk & Dairy',tag: 'MD'),
+      Menu(icon: 'assets/images/liquor.svg',title: 'Liquor Store',tag: 'LQ'),
+    ];
+    _shopCategories.add(categoryList);
+
     DashboardService().getService({
       "environment": EndPoints.env,
       "hash": "4f199925662bc27b8196fc18428f8e3434a"
@@ -120,7 +135,7 @@ class HomeBloc extends BlocBase{
         serviceList.add(ServicesList(serviceName: service,category: categoryList));
         _serviceList.add(serviceList);
       });
-
+      requestLocationPermission();
     });
 
     UserData? user= await userDataStore!.getUser();
@@ -185,7 +200,6 @@ class HomeBloc extends BlocBase{
     _isLoading.add(true);
     UserData? user= await userDataStore!.getUser();
     Location location =  Location();
-    late PermissionStatus _permissionStatus;
     bool _serviceEnabled;
     LocationData _locationData;
     _serviceEnabled = await location.serviceEnabled();
@@ -195,13 +209,7 @@ class HomeBloc extends BlocBase{
         return;
       }
     }
-    _permissionStatus = await location.hasPermission();
-    if (_permissionStatus == Permission.denied) {
-      _permissionStatus =  await location.requestPermission();
-      if (_permissionStatus != Permission.granted) {
-        return;
-      }
-    }
+
     _locationData = await location.getLocation();
 
     ProfileService().getAddressCheck({
@@ -210,7 +218,8 @@ class HomeBloc extends BlocBase{
       "latitude": _locationData.latitude,
       "longitude":_locationData.longitude
     }).then((value) {
-      if(value.error==null){
+      _isLoading.add(false);
+      if(value.data!=null){
         printLog("address", value.data!.addressTitle);
         _addressData.add(value.data!.addressTitle!);
         _isLoading.add(false);

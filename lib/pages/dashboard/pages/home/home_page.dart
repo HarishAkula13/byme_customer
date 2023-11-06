@@ -86,9 +86,9 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
       backgroundColor: Colors.white,
       body: LoaderContainer(
         stream: _bloc!.isLoading,
-
         child: SingleChildScrollView(
           child: Container(
+            height: Get.height,
             color: Colors.white,
             padding: const EdgeInsets.all(20.0),
             child: StreamBuilder<bool>(
@@ -154,7 +154,34 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                             ),
                           ),),);
                       }
-                    ):SizedBox(),
+                    ):StreamBuilder<List<Menu>>(
+                        initialData: [],
+                        stream: _bloc!.shopCategories,
+                        builder: (context, s) {
+                          return GridView.count(
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 25,
+                            childAspectRatio: 1,
+                            shrinkWrap: true,
+                            crossAxisCount: 3,
+                            children: List.generate(s.data!.length, (i) => GestureDetector(
+                              onTap: (){
+                                _bloc!.addCategorieName.add(s.data![i].title!);
+
+                              },
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                      radius: 25,
+                                      backgroundColor:HexColor('#E7F6EA'),
+                                      child: SvgPicture.asset(s.data![i].icon!)),
+                                  SizedBox(height: 10,),
+                                  ItemLabelText(text: s.data![i].title!,textAlignment: TextAlign.center,style: TextStyle(fontFamily: Inter.medium,fontSize: 11,color: Colors.black,fontWeight: FontWeight.w400),)
+                                ],
+                              ),
+                            ),),);
+                        }
+                    ),
                     SizedBox(height: 20,),
                     (san.data==true)?ItemLabelText(text: 'Orders',style: TextStyle(fontSize: 20,color:  Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w800),):SizedBox(),
                     /*(san.data==true)?SizedBox(

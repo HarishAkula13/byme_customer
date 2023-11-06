@@ -1,8 +1,10 @@
 
 
 import 'package:byme_app/common/fonts/fonts.dart';
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/pages/onboard/sign_up/sign_up_bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,6 +16,7 @@ import '../../../common/load_container/load_container.dart';
 import '../../../common/utilities/byme_colors.dart';
 import '../../../common/utilities/fonts.dart';
 import '../../../common/validators/validators.dart';
+import '../../../di/app_injector.dart';
 
 
 class SignUpPage extends StatefulWidget {
@@ -147,6 +150,7 @@ class SignUpPageState extends State<SignUpPage>{
                     children: [
                       TextSpan(
                         text: 'Terms & Conditions ',
+                        recognizer: TapGestureRecognizer()..onTap = () =>Get.to(AppInjector.instance.privacyPolicy(2)),
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#0E8E60'),
@@ -165,6 +169,7 @@ class SignUpPageState extends State<SignUpPage>{
                       ),
                       TextSpan(
                         text: 'Privacy Policy',
+                        recognizer: TapGestureRecognizer()..onTap = () =>Get.to(AppInjector.instance.privacyPolicy(1)),
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#0E8E60'),

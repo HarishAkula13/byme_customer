@@ -1,5 +1,8 @@
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 
@@ -9,6 +12,7 @@ import '../../../common/fonts/fonts.dart';
 import '../../../common/label/item_label_text.dart';
 import '../../../common/load_container/load_container.dart';
 import '../../../common/utilities/byme_colors.dart';
+import '../../../di/app_injector.dart';
 import 'otp_bloc.dart';
 
 class OTPPage extends StatefulWidget {
@@ -130,6 +134,7 @@ class OTPPageState extends State<OTPPage>{
                     children: [
                       TextSpan(
                         text: 'Terms & Conditions ',
+                        recognizer: TapGestureRecognizer()..onTap = () =>Get.to(AppInjector.instance.privacyPolicy(2)),
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#0E8E60'),
@@ -148,6 +153,7 @@ class OTPPageState extends State<OTPPage>{
                       ),
                       TextSpan(
                         text: 'Privacy Policy',
+                        recognizer: TapGestureRecognizer()..onTap = () =>Get.to(AppInjector.instance.privacyPolicy(1)),
                         style: TextStyle(
                             fontSize: 11,
                             color: HexColor('#0E8E60'),
