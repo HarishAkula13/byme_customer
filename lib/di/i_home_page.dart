@@ -3,6 +3,7 @@ import 'package:byme_app/pages/dashboard/pages/profile/privacy_policy_page.dart'
 import 'package:byme_app/pages/dashboard/pages/shops/near_shops.dart';
 import 'package:byme_app/pages/payment_method/bloc/payment_method_bloc.dart';
 import 'package:byme_app/pages/payment_method/payment_method_page.dart';
+import 'package:byme_app/pages/shop/shop_menu_page.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
 import '../app/arch/bloc_provider.dart';
 import '../pages/dashboard/pages/address/address_list_page.dart';
@@ -24,6 +25,7 @@ import '../pages/dashboard/pages/profile/profile_page.dart';
 import '../pages/dashboard/pages/shops/bloc/near_shop_bloc.dart';
 import '../pages/order_details/bloc/order_details_bloc.dart';
 import '../pages/order_details/order_details.dart';
+import '../pages/shop/bloc/shop_menu_bloc.dart';
 import '../pages/track_order/bloc/track_order_bloc.dart';
 import '../pages/track_order/track_order.dart';
 import '../repositories/login/login_api.dart';
@@ -34,6 +36,7 @@ extension HomePageExtension on AppInjector {
   BlocProvider<OrdersBloc> get  orders => container.get();
   ProfileFactory get  profile => container.get();
   NearShopFactory get  nearShop => container.get();
+  ShopMenuFactory get  shopMenu => container.get();
   OrdersHistoryFactory get  ordersHistory => container.get();
   OrdersHistoryDetailsFactory get  ordersHistoryDetails => container.get();
   BlocProvider<CartBloc> get  cartPage => container.get();
@@ -66,6 +69,9 @@ extension HomePageExtension on AppInjector {
       return()=> BlocProvider<NearShopsBloc>(bloc: NearShopsBloc(userDataStore), child:  const NearShops());
     });
 
+    container.registerDependency<ShopMenuFactory>((){
+      return(shopDetails)=> BlocProvider<ShopMenuBloc>(bloc: ShopMenuBloc(userDataStore,shopDetails), child:   const ShopMenuPage());
+    });
     container.registerDependency<OrdersHistoryFactory>((){
       return(Function(int type,int pos) onCallBack)=> BlocProvider<OrdersHistoryBloc>(bloc: OrdersHistoryBloc(userDataStore,onCallBack), child:  OrdersHistoryPage());
     });

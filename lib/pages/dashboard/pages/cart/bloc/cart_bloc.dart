@@ -115,6 +115,22 @@ class CartBloc extends BlocBase {
             });
           }
 
+        }else if(value.data!.userCart!=null){
+          _price.add(value.data!.servicePrice!.toString() ?? '');
+          _cartList.add(value.data!.userCart!);
+          if(value.data!.userCart!.isNotEmpty){
+            _isLoading.add(true);
+            CartService().getPriceSchedule({
+              "environment": EndPoints.env,
+              "service_id": value.data!.userCart![0].productId
+            }).then((value) {
+              _isLoading.add(false);
+              if(value.error==null){
+                _cartPricesInfo.add(value.data!);
+              }
+            });
+          }
+
         }
         else {
           _cartList.add([]);

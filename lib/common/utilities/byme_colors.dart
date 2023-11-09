@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 abstract class ByMeColors{
   static final app_color=HexColor('#00B05A');
   static final sub_app_color=HexColor('#002581');
+  static final text_color=HexColor('#292929');
   static final login_bg=HexColor('#002581');
   static final bg_color=HexColor('#30395D');
   static final pink_color=HexColor('#992260');

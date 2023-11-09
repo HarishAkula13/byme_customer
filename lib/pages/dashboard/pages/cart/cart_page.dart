@@ -88,12 +88,12 @@ class CartPageState extends State<CartPage>{
                                     color: HexColor("#E7F6EA"),
                                     borderRadius: const BorderRadius.all(Radius.circular(10))
                                 ),
-                                child: SvgPicture.asset('assets/images/Construction.svg',height: 24,width: 24,)),
+                                child: (s.data![i].productImage!=null)?Image.network(s.data![i].productImage!):SvgPicture.asset('assets/images/Construction.svg',height: 24,width: 24,)),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ItemLabelText(text: s.data![i].category,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w500),),
+                                ItemLabelText(text: (s.data![i].productName!=null)?s.data![i].productName:s.data![i].category,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w500),),
                                 const SizedBox(height: 5,),
                                 Container(
                                     height: 20,
@@ -103,7 +103,7 @@ class CartPageState extends State<CartPage>{
                                         color: HexColor("#E9E9E9"),
                                         borderRadius: const BorderRadius.all(Radius.circular(10))
                                     ),
-                                    child: ItemLabelText(text: '${s.data![i].subCategory} - 1 No',style: const TextStyle(fontSize: 11,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w400),)),
+                                    child: ItemLabelText(text:  (s.data![i].unit!=null)?"${s.data![i].qty}/${s.data![i].unit}":'${s.data![i].subCategory} - 1 No',style: const TextStyle(fontSize: 11,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w400),)),
 
 
                               ],

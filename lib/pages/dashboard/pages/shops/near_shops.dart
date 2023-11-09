@@ -1,6 +1,8 @@
 import 'package:byme_app/app/arch/bloc_provider.dart';
 import 'package:byme_app/common/load_container/load_container.dart';
 import 'package:byme_app/common/utilities/byme_colors.dart';
+import 'package:byme_app/di/app_injector.dart';
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/model/shop/shop_list_deatils.dart';
 import 'package:byme_app/pages/dashboard/pages/shops/bloc/near_shop_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -107,7 +109,7 @@ class _NearShopsState extends State<NearShops> {
                             padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 10),
                             child: GestureDetector(
                               onTap: (){
-
+                                Get.to(AppInjector.instance.shopMenu(sp.data![i]));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,

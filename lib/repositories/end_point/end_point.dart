@@ -42,6 +42,9 @@ class EndPoints {
   static EndPoint get paymentStatusUpdate => _getEndPriceSchedule(_api + 'sn-payment-status-update');
 
   static EndPoint get getNearShops => _getEndShop(_api + 'shops-list-distance');
+  static EndPoint get getShopMenu => _getEndShop(_api + 'shop-menu');
+  static EndPoint get addShopItem => _getEndPointCart(_api + 'add-item');
+
 
   static EndPoint _getEndPointWithPath(String path) {
     return EndPoint(base: _base, path: path);
