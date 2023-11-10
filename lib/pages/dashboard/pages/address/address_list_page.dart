@@ -132,15 +132,20 @@ class AddressListPageState extends State<AddressListPage>{
                                       SvgPicture.asset('assets/images/address.svg'),
                                       SizedBox(width: 10,),
                                       Flexible(
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            ItemLabelText(text: sp.data![i][1],style:  const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
-                                            SizedBox(height: 5,),
-                                            ItemLabelText(text: '${sp.data![i][2]},${sp.data![i][3]},${sp.data![i][4]}',style:   TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
+                                        child: InkWell(
+                                          onTap: (){
+                                            _bloc!.addressCheck(sp.data![i]);
+                                          },
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              ItemLabelText(text: sp.data![i][1],style:  const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
+                                              SizedBox(height: 5,),
+                                              ItemLabelText(text: '${sp.data![i][2]},${sp.data![i][3]},${sp.data![i][4]}',style:   TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
 
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       GestureDetector(

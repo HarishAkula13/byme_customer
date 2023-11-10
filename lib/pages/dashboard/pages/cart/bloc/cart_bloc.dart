@@ -17,9 +17,10 @@ import '../../../../../manager/user_data_store/user_data_store.dart';
 import '../../../../../repositories/profile/Profile_api.dart';
 import '../../home/bloc/home_bloc.dart';
 
-typedef BlocProvider<CartBloc> CartFactory();
+typedef BlocProvider<CartBloc> CartFactory(AddressData? addressData);
 class CartBloc extends BlocBase {
   UserDataStore? userDataStore;
+  AddressData? addressData;
   BehaviorSubject<bool> _isLoading = BehaviorSubject.seeded(false);
   BehaviorSubject<String> _price = BehaviorSubject.seeded('');
   BehaviorSubject<AddressData> _addressDataInfo = BehaviorSubject();
@@ -35,7 +36,7 @@ class CartBloc extends BlocBase {
   Stream<bool> get valid => _valid;
   Sink<void> get submit => _submit;
 
-  CartBloc(this.userDataStore){
+  CartBloc(this.userDataStore,this.addressData){
     setListeners();
 
 
@@ -116,11 +117,11 @@ class CartBloc extends BlocBase {
           }
 
         }else if(value.data!.userCart!=null){
-          _price.add(value.data!.servicePrice!.toString() ?? '');
+          _price.add((value.data!.servicePrice!=null)?value.data!.servicePrice!.toString() ?? '':'');
           _cartList.add(value.data!.userCart!);
           if(value.data!.userCart!.isNotEmpty){
             _isLoading.add(true);
-            CartService().getPriceSchedule({
+            CartService().getShopPriceSchedule({
               "environment": EndPoints.env,
               "service_id": value.data!.userCart![0].productId
             }).then((value) {
@@ -161,8 +162,8 @@ class CartBloc extends BlocBase {
       }
     }
     locationData = await location.getLocation();
-    _isLoading.add(true);
-    ProfileService().getAddressCheck({
+    /*  _isLoading.add(true);
+   ProfileService().getAddressCheck({
       "environment" : EndPoints.env,
       "user_id_value" : user!.userId,
       "latitude": locationData.latitude,
@@ -175,7 +176,7 @@ class CartBloc extends BlocBase {
 
       }
 
-    });
+    });*/
   }
   void removeCart(CartList cartList) async{
     UserData? user=await userDataStore!.getUser();

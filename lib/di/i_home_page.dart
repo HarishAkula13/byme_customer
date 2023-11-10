@@ -32,14 +32,14 @@ import '../repositories/login/login_api.dart';
 import 'app_injector.dart';
 
 extension HomePageExtension on AppInjector {
-  BlocProvider<HomeBloc> get  home => container.get();
+  HomeFactory get  home => container.get();
   BlocProvider<OrdersBloc> get  orders => container.get();
   ProfileFactory get  profile => container.get();
   NearShopFactory get  nearShop => container.get();
   ShopMenuFactory get  shopMenu => container.get();
   OrdersHistoryFactory get  ordersHistory => container.get();
   OrdersHistoryDetailsFactory get  ordersHistoryDetails => container.get();
-  BlocProvider<CartBloc> get  cartPage => container.get();
+  CartFactory get  cartPage => container.get();
   PaymentmethodFactory get  paymentMethodPage => container.get();
   TrackOrderFactory get  trackOrder => container.get();
   OrdersDetailsFactory get  orderDetails => container.get();
@@ -48,12 +48,11 @@ extension HomePageExtension on AppInjector {
   PrivacyPolicyPageFactory get  privacyPolicy => container.get();
 
   registerHomePage(){
-    container.registerDependency<BlocProvider<HomeBloc>>(() {
-      return BlocProvider<HomeBloc>(
-        bloc: HomeBloc(userDataStore),
-        child: HomePage(),
-      );
+
+    container.registerDependency<HomeFactory>((){
+      return(addressData)=> BlocProvider<HomeBloc>(bloc: HomeBloc(userDataStore,addressData), child:  HomePage());
     });
+
 
     container.registerDependency<BlocProvider<OrdersBloc>>(() {
       return BlocProvider<OrdersBloc>(
@@ -62,11 +61,11 @@ extension HomePageExtension on AppInjector {
       );
     });
     container.registerDependency<ProfileFactory>((){
-      return(Function() onCallBack)=> BlocProvider<ProfileBloc>(bloc: ProfileBloc(ProfileService(),userDataStore,onCallBack), child:  ProfilePage());
+      return(Function() onCallBack,address)=> BlocProvider<ProfileBloc>(bloc: ProfileBloc(ProfileService(),userDataStore,onCallBack,address), child:  ProfilePage());
     });
 
     container.registerDependency<NearShopFactory>((){
-      return()=> BlocProvider<NearShopsBloc>(bloc: NearShopsBloc(userDataStore), child:  const NearShops());
+      return(address)=> BlocProvider<NearShopsBloc>(bloc: NearShopsBloc(userDataStore,address), child:  const NearShops());
     });
 
     container.registerDependency<ShopMenuFactory>((){
@@ -80,11 +79,10 @@ extension HomePageExtension on AppInjector {
       return(pos,Function(int type) onCallBack)=> BlocProvider<OrdersHistoryDetailsBloc>(bloc: OrdersHistoryDetailsBloc(pos,userDataStore,onCallBack), child:  OrdersHistoryDetailsPage());
     });
 
-    container.registerDependency<BlocProvider<CartBloc>>(() {
-      return BlocProvider<CartBloc>(
-        bloc: CartBloc(userDataStore),
-        child: const CartPage(),
-      );
+
+
+    container.registerDependency<CartFactory>((){
+      return(addressData)=> BlocProvider<CartBloc>(bloc: CartBloc(userDataStore,addressData), child:  CartPage());
     });
 
     container.registerDependency<PaymentmethodFactory>((){

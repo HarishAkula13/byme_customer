@@ -44,7 +44,8 @@ class AppBloc extends BlocBase{
        if(user.userId == null) {
          _startPage.add(AppInjector.instance.loginPage(0));
        } else {
-         _startPage.add(AppInjector.instance.dashboardPage(0));
+        // _startPage.add(AppInjector.instance.dashboardPage(0));
+          _startPage.add(AppInjector.instance.addressList());
       }
      }
 

@@ -32,7 +32,7 @@ class DashboardPageState extends State<DashboardPage>{
         stream: _bloc!.selectedPos,
         builder: (b, s) {
           return StreamBuilder<List<TabBarPage>>(
-              initialData: [()=> AppInjector.instance.home],
+              initialData: [()=> AppInjector.instance.home(_bloc!.addressData)],
               stream: _bloc!.pagesList,
               builder: (b,sn){
                 return (sn.data!.length>0)?sn.data![s.data!]():SizedBox();

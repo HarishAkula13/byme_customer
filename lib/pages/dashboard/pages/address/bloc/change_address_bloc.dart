@@ -83,6 +83,7 @@ class ChangeAddressBloc extends BlocBase{
               "latitude": _latLen.latitude,
               "longitude":_latLen.longitude,
               "address_type": "shop_add",
+              'add_save_type':type
             }).then((value) {
           _isLoading.add(false);
           if(value.error==null){
@@ -120,7 +121,8 @@ class ChangeAddressBloc extends BlocBase{
               "address_title": "${user.fullName} ${type}",
               "latitude": _latLen.latitude,
               "longitude":_latLen.longitude,
-              "address_type":"eu_del_add"
+              "address_type":"eu_del_add",
+            'add_save_type':type
             }).then((value) {
           _isLoading.add(false);
           if(value.error==null){

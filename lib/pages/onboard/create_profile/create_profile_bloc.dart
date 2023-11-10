@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/di/i_login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -96,7 +97,7 @@ class CreateProfileBloc extends BlocBase{
        if(value.data!.key!="failed"){
 
          await userDataStore!.insert(UserData(fullName: verifyData!['full_name'],mobileNumber: verifyData!['phone'], userId: value.data!.userId,token:value.data!.token));
-         Get.to(AppInjector.instance.dashboardPage(0));
+         Get.to(AppInjector.instance.addressList);
        }
      }else{
        Get.snackbar(

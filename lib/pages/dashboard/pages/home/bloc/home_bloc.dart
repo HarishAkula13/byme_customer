@@ -17,6 +17,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../../common/utilities/logger.dart';
 import '../../../../../di/app_injector.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
+import '../../../../../model/address_data/address_data.dart';
 import '../../../../../model/dashboard/menu.dart';
 import '../../../../../model/shop/shop_list_deatils.dart';
 import '../../../../../model/signup/user_data.dart';
@@ -25,9 +26,10 @@ import '../../../../../repositories/shop/shop_api.dart';
 enum Permission{
   denied,granted
 }
-typedef BlocProvider<HomeBloc> HomeFactory();
+typedef BlocProvider<HomeBloc> HomeFactory(AddressData? address);
 class HomeBloc extends BlocBase{
   UserDataStore? userDataStore;
+  AddressData? address;
   final BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   final BehaviorSubject<bool> _isOnline =BehaviorSubject.seeded(true);
   final BehaviorSubject<bool> _isService =BehaviorSubject.seeded(false);
@@ -83,7 +85,7 @@ class HomeBloc extends BlocBase{
   Stream<List<ShopListDetails>> get shopList => _shopList;
   List<ServicesList> serviceList=[];
 
-  HomeBloc(this.userDataStore){
+  HomeBloc(this.userDataStore,this.address){
     setListeners();
     requestLocationPermission();
   }
@@ -216,20 +218,7 @@ class HomeBloc extends BlocBase{
     _locationData = await location.getLocation();
     GetAddressFromLatLong(LatLng(_locationData.latitude!, _locationData.longitude!));
 
-    ProfileService().getAddressCheck({
-      "environment" : EndPoints.env,
-      "user_id_value" : user!.userId,
-      "latitude": _locationData.latitude,
-      "longitude":_locationData.longitude
-    }).then((value) {
-      _isLoading.add(false);
-      if(value.data!=null){
-        printLog("address", value.data!.addressTitle);
-        _addressData.add(value.data!.addressTitle!);
-        _isLoading.add(false);
-      }
 
-    });
 
 
     printLog("lang ", _locationData.longitude);

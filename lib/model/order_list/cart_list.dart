@@ -38,7 +38,7 @@ class CartList{
   String? productImage;
   String? unit;
   String? qty;
-  String? amount;
+  dynamic amount;
   double? baseCharges;
   double? gst;
   double? total;

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:byme_app/common/utils/pyc_colors.dart';
+import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/di/i_login_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,7 @@ class OTPBloc extends BlocBase{
         _isLoading.add(false);
         if(value.data!.key=='registered') {
           await userDataStore!.insert(UserData(fullName: value.data!.fullName,mobileNumber: value.data!.mobileNumber,userId: value.data!.userId,token: value.data!.token));
-          Get.to(AppInjector.instance.dashboardPage(0));
+          Get.to(AppInjector.instance.addressList);
         }else {
           Get.to(AppInjector.instance.createProfilePage({
           "environment": EndPoints.env,

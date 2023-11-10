@@ -1,4 +1,5 @@
 
+import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:byme_app/repositories/shop/shop_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geocoding/geocoding.dart' hide Location;
@@ -13,9 +14,10 @@ import '../../../../../model/shop/shop_list_deatils.dart';
 import '../../../../../repositories/end_point/end_point.dart';
 
 
-typedef BlocProvider<NearShopsBloc> NearShopFactory();
+typedef BlocProvider<NearShopsBloc> NearShopFactory(AddressData? address);
 class NearShopsBloc extends BlocBase{
   UserDataStore? userDataStore;
+  AddressData? address;
   final BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   final BehaviorSubject<List<Menu>> _shopCategories =BehaviorSubject.seeded([]);
   Stream<List<Menu>> get shopCategories => _shopCategories;
@@ -23,7 +25,7 @@ class NearShopsBloc extends BlocBase{
   Stream<List<ShopListDetails>> get shopList => _shopList;
   Stream<bool> get isLoading=> _isLoading;
 
-  NearShopsBloc(this.userDataStore){
+  NearShopsBloc(this.userDataStore,this.address){
     setListeners();
     requestLocationPermission();
   }

@@ -7,14 +7,16 @@ import 'package:rxdart/rxdart.dart';
 import '../../app/arch/bloc_provider.dart';
 import '../../di/app_injector.dart';
 import '../../manager/user_data_store/user_data_store.dart';
+import '../../model/address_data/address_data.dart';
 import '../../repositories/login/login_api.dart';
 typedef TabBarPage = Widget Function();
 
-typedef BlocProvider<DashboardBloc> DashboardFactory(int type);
+typedef BlocProvider<DashboardBloc> DashboardFactory(int type,AddressData? addressData);
 class DashboardBloc extends BlocBase{
   LoginService? loginService;
   UserDataStore? userDataStore;
   int? type;
+  AddressData? addressData;
   BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   BehaviorSubject<int> _selectedPos= BehaviorSubject.seeded(0);
   BehaviorSubject<bool> _isOrder =BehaviorSubject.seeded(false);
@@ -25,7 +27,7 @@ class DashboardBloc extends BlocBase{
   Sink<int> get addSelectedPos => _selectedPos;
   Stream<bool> get isOrder => _isOrder;
   Sink<bool> get addIsOrder => _isOrder;
-  DashboardBloc(this.loginService,this.userDataStore,this.type){
+  DashboardBloc(this.loginService,this.userDataStore,this.type,this.addressData){
     setListeners();
   }
 
@@ -34,25 +36,25 @@ class DashboardBloc extends BlocBase{
     if(type==1){
       _selectedPos.add(3);
       _pagesList.add([
-            ()=> AppInjector.instance.home,
-            ()=> AppInjector.instance.nearShop(),
-            ()=> AppInjector.instance.cartPage,
+            ()=> AppInjector.instance.home(addressData),
+            ()=> AppInjector.instance.nearShop(addressData),
+            ()=> AppInjector.instance.cartPage(addressData),
             ()=>  AppInjector.instance.ordersHistoryDetails(4,(type){
               _pagesList.add([
-                    ()=> AppInjector.instance.home,
-                    ()=> AppInjector.instance.nearShop(),
-                    ()=> AppInjector.instance.cartPage,
-                    ()=> AppInjector.instance.profile((){viewOrders();}),
+                    ()=> AppInjector.instance.home(addressData),
+                    ()=> AppInjector.instance.nearShop(addressData),
+                    ()=> AppInjector.instance.cartPage(addressData),
+                    ()=> AppInjector.instance.profile((){viewOrders();},addressData),
               ]);
         }),
       ]);
     }else{
       _selectedPos.add(0);
       _pagesList.add([
-            ()=> AppInjector.instance.home,
-            ()=> AppInjector.instance.nearShop(),
-            ()=> AppInjector.instance.cartPage,
-            ()=> AppInjector.instance.profile((){viewOrders();}),
+            ()=> AppInjector.instance.home(addressData),
+            ()=> AppInjector.instance.nearShop(addressData),
+            ()=> AppInjector.instance.cartPage(addressData),
+            ()=> AppInjector.instance.profile((){viewOrders();},addressData),
       ]);
     }
 
@@ -62,40 +64,40 @@ class DashboardBloc extends BlocBase{
 
   void viewOrders(){
     _pagesList.add([
-          ()=> AppInjector.instance.home,
-          ()=> AppInjector.instance.nearShop(),
-          ()=> AppInjector.instance.cartPage,
+          ()=> AppInjector.instance.home(addressData),
+          ()=> AppInjector.instance.nearShop(addressData),
+          ()=> AppInjector.instance.cartPage(addressData),
           ()=> AppInjector.instance.ordersHistory((type,pos){
             if(type==0){
               _pagesList.add([
-                    ()=> AppInjector.instance.home,
-                    ()=> AppInjector.instance.nearShop(),
-                    ()=> AppInjector.instance.cartPage,
-                    ()=> AppInjector.instance.profile((){viewOrders();}),
+                    ()=> AppInjector.instance.home(addressData),
+                    ()=> AppInjector.instance.nearShop(addressData),
+                    ()=> AppInjector.instance.cartPage(addressData),
+                    ()=> AppInjector.instance.profile((){viewOrders();},addressData),
               ]);
             }else {
               _pagesList.add([
-                  ()=> AppInjector.instance.home,
-                    ()=> AppInjector.instance.nearShop(),
-                  ()=> AppInjector.instance.cartPage,
+                  ()=> AppInjector.instance.home(addressData),
+                    ()=> AppInjector.instance.nearShop(addressData),
+                  ()=> AppInjector.instance.cartPage(addressData),
                   ()=>  AppInjector.instance.ordersHistoryDetails(pos,(type){
                     _pagesList.add([
-                          ()=> AppInjector.instance.home,
-                          ()=> AppInjector.instance.nearShop(),
-                          ()=> AppInjector.instance.cartPage,
+                          ()=> AppInjector.instance.home(addressData),
+                          ()=> AppInjector.instance.nearShop(addressData),
+                          ()=> AppInjector.instance.cartPage(addressData),
                           ()=> AppInjector.instance.ordersHistory((type,pos){
                         if(type==0){
                           _pagesList.add([
-                                ()=> AppInjector.instance.home,
-                                ()=> AppInjector.instance.nearShop(),
-                                ()=> AppInjector.instance.cartPage,
-                                ()=> AppInjector.instance.profile((){viewOrders();}),
+                                ()=> AppInjector.instance.home(addressData),
+                                ()=> AppInjector.instance.nearShop(addressData),
+                                ()=> AppInjector.instance.cartPage(addressData),
+                                ()=> AppInjector.instance.profile((){viewOrders();},addressData),
                           ]);
                         }else {
                           _pagesList.add([
-                              ()=> AppInjector.instance.home,
-                                ()=> AppInjector.instance.nearShop(),
-                              ()=> AppInjector.instance.cartPage,
+                              ()=> AppInjector.instance.home(addressData),
+                                ()=> AppInjector.instance.nearShop(addressData),
+                              ()=> AppInjector.instance.cartPage(addressData),
                               ()=>  AppInjector.instance.ordersHistoryDetails(pos,(type){
                                     viewOrders();
                           }),

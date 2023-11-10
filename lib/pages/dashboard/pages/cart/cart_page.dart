@@ -71,7 +71,8 @@ class CartPageState extends State<CartPage>{
                   itemBuilder: (b,i){
                     return Container(
                         height: 90,
-                        margin: const EdgeInsets.only(left: 20,right: 20,top: 10),
+                        width: Get.width*0.89,
+                        margin: const EdgeInsets.only(left: 10,right: 10,top: 10),
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: HexColor("#F5F5F5"),
@@ -79,57 +80,71 @@ class CartPageState extends State<CartPage>{
                         ),
                         child: Row(
                           children: [
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              height: 44,
-                                alignment: Alignment.center,
-                                width: 44,
-                                decoration: BoxDecoration(
-                                    color: HexColor("#E7F6EA"),
-                                    borderRadius: const BorderRadius.all(Radius.circular(10))
-                                ),
-                                child: (s.data![i].productImage!=null)?Image.network(s.data![i].productImage!):SvgPicture.asset('assets/images/Construction.svg',height: 24,width: 24,)),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Expanded(
+                              flex: 4,
+                                child: Row(
                               children: [
-                                ItemLabelText(text: (s.data![i].productName!=null)?s.data![i].productName:s.data![i].category,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w500),),
-                                const SizedBox(height: 5,),
                                 Container(
-                                    height: 20,
+                                    margin: const EdgeInsets.only(right: 10),
+                                    height: 44,
                                     alignment: Alignment.center,
-                                    width: 100,
+                                    width: 44,
                                     decoration: BoxDecoration(
-                                        color: HexColor("#E9E9E9"),
+                                        color: HexColor("#E7F6EA"),
                                         borderRadius: const BorderRadius.all(Radius.circular(10))
                                     ),
-                                    child: ItemLabelText(text:  (s.data![i].unit!=null)?"${s.data![i].qty}/${s.data![i].unit}":'${s.data![i].subCategory} - 1 No',style: const TextStyle(fontSize: 11,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w400),)),
+                                    child: (s.data![i].productImage!=null)?Image.network(s.data![i].productImage!):SvgPicture.asset('assets/images/Construction.svg',height: 24,width: 24,)),
+                                Flexible(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ItemLabelText(text: (s.data![i].productName!=null)?s.data![i].productName:s.data![i].category,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.bold,fontWeight: FontWeight.w500),),
+                                      const SizedBox(height: 5,),
+                                      Container(
+                                          height: 20,
+                                          alignment: Alignment.center,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                              color: HexColor("#E9E9E9"),
+                                              borderRadius: const BorderRadius.all(Radius.circular(10))
+                                          ),
+                                          child: ItemLabelText(text:  (s.data![i].unit!=null)?"${s.data![i].qty}/${s.data![i].unit}":'${s.data![i].subCategory} - 1 No',style: const TextStyle(fontSize: 11,color: Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w400),)),
 
 
+                                    ],
+                                  ),
+                                ),
                               ],
-                            ),
-                            const SizedBox(width: 20,),
-                            StreamBuilder<String>(
-                              initialData: '',
-                              stream: _bloc!.cartPrice,
-                              builder: (context, s) {
-                                return RichText(
-                                    text:  TextSpan( children: [
-                                      const TextSpan(
-                                          text: "₹",
-                                          style: TextStyle(
-                                              color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
-                                      TextSpan(
-                                          text: s.data.toString(),
-                                          style: const TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
-                                    ]));
-                              }
-                            ),
-                           const Spacer(),
-                            IconButton(onPressed: (){
-                              _bloc!.removeCart(s.data![i]);
+                            )),
 
-                            }, icon: Icon(Icons.close,color: HexColor("#858E8B"),size: 16,))
+                           Expanded(
+                               flex: 2,
+                               child: Row(
+                             children: [
+                               StreamBuilder<String>(
+                                   initialData: '',
+                                   stream: _bloc!.cartPrice,
+                                   builder: (context, sv) {
+                                     return RichText(
+                                         text:  TextSpan( children: [
+                                           const TextSpan(
+                                               text: "₹",
+                                               style: TextStyle(
+                                                   color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                                           TextSpan(
+                                               text: (s.data![i].amount!=null)?s.data![i].amount.toString():sv.data.toString(),
+                                               style: const TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                         ]));
+                                   }
+                               ),
+
+                               IconButton(onPressed: (){
+                                 _bloc!.removeCart(s.data![i]);
+                               }, icon: Icon(Icons.close,color: HexColor("#858E8B"),size: 16,))
+                             ],
+                           ))
+
                           ],
                         )
                     );
@@ -218,7 +233,7 @@ class CartPageState extends State<CartPage>{
                                       color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
                               TextSpan(
                                   text: '${(sp.data!=null)?sp.data!.total ?? '':''}',
-                                  style: const TextStyle(fontSize: 18,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                  style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
                             ]))
                       ],
                     ),

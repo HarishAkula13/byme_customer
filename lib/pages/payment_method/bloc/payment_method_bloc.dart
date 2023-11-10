@@ -108,7 +108,7 @@ class PaymentmethodBloc extends BlocBase {
             color: Colors.white,
           ),
         ).show();
-        Get.to(AppInjector.instance.dashboardPage(0));
+        //Get.to(AppInjector.instance.dashboardPage(0));
 
       }
     });

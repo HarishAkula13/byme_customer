@@ -29,7 +29,7 @@ extension LoginExtension on AppInjector {
       return(type)=> BlocProvider<SignUpBloc>(bloc: SignUpBloc(LoginService(),userDataStore,type), child:  SignUpPage());
     });
     container.registerDependency<DashboardFactory>((){
-      return(type)=> BlocProvider<DashboardBloc>(bloc: DashboardBloc(LoginService(),userDataStore,type), child:  DashboardPage());
+      return(type,addressData)=> BlocProvider<DashboardBloc>(bloc: DashboardBloc(LoginService(),userDataStore,type,addressData), child:  DashboardPage());
     });
     container.registerDependency<OTPFactory>((){
       return(type,verifyData)=> BlocProvider<OTPBloc>(bloc: OTPBloc(LoginService(),userDataStore,type,verifyData), child:  OTPPage());

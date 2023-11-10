@@ -1,6 +1,7 @@
 
 import 'package:byme_app/di/app_injector.dart';
 import 'package:byme_app/di/i_login_page.dart';
+import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:byme_app/model/signup/user_data.dart';
 import 'package:byme_app/model/user/user_profile.dart';
 import 'package:byme_app/repositories/end_point/end_point.dart';
@@ -12,16 +13,17 @@ import '../../../../../manager/user_data_store/user_data_store.dart';
 
 
 
-typedef BlocProvider<ProfileBloc> ProfileFactory(Function() onCallBack);
+typedef BlocProvider<ProfileBloc> ProfileFactory(Function() onCallBack,AddressData? address);
 class ProfileBloc extends BlocBase{
   UserDataStore? userDataStore;
   Function() onCallBack;
+  AddressData? address;
   ProfileAPI? ProfileService;
   BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   BehaviorSubject<UserProfile> _userProfile =BehaviorSubject();
   Stream<UserProfile> get userProfile => _userProfile;
   Stream<bool> get isLoading=> _isLoading;
-  ProfileBloc(this.ProfileService,this.userDataStore,this.onCallBack){
+  ProfileBloc(this.ProfileService,this.userDataStore,this.onCallBack,this.address){
     setListeners();
 
   }

@@ -161,7 +161,7 @@ class TrackOrderPageState extends State<TrackOrderPage>{
                   SizedBox(height: 5,),
                   GestureDetector(
                       onTap: (){
-                        Get.to(AppInjector.instance.dashboardPage(1));
+                       // Get.to(AppInjector.instance.dashboardPage(1));
                       },
                       child: ItemLabelText(text:'See Order details',textAlignment:TextAlign.center,style: TextStyle(fontSize: 14,color: ByMeColors.app_color,fontFamily: Inter.regular,fontWeight: FontWeight.w400))),
                   Container(

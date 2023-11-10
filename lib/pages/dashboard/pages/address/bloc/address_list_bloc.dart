@@ -2,12 +2,16 @@
 
 import 'dart:typed_data';
 
+import 'package:byme_app/common/utilities/logger.dart';
+import 'package:byme_app/di/app_injector.dart';
+import 'package:byme_app/di/i_login_page.dart';
 import 'package:byme_app/repositories/end_point/end_point.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
@@ -61,8 +65,8 @@ class AddressListBloc extends BlocBase{
     }).then((value) {
       _isLoading.add(false);
       if(value.error==null){
-        if(value.data!.savedAddresses!=null){
-          _addressList.add(value.data!.savedAddresses!);
+        if(value.data!.savedAddresses!=null||value.data!.savedAddresses!='empty'){
+          _addressList.add(value.data!.savedAddresses! as List<dynamic>);
         }
 
       }
@@ -143,6 +147,24 @@ class AddressListBloc extends BlocBase{
       _address.add(_currentAddress!);
     }).catchError((e) {
       debugPrint(e);
+    });
+  }
+
+  void addressCheck(List<dynamic>? data) async{
+    _isLoading.add(true);
+    UserData? user= await userDataStore!.getUser();
+    ProfileService().getAddressCheck({
+      "environment" : EndPoints.env,
+      "user_id_value" : user!.userId,
+      "latitude": data![5],
+      "longitude":data[6]
+    }).then((value) {
+      _isLoading.add(false);
+      if(value.data!=null){
+
+        Get.to(AppInjector.instance.dashboardPage(0,value.data!));
+      }
+
     });
   }
 
