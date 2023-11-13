@@ -3,6 +3,7 @@
 import 'package:byme_app/app/arch/bloc_provider.dart';
 import 'package:byme_app/common/utilities/byme_colors.dart';
 import 'package:byme_app/di/i_home_page.dart';
+import 'package:byme_app/di/i_login_page.dart';
 import 'package:byme_app/model/dashboard/service_list.dart';
 import 'package:byme_app/repositories/dashboard/dashboard_api.dart';
 import 'package:byme_app/repositories/end_point/end_point.dart';
@@ -88,60 +89,12 @@ class HomeBloc extends BlocBase{
   HomeBloc(this.userDataStore,this.address){
     setListeners();
     requestLocationPermission();
+    getData(false);
   }
 
   void setListeners() async{
 
-    _isLoading.add(true);
 
-    List<Menu> list=[
-      Menu(icon: 'assets/images/house.svg',title: 'Household \nChores'),
-      Menu(icon: 'assets/images/personal.svg',title: 'Personal \nCare'),
-      Menu(icon: 'assets/images/event.svg',title: 'Event \nnManagement'),
-      Menu(icon: 'assets/images/Construction.svg',title: 'Construction \nWorks'),
-      Menu(icon: 'assets/images/auto.svg',title: 'Automobile \nRepairs'),
-      Menu(icon: 'assets/images/electronics.svg',title: 'Electronics \nRepairs'),
-      Menu(icon: 'assets/images/taxi.svg',title: 'Taxi & Travel'),
-      Menu(icon: 'assets/images/tutor.svg',title: 'Tutor'),
-      Menu(icon: 'assets/images/medical.svg',title: 'Medical'),
-    ];
-    _menuList.add(list);
-
-    List<Menu> categoryList=[
-      Menu(icon: 'assets/images/kg.svg',title: 'Kirana & General stores',tag: 'KG'),
-      Menu(icon: 'assets/images/ph.svg',title: 'Pharmacy',tag: 'PH'),
-      Menu(icon: 'assets/images/lab.svg',title: 'Lab Tests',tag: 'LT'),
-      Menu(icon: 'assets/images/meat.svg',title: 'Meat & Eggs',tag: 'ME'),
-      Menu(icon: 'assets/images/meat.svg',title: 'Fruits & Vegetables',tag: 'FV'),
-      Menu(icon: 'assets/images/meat.svg',title: 'Food & Beverages',tag: 'FB'),
-      Menu(icon: 'assets/images/auto.svg',title: 'Hardware',tag: 'HW'),
-      Menu(icon: 'assets/images/milk.svg',title: 'Milk & Dairy',tag: 'MD'),
-      Menu(icon: 'assets/images/liquor.svg',title: 'Liquor Store',tag: 'LQ'),
-    ];
-    _shopCategories.add(categoryList);
-
-    DashboardService().getService({
-      "environment": EndPoints.env,
-      "hash": "4f199925662bc27b8196fc18428f8e3434a"
-    }).then((val) {
-      _isLoading.add(false);
-      Map keyData=val.data!['key'];
-      keyData.forEach((service, serviceData) {
-        List<Category> categoryList=[];
-        serviceData.forEach((categoryName,subCategoryList){
-          List  list=subCategoryList as List<dynamic>;
-          List<Subcategory>? subCategory=[];
-          for(int i=0;i<list.length;i++){
-            subCategory.add(Subcategory(serviceName: list[i]['service_name'],serviceId: list[i]['service_id'],serviceType: list[i]['service_type'],status: list[i]['status']));
-          }
-
-          categoryList.add(Category(categoryName: categoryName,subCategory: subCategory,isClick: false));
-        });
-        serviceList.add(ServicesList(serviceName: service,category: categoryList));
-        _serviceList.add(serviceList);
-      });
-      requestLocationPermission();
-    });
 
     UserData? user= await userDataStore!.getUser();
     _userName.add(user!.fullName!);
@@ -182,6 +135,7 @@ class HomeBloc extends BlocBase{
   void addCart(Map<String,dynamic> data){
     _isLoading.add(true);
     DashboardService().addCart(data).then((val) {
+      _isLoading.add(false);
       if(val.error==null){
         if(val.data!['message']!=null){
           Get.snackbar('Success',
@@ -190,7 +144,7 @@ class HomeBloc extends BlocBase{
             backgroundColor: ByMeColors.app_color,
             icon: const Icon(Icons.verified_outlined,color: Colors.white,),
           );
-          Get.to(AppInjector.instance.cartPage);
+          Get.to(AppInjector.instance.dashboardPage(2,address));
         }
       }
 
@@ -199,7 +153,64 @@ class HomeBloc extends BlocBase{
 
   }
 
+  void getData(bool isValue){
+    if(isValue){
+      _isLoading.add(true);
 
+      List<Menu> list=[
+        Menu(icon: 'assets/images/house.svg',title: 'Household \nChores'),
+        Menu(icon: 'assets/images/personal.svg',title: 'Personal \nCare'),
+        Menu(icon: 'assets/images/event.svg',title: 'Event \nnManagement'),
+        Menu(icon: 'assets/images/Construction.svg',title: 'Construction \nWorks'),
+        Menu(icon: 'assets/images/auto.svg',title: 'Automobile \nRepairs'),
+        Menu(icon: 'assets/images/electronics.svg',title: 'Electronics \nRepairs'),
+        Menu(icon: 'assets/images/taxi.svg',title: 'Taxi & Travel'),
+        Menu(icon: 'assets/images/tutor.svg',title: 'Tutor'),
+        Menu(icon: 'assets/images/medical.svg',title: 'Medical'),
+      ];
+      _menuList.add(list);
+
+
+      DashboardService().getService({
+        "environment": EndPoints.env,
+        "hash": "4f199925662bc27b8196fc18428f8e3434a"
+      }).then((val) {
+        _isLoading.add(false);
+        Map keyData=val.data!['key'];
+        keyData.forEach((service, serviceData) {
+          List<Category> categoryList=[];
+          serviceData.forEach((categoryName,subCategoryList){
+            List  list=subCategoryList as List<dynamic>;
+            List<Subcategory>? subCategory=[];
+            for(int i=0;i<list.length;i++){
+              subCategory.add(Subcategory(serviceName: list[i]['service_name'],serviceId: list[i]['service_id'],serviceType: list[i]['service_type'],status: list[i]['status']));
+            }
+
+            categoryList.add(Category(categoryName: categoryName,subCategory: subCategory,isClick: false));
+          });
+          serviceList.add(ServicesList(serviceName: service,category: categoryList));
+          _serviceList.add(serviceList);
+        });
+
+      });
+    }else{
+
+      List<Menu> categoryList=[
+        Menu(icon: 'assets/images/kg.svg',title: 'Kirana & General stores',tag: 'KG'),
+        Menu(icon: 'assets/images/ph.svg',title: 'Pharmacy',tag: 'PH'),
+        Menu(icon: 'assets/images/lab.svg',title: 'Lab Tests',tag: 'LT'),
+        Menu(icon: 'assets/images/meat.svg',title: 'Meat & Eggs',tag: 'ME'),
+        Menu(icon: 'assets/images/meat.svg',title: 'Fruits & Vegetables',tag: 'FV'),
+        Menu(icon: 'assets/images/meat.svg',title: 'Food & Beverages',tag: 'FB'),
+        Menu(icon: 'assets/images/auto.svg',title: 'Hardware',tag: 'HW'),
+        Menu(icon: 'assets/images/milk.svg',title: 'Milk & Dairy',tag: 'MD'),
+        Menu(icon: 'assets/images/liquor.svg',title: 'Liquor Store',tag: 'LQ'),
+      ];
+      _shopCategories.add(categoryList);
+      GetAddressFromLatLong(LatLng(address!.latitude!, address!.longitude!));
+    }
+
+  }
 
   void requestLocationPermission() async{
     _isLoading.add(true);
@@ -216,7 +227,7 @@ class HomeBloc extends BlocBase{
     }
 
     _locationData = await location.getLocation();
-    GetAddressFromLatLong(LatLng(_locationData.latitude!, _locationData.longitude!));
+   // GetAddressFromLatLong(LatLng(_locationData.latitude!, _locationData.longitude!));
 
 
 

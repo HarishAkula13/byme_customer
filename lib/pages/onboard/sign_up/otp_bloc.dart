@@ -63,7 +63,7 @@ class OTPBloc extends BlocBase{
         _isLoading.add(false);
         if(value.data!.key=='registered') {
           await userDataStore!.insert(UserData(fullName: value.data!.fullName,mobileNumber: value.data!.mobileNumber,userId: value.data!.userId,token: value.data!.token));
-          Get.to(AppInjector.instance.addressList);
+          Get.offAll(AppInjector.instance.addressList);
         }else {
           Get.to(AppInjector.instance.createProfilePage({
           "environment": EndPoints.env,

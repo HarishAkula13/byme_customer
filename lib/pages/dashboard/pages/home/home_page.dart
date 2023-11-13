@@ -62,13 +62,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                     Icon((Icons.location_on_outlined),size: 20,color: Colors.grey,),
                     SizedBox(width: 5,),
 
-                    StreamBuilder<String>(
-                      initialData: '',
-                      stream: _bloc!.addressData,
-                      builder: (con, np) {
-                        return ItemLabelText(text:np.data! ?? '',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),);
-                      }
-                    ),
+                    ItemLabelText(text:_bloc!.address!.addressTitle,style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),),
                               ],
                 ),
               ],
@@ -112,6 +106,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                         GestureDetector(
                             onTap: (){
                               _bloc!.addIsService.add(false);
+                              _bloc!.getData(false);
                             },
 
                             child: ItemLabelText(text: 'Shops',style: TextStyle(fontSize: 20,color: san.data==false?Colors.black:ByMeColors.icon_un_select,fontFamily: Inter.medium,fontWeight: FontWeight.w800),)),
@@ -119,6 +114,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                         GestureDetector(
                             onTap: (){
                               _bloc!.addIsService.add(true);
+                              _bloc!.getData(true);
                             },
 
                             child:  ItemLabelText(text: 'Services',style: TextStyle(fontSize: 20,color:  san.data==true?Colors.black:ByMeColors.icon_un_select,fontFamily: Inter.medium,fontWeight: FontWeight.w800),))
@@ -197,32 +193,37 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                               shrinkWrap: true,
                               //physics:  NeverScrollableScrollPhysics(),
                               itemBuilder: (b,j){
-                                return Container(
-                                  padding: const EdgeInsets.all(8.0),
+                                return GestureDetector(
+                                  onTap:(){
+                                    Get.to(AppInjector.instance.shopMenu( snap.data![j],_bloc!.address));
+                                  },
                                   child: Container(
-                                    height: 75,
-                                    width: 85,
-                                    alignment: Alignment.bottomCenter,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        image: DecorationImage(image:
-                                        NetworkImage("https://images.unsplash.com/photo-1579202673506-ca3ce28943ef"),
-                                            fit: BoxFit.fill
-
-                                      )
-                                    ),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      width: Get.width,
+                                      height: 75,
+                                      width: 85,
+                                      alignment: Alignment.bottomCenter,
                                       decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.4),
-                                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
+                                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                                          image: DecorationImage(image:
+                                          NetworkImage("https://images.unsplash.com/photo-1579202673506-ca3ce28943ef"),
+                                              fit: BoxFit.fill
 
+                                        )
                                       ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: ItemLabelText(text:snap.data![j].shopDetails!.shopName,textAlignment: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 10,overflow: TextOverflow.ellipsis,fontFamily: Inter.medium,),),
-                                        )),
+                                      child: Container(
+                                        width: Get.width,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.4),
+                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
 
+                                        ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: ItemLabelText(text:snap.data![j].shopDetails!.shopName,textAlignment: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 10,overflow: TextOverflow.ellipsis,fontFamily: Inter.medium,),),
+                                          )),
+
+                                    ),
                                   ),
                                 );
                               });

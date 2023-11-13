@@ -69,7 +69,7 @@ extension HomePageExtension on AppInjector {
     });
 
     container.registerDependency<ShopMenuFactory>((){
-      return(shopDetails)=> BlocProvider<ShopMenuBloc>(bloc: ShopMenuBloc(userDataStore,shopDetails), child:   const ShopMenuPage());
+      return(shopDetails,addressData)=> BlocProvider<ShopMenuBloc>(bloc: ShopMenuBloc(userDataStore,shopDetails,addressData), child:   const ShopMenuPage());
     });
     container.registerDependency<OrdersHistoryFactory>((){
       return(Function(int type,int pos) onCallBack)=> BlocProvider<OrdersHistoryBloc>(bloc: OrdersHistoryBloc(userDataStore,onCallBack), child:  OrdersHistoryPage());
@@ -86,7 +86,7 @@ extension HomePageExtension on AppInjector {
     });
 
     container.registerDependency<PaymentmethodFactory>((){
-      return(mapData)=> BlocProvider<PaymentmethodBloc>(bloc: PaymentmethodBloc(userDataStore,mapData), child: PaymentmethodPage());
+      return(mapData,addressData,isShop)=> BlocProvider<PaymentmethodBloc>(bloc: PaymentmethodBloc(userDataStore,mapData,addressData,isShop), child: PaymentmethodPage());
     });
 
     container.registerDependency<TrackOrderFactory>((){

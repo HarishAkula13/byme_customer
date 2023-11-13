@@ -72,7 +72,7 @@ class CartPageState extends State<CartPage>{
                     return Container(
                         height: 90,
                         width: Get.width*0.89,
-                        margin: const EdgeInsets.only(left: 10,right: 10,top: 10),
+                        margin: const EdgeInsets.only(left: 20,right: 20,top: 10),
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: HexColor("#F5F5F5"),
@@ -138,7 +138,7 @@ class CartPageState extends State<CartPage>{
                                          ]));
                                    }
                                ),
-
+                               Spacer(),
                                IconButton(onPressed: (){
                                  _bloc!.removeCart(s.data![i]);
                                }, icon: Icon(Icons.close,color: HexColor("#858E8B"),size: 16,))
@@ -154,100 +154,150 @@ class CartPageState extends State<CartPage>{
         ),
       ),
 
-      bottomSheet: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  spreadRadius: 0,
-                  blurRadius: 16,
-                  offset: const Offset(0, -6),
-                )
-              ]
-          ),
-          child: StreamBuilder<CartList>(
-            initialData: null,
-            stream: _bloc!.cartPricesInfo,
-            builder: (context, sp) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ItemLabelText(text: 'Base Amount: ',style: TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
+      bottomSheet:  StreamBuilder<List<CartList>>(
+          initialData: [],
+          stream: _bloc!.cartList,
+          builder: (context, s) {
+            return (s.data!.isNotEmpty)?SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 0,
+                      blurRadius: 16,
+                      offset: const Offset(0, -6),
+                    )
+                  ]
+              ),
+              child: StreamBuilder<CartList>(
+                  initialData: null,
+                  stream: _bloc!.cartPricesInfo,
+                  builder: (context, sp) {
+                  return Column(
+                        children: [
+                          /*Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ItemLabelText(text: 'Base Amount: ',style: TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
 
-                        RichText(
-                            text:  TextSpan( children: [
-                              const TextSpan(
-                                  text: "₹",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
-                              TextSpan(
-                                  text: '${(sp.data!=null)?sp.data!.baseCharges ?? '':''}',
-                                  style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
-                            ]))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ItemLabelText(text: 'GST: ',style: TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
+                                RichText(
+                                    text:  TextSpan( children: [
+                                      const TextSpan(
+                                          text: "₹",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                                      TextSpan(
+                                          text: '${(sp.data!=null)?(sp.data!.totalAmount!=null)?sp.data!.totalAmount:sp.data!.baseCharges ?? '':''}',
+                                          style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                    ]))
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ItemLabelText(text: 'GST: ',style: TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
 
-                        RichText(
-                            text:  TextSpan( children: [
-                              const TextSpan(
-                                  text: "₹",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
-                              TextSpan(
-                                  text: '${(sp.data!=null)?sp.data!.gst ?? '':''}',
-                                  style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
-                            ]))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ItemLabelText(text: 'Total Amount: ',style: TextStyle(fontSize: 16,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
+                                RichText(
+                                    text:  TextSpan( children: [
+                                      const TextSpan(
+                                          text: "₹",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                                      TextSpan(
+                                          text: '${(sp.data!=null)?(sp.data!.tax!=null)?sp.data!.tax:sp.data!.gst ?? '':''}',
+                                          style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                    ]))
+                              ],
+                            ),
+                          ),
+                          if(sp.data!.overallDiscount!=null)Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ItemLabelText(text: 'Discount : ',style: TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
 
-                        RichText(
-                            text:  TextSpan( children: [
-                              const TextSpan(
-                                  text: "₹",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
-                              TextSpan(
-                                  text: '${(sp.data!=null)?sp.data!.total ?? '':''}',
-                                  style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
-                            ]))
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20,),
-                  customButton(() {
-                    _bloc!.submit.add(null);
-                  }, ItemLabelText(text:'Pay',style: const TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
+                                RichText(
+                                    text:  TextSpan( children: [
+                                      const TextSpan(
+                                          text: "₹",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                                      TextSpan(
+                                          text: '${(sp.data!=null)?(sp.data!.overallDiscount!=null)?sp.data!.overallDiscount:'':''}',
+                                          style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                    ]))
+                              ],
+                            ),
+                          ),
+                          if(sp.data!.deliveryCharges!=null)Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ItemLabelText(text: 'Delivery Amount: ',style: TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
 
-                ],
-              );
-            }
-          ),
-        ),
+                                RichText(
+                                    text:  TextSpan( children: [
+                                      const TextSpan(
+                                          text: "₹",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                                      TextSpan(
+                                          text: '${(sp.data!=null)?(sp.data!.deliveryCharges!=null)?sp.data!.deliveryCharges:'':''}',
+                                          style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                    ]))
+                              ],
+                            ),
+                          ),*/
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ItemLabelText(text: 'Total Amount: ',style: TextStyle(fontSize: 16,color: HexColor('#858E8B'),fontFamily: Inter.medium,fontWeight: FontWeight.w500),),
+
+                                RichText(
+                                    text:  TextSpan( children: [
+                                      const TextSpan(
+                                          text: "₹",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontFamily: Inter.regular,fontWeight: FontWeight.w400,fontSize: 12)),
+                                      TextSpan(
+                                          text: '${(sp.data!=null)?(sp.data!.finalAmount!=null)?sp.data!.finalAmount:sp.data!.total ?? '':''}',
+                                          style: const TextStyle(fontSize: 16,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black)),
+                                    ]))
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20,),
+                          customButton(() {
+                            _bloc!.submit.add(null);
+                          }, ItemLabelText(text:'Proceed to checkout',style: const TextStyle(fontSize: 16,color: Colors.white,fontFamily: Inter.regular)),'#00B05A','#ffffff',context),
+
+                        ],
+                      );
+                }
+              )
+
+
+            ),
+          ):SizedBox();
+        }
       ),
 
     );

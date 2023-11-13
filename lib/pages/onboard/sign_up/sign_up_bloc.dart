@@ -1,5 +1,6 @@
 
 import 'package:byme_app/di/i_login_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -38,11 +39,12 @@ class SignUpBloc extends BlocBase{
 
   }
 
-  void navigate(String? number) {
+  Future<void> navigate(String? number) async {
     _isLoading.add(true);
     loginService!.verifyUser({
       "environment": EndPoints.env,
-      "phone": number
+      "phone": number,
+      "device_id":await FirebaseMessaging.instance.getToken()
     }).then((value) {
       _isLoading.add(false);
       if(value.error==null){

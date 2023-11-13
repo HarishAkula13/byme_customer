@@ -39,8 +39,14 @@ class EndPoints {
   static EndPoint get cartList => _getEndPointCart(_api + 'fetch-cart');
   static EndPoint get removeCartItem => _getEndPointCart(_api + 'sn-remove-item');
   static EndPoint get priceSchedule => _getEndPriceSchedule(_api + 'sn-price-schedule');
-  static EndPoint get shopPriceSchedule => _getEndPriceSchedule(_api + 'price-schedule');
   static EndPoint get paymentStatusUpdate => _getEndPriceSchedule(_api + 'sn-payment-status-update');
+  static EndPoint get serviceOrderPlace => _getEndPriceSchedule(_api + 'sn-order-place');
+  static EndPoint get shopRemoveCartItem => _getEndPointCart(_api + 'remove-item');
+  static EndPoint get shopPriceSchedule => _getEndPriceSchedule(_api + 'price-schedule');
+  static EndPoint get shopPaymentStatusUpdate => _getEndPriceSchedule(_api + 'payment-status-update');
+  static EndPoint get shopOrderPlace => _getEndPriceSchedule(_api + 'shop-order-place');
+
+
 
   static EndPoint get getNearShops => _getEndShop(_api + 'shops-list-distance');
   static EndPoint get getShopMenu => _getEndShop(_api + 'shop-menu');

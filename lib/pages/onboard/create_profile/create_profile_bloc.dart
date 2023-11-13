@@ -97,7 +97,7 @@ class CreateProfileBloc extends BlocBase{
        if(value.data!.key!="failed"){
 
          await userDataStore!.insert(UserData(fullName: verifyData!['full_name'],mobileNumber: verifyData!['phone'], userId: value.data!.userId,token:value.data!.token));
-         Get.to(AppInjector.instance.addressList);
+         Get.offAll(AppInjector.instance.addressList);
        }
      }else{
        Get.snackbar(

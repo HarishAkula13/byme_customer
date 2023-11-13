@@ -6,6 +6,10 @@ class CartList{
   List<CartList>? fetchCart;
   List<CartList>? userCart;
   String? category;
+  String? subCategory;
+  String?  serviceType;
+  String?  date;
+  String? orderId;
 
   CartList(
       this.servicePrice,
@@ -26,11 +30,15 @@ class CartList{
       this.baseCharges,
       this.gst,
       this.total,
-      this.serviceId);
+      this.serviceId,
+      this.shopId,
+      this.menuId,
+      this.totalAmount,
+      this.tax,
+      this.deliveryCharges,
+      this.overallDiscount,
+      this.finalAmount,this.shopLatitude,this.shopLongitude,this.orderId);
 
-  String? subCategory;
-  String?  serviceType;
-  String?  date;
   String?  additionalInstructions;
   String?  descriptionOfWork;
   String? productId;
@@ -43,8 +51,20 @@ class CartList{
   double? gst;
   double? total;
   String? serviceId;
+  String? shopId;
+  String? menuId;
+  double? totalAmount;
+  double? tax;
+  double? deliveryCharges;
+  double? overallDiscount;
+  double? finalAmount;
+  double? shopLatitude;
+  double? shopLongitude;
+
+
 
 
   factory CartList.fromJson(Map<String,dynamic> json) => _$CartListFromJson(json);
 
+  Map<String,dynamic> toJson()=> _$CartListToJson(this);
 }

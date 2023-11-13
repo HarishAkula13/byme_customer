@@ -24,13 +24,14 @@ class PaymentmethodPage extends StatefulWidget{
 class PaymentmethodPageState extends State<PaymentmethodPage>{
   PaymentmethodBloc? _bloc;
   PhonePePg pePg = PhonePePg(
+    prodUrl: "https://produrl",
     isUAT: true,
     saltKey: "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399",
     saltIndex: "1",
   );
   PaymentRequest _paymentRequest({String? merchantCallBackScheme}) {
     PaymentRequest paymentRequest = PaymentRequest(
-      amount: _bloc!.mapData['final_amount']*100,
+      amount: _bloc!.mapData['final_amount'],
       callbackUrl: "https://webhook.site/845cb8cc-5d74-4494-95ea-3003c9c518ab",
       deviceContext: DeviceContext.getDefaultDeviceContext(
           merchantCallBackScheme: merchantCallBackScheme),
@@ -60,11 +61,7 @@ class PaymentmethodPageState extends State<PaymentmethodPage>{
     // TODO: implement initState
     super.initState();
     _bloc=BlocProvider.of(context);
-    PhonePePg pePg = PhonePePg(
-      isUAT: true,
-      saltKey: "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399",
-      saltIndex: "1",
-    );
+
   }
   @override
   Widget build(BuildContext context) {
@@ -420,11 +417,11 @@ class PaymentmethodPageState extends State<PaymentmethodPage>{
                   child:  InkWell(
                     onTap: (){
                       _bloc!.addIsSelected.add(true);
-                      Future.delayed(Duration(seconds: 1)).then((value) {
+                     /* Future.delayed(Duration(seconds: 1)).then((value) {
                         Get.to(AppInjector.instance.trackOrder)!.then((value){
                           Navigator.pop(context);
                         });
-                      });
+                      });*/
 
                     },
                     child: Row(

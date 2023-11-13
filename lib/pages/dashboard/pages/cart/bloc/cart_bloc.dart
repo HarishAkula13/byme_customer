@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/model/address_data/address_data.dart';
@@ -35,7 +37,8 @@ class CartBloc extends BlocBase {
   Stream<bool> get isLoading=> _isLoading;
   Stream<bool> get valid => _valid;
   Sink<void> get submit => _submit;
-
+  bool isShop=false;
+  CartList? cartData;
   CartBloc(this.userDataStore,this.addressData){
     setListeners();
 
@@ -45,8 +48,8 @@ class CartBloc extends BlocBase {
   void setListeners() async{
     UserData? user= await userDataStore!.getUser();
 
-    CombineLatestStream.combine3(_cartList, _cartPricesInfo,_addressDataInfo,
-            (List<CartList> a, CartList b,AddressData c){
+    CombineLatestStream.combine2(_cartList, _cartPricesInfo,
+            (List<CartList> a, CartList b){
           return b!=null;
 
         })
@@ -59,14 +62,49 @@ class CartBloc extends BlocBase {
           return v;
     })
         .where((event)=>event)
-        .withLatestFrom3(_cartList, _cartPricesInfo,_addressDataInfo,
-            (t,List<CartList> a, CartList b,AddressData c)
+        .withLatestFrom2(_cartList, _cartPricesInfo,
+            (t,List<CartList> a, CartList b,)
         {
+          Map<String,dynamic> data={};
+          List<Map<String,dynamic>> listData=[];
           printLog("Cart length", a.length);
-          return {
+          if(isShop){
+            if(a.isNotEmpty){
+              for(int i=0;i<a.length;i++){
+                Map<String,dynamic> mapData={
+                  "product_name": a[i].productName,
+                  "qty":  a[i].qty,
+                  "unit":  a[i].unit,
+                  "amount":  a[i].amount};
+                listData.add(mapData);
+                Map<String,dynamic> map={a[i].productId!:a[i].qty};
+                data.addAll(map);
+              }
+
+            }
+          }
+
+          return isShop?{
             "environment": EndPoints.env,
             "user_id": user!.userId,
-            "address_title": c.addressTitle,
+            "address_title": addressData!.addressTitle,
+            "order_list": listData,
+            "products_list":data,
+            "total_amount": b.totalAmount ?? 0.0,
+            "tax": b.tax ?? 0.0,
+            "overall_discount": b.overallDiscount ?? 0.0,
+            "final_amount": b.finalAmount ?? 0.0,
+            "latitude": addressData!.latitude,
+            "longitude":addressData!.longitude,
+            "shop_latitude": b.shopLatitude,
+            "shop_longitude":  b.shopLongitude,
+            "shop_id": cartData!.shopId,
+           "delivery_charges":b.deliveryCharges ?? 0.0
+
+          }:{
+            "environment": EndPoints.env,
+            "user_id": user!.userId,
+            "address_title": addressData!.addressTitle,
             "order_list": [
               {
                 "${a[0].serviceId}": "1"
@@ -76,17 +114,18 @@ class CartBloc extends BlocBase {
             "tax": b.gst ?? 0.0,
             "overall_discount": 0.0,
             "final_amount": b.total ?? 0.0,
-            "latitude": c.latitude,
-            "longitude": c.longitude,
+            "latitude": addressData!.latitude,
+            "longitude":addressData!.longitude,
             "description_of_work": a[0].descriptionOfWork,
             "additional_instructions": a[0].additionalInstructions,
             "service_id": a[0].serviceId
 
-          };})
+          };
+
+        })
         .listen(navigatePayment)
         .addTo(disposeBag);
     getCartList();
-    requestLocationPermission();
   }
 
   void getCartList() async{
@@ -98,8 +137,9 @@ class CartBloc extends BlocBase {
     }).then((value) {
       _isLoading.add(false);
       if(value.error==null){
-
+        cartData=value.data!;
         if(value.data!.fetchCart!=null){
+          isShop=false;
           _price.add(value.data!.servicePrice!.toString() ?? '');
           _cartList.add(value.data!.fetchCart!);
           printLog("_valid", value.data!.fetchCart!.length);
@@ -117,13 +157,28 @@ class CartBloc extends BlocBase {
           }
 
         }else if(value.data!.userCart!=null){
-          _price.add((value.data!.servicePrice!=null)?value.data!.servicePrice!.toString() ?? '':'');
+          isShop=true;
+         // _price.add((value.data!.servicePrice!=null)?value.data!.servicePrice!.toString() ?? '':'');
           _cartList.add(value.data!.userCart!);
           if(value.data!.userCart!.isNotEmpty){
             _isLoading.add(true);
+            Map<String,dynamic> data={};
+            if(value.data!.userCart!.isNotEmpty){
+              for(int i=0;i<value.data!.userCart!.length;i++){
+                Map<String,dynamic> map={value.data!.userCart![i].productId!:value.data!.userCart![i].qty!};
+                data.addAll(map);
+              }
+
+            }
             CartService().getShopPriceSchedule({
               "environment": EndPoints.env,
-              "service_id": value.data!.userCart![0].productId
+              "shop_id": value.data!.shopId,
+              "shop_menu": value.data!.menuId,
+              "user_id":  user.userId,
+              "address_title": addressData!.addressTitle,
+              "products_list": data,
+              "latitude": addressData!.latitude,
+              "longitude": addressData!.longitude
             }).then((value) {
               _isLoading.add(false);
               if(value.error==null){
@@ -136,55 +191,43 @@ class CartBloc extends BlocBase {
         else {
           _cartList.add([]);
         }
+      }else{
+        _cartList.add([]);
       }
     });
 
 
   }
-  void requestLocationPermission() async{
-    UserData? user= await userDataStore!.getUser();
-    Location location =  Location();
-    late PermissionStatus _permissionStatus;
-    bool _serviceEnabled;
-    LocationData locationData;
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-    _permissionStatus = await location.hasPermission();
-    if (_permissionStatus == Permission.denied) {
-      _permissionStatus =  await location.requestPermission();
-      if (_permissionStatus != Permission.granted) {
-        return;
-      }
-    }
-    locationData = await location.getLocation();
-    /*  _isLoading.add(true);
-   ProfileService().getAddressCheck({
-      "environment" : EndPoints.env,
-      "user_id_value" : user!.userId,
-      "latitude": locationData.latitude,
-      "longitude":locationData.longitude
-    }).then((value) {
-      _isLoading.add(true);
-      if(value.error==null){
-        _isLoading.add(false);
-        _addressDataInfo.add(value.data!);
-
-      }
-
-    });*/
-  }
   void removeCart(CartList cartList) async{
     UserData? user=await userDataStore!.getUser();
     _isLoading.add(true);
+    (isShop)? CartService().shopRemoveCartItem({
+      "environment": EndPoints.env,
+      "user_id": user!.userId,
+      "menu_id":cartData!.menuId,
+      "product_info": {
+        cartList.productId: cartList.qty
+      }
+    }).then((val) {
+      _isLoading.add(false);
+      if(val.error==null){
+        if(val.data!['cart']!=null){
+          Get.snackbar('Success',
+            val.data!['cart'],
+            colorText: Colors.white,
+            backgroundColor: ByMeColors.app_color,
+            icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+          );
+          getCartList();
+        }
+      }
+
+    }
+    ):
     CartService().removeCart({
       "environment": EndPoints.env,
       "user_id": user!.userId,
-      "product_info":cartList.productId
+      "product_info":cartList.serviceId
     }).then((val) {
       _isLoading.add(false);
       if(val.error==null){
@@ -208,7 +251,7 @@ class CartBloc extends BlocBase {
 
 
     printLog('title', 'message');
-    Get.to(AppInjector.instance.paymentMethodPage(data));
+    Get.to(AppInjector.instance.paymentMethodPage(data,addressData,isShop));
 
   }
 

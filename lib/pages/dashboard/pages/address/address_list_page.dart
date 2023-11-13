@@ -36,7 +36,6 @@ class AddressListPageState extends State<AddressListPage>{
       stream: _bloc!.isLoading,
       bottomSheet: SingleChildScrollView(
         child: Container(
-
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
@@ -116,50 +115,62 @@ class AddressListPageState extends State<AddressListPage>{
                     initialData: [],
                     stream: _bloc!.addressList,
                     builder: (context, sp) {
-                      return sp.data!.length>0?ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: sp.data!.length,
-                          itemBuilder: (b,i){
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SvgPicture.asset('assets/images/address.svg'),
-                                      SizedBox(width: 10,),
-                                      Flexible(
-                                        child: InkWell(
-                                          onTap: (){
-                                            _bloc!.addressCheck(sp.data![i]);
-                                          },
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              ItemLabelText(text: sp.data![i][1],style:  const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
-                                              SizedBox(height: 5,),
-                                              ItemLabelText(text: '${sp.data![i][2]},${sp.data![i][3]},${sp.data![i][4]}',style:   TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
+                      return sp.data!.length>0?SizedBox(
+                        height: Get.height*0.4,
+                        width: Get.width,
+                        child: ListView.builder(
+                            itemCount: sp.data!.length,
+                            itemBuilder: (b,i){
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SvgPicture.asset('assets/images/address.svg'),
+                                        SizedBox(width: 10,),
 
-                                            ],
+                                        Expanded(
+                                          flex:5,
+                                          child: InkWell(
+                                            onTap: (){
+                                              _bloc!.addressCheck(sp.data![i]);
+                                            },
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                ItemLabelText(text: sp.data![i][1],style:  const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
+                                                SizedBox(height: 5,),
+                                                ItemLabelText(text: '${sp.data![i][2]},${sp.data![i][3]},${sp.data![i][4]}',style:   TextStyle(fontSize: 14,color: HexColor('#858E8B'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
+
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      GestureDetector(
-                                          onTap: (){
-                                            Get.to(AppInjector.instance.changeAddress(sp.data![i][0]))!.then((value) => _bloc!.getAddress());
-                                          },
-                                          child: SvgPicture.asset('assets/images/edit.svg')),
-                                    ],
+                                        Expanded(
+                                            flex:1,
+                                            child: Container(
+                                            child: GestureDetector(
+                                                onTap: (){
+                                                  Get.to(AppInjector.instance.changeAddress(sp.data![i][0]))!.then((value) => _bloc!.getAddress());
+                                                },
+                                                child: SvgPicture.asset('assets/images/edit.svg',height: 30,width: 30,)),
+                                        ))
+
+                                        /**/
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Divider(color: HexColor('#CDD0CF'),thickness: 0.5,),
-                              ],
-                            );
-                          }):SizedBox();
+                                  Divider(color: HexColor('#CDD0CF'),thickness: 0.5,),
+                                ],
+                              );
+                            }),
+                      ):SizedBox();
                     })
                 ],
               ),

@@ -1,4 +1,5 @@
 
+import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -48,8 +49,17 @@ class DashboardBloc extends BlocBase{
               ]);
         }),
       ]);
-    }else{
+    }else if(type==0){
       _selectedPos.add(0);
+      _pagesList.add([
+            ()=> AppInjector.instance.home(addressData),
+            ()=> AppInjector.instance.nearShop(addressData),
+            ()=> AppInjector.instance.cartPage(addressData),
+            ()=> AppInjector.instance.profile((){viewOrders();},addressData),
+      ]);
+    }else if(type==2){
+      printLog("title type", type);
+      addSelectedPos.add(2);
       _pagesList.add([
             ()=> AppInjector.instance.home(addressData),
             ()=> AppInjector.instance.nearShop(addressData),

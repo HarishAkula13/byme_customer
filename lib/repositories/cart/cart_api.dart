@@ -10,13 +10,11 @@ abstract class CartAPI{
   Future<RequestResponse<Map<String,dynamic>>> removeCart(Map<String,dynamic> data);
   Future<RequestResponse<CartList>> getPriceSchedule(Map<String,dynamic> data);
   Future<RequestResponse<CartList>> getShopPriceSchedule(Map<String,dynamic> data);
+  Future<RequestResponse<Map<String,dynamic>>> shopRemoveCartItem(Map<String,dynamic> data);
 
 }
 class CartService extends BaseAPIService implements CartAPI{
   CartService();
-
-
-
 
 
   @override
@@ -80,6 +78,22 @@ class CartService extends BaseAPIService implements CartAPI{
     });
   }
 
+
+  @override
+  Future<RequestResponse<CartList>> shopPaymentStatus(Map<String, dynamic> data) {
+    return make(RequestType.POST, EndPoints.shopPaymentStatusUpdate, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        printLog("response", result.data);
+        var data=CartList.fromJson(result.data);
+        return RequestResponse(data: data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
+
   @override
   Future<RequestResponse<Map<String,dynamic>>> removeCart(Map<String,dynamic> data) {
     return make(RequestType.POST, EndPoints.removeCartItem, body: data,contentType: ContentType.json)
@@ -88,6 +102,51 @@ class CartService extends BaseAPIService implements CartAPI{
         // printLog("response", result.data);
 
         return RequestResponse(data: result.data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
+
+  @override
+  Future<RequestResponse<Map<String,dynamic>>> shopRemoveCartItem(Map<String,dynamic> data) {
+    return make(RequestType.POST, EndPoints.shopRemoveCartItem, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        // printLog("response", result.data);
+
+        return RequestResponse(data: result.data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
+
+  @override
+  Future<RequestResponse<CartList>> shopOrderPlaced(Map<String, dynamic> data) {
+    return make(RequestType.POST, EndPoints.shopOrderPlace, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        printLog("response", result.data);
+        var data=CartList.fromJson(result.data);
+        return RequestResponse(data: data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
+
+  @override
+  Future<RequestResponse<CartList>> serviceOrderPlaced(Map<String, dynamic> data) {
+    return make(RequestType.POST, EndPoints.serviceOrderPlace, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        printLog("response", result.data);
+        var data=CartList.fromJson(result.data);
+        return RequestResponse(data: data);
       } else {
         printLog("response error", result.error!.error);
         return RequestResponse(error: result.error);
