@@ -99,7 +99,7 @@ class ShopMenuPageState extends State<ShopMenuPage> {
                               child: ItemLabelText(text: _bloc!.shopDetails!.shopDetails!.shopAddress,textAlignment: TextAlign.start,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: ByMeColors.text_color,fontWeight: FontWeight.w400),)),
                           const SizedBox(width: 50,),
                         Expanded(
-                            flex:4,
+                            flex:5,
 
                             child: Container(
                               padding: const EdgeInsets.all(10),
