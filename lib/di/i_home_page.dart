@@ -23,6 +23,8 @@ import '../pages/dashboard/pages/profile/bloc/privacy_policy_page_bloc.dart';
 import '../pages/dashboard/pages/profile/bloc/profile_bloc.dart';
 import '../pages/dashboard/pages/profile/profile_page.dart';
 import '../pages/dashboard/pages/shops/bloc/near_shop_bloc.dart';
+import '../pages/dashboard/pages/shops_list/bloc/shops_list_bloc.dart';
+import '../pages/dashboard/pages/shops_list/shops_list_page.dart';
 import '../pages/order_details/bloc/order_details_bloc.dart';
 import '../pages/order_details/order_details.dart';
 import '../pages/shop/bloc/shop_menu_bloc.dart';
@@ -37,6 +39,7 @@ extension HomePageExtension on AppInjector {
   ProfileFactory get  profile => container.get();
   NearShopFactory get  nearShop => container.get();
   ShopMenuFactory get  shopMenu => container.get();
+  ShopsListFactory get  shopList => container.get();
   OrdersHistoryFactory get  ordersHistory => container.get();
   OrdersHistoryDetailsFactory get  ordersHistoryDetails => container.get();
   CartFactory get  cartPage => container.get();
@@ -70,6 +73,9 @@ extension HomePageExtension on AppInjector {
 
     container.registerDependency<ShopMenuFactory>((){
       return(shopDetails,addressData)=> BlocProvider<ShopMenuBloc>(bloc: ShopMenuBloc(userDataStore,shopDetails,addressData), child:   const ShopMenuPage());
+    });
+    container.registerDependency<ShopsListFactory>((){
+      return(menu,addressData)=> BlocProvider<ShopsListBloc>(bloc: ShopsListBloc(userDataStore,menu,addressData), child:   const ShopsListPage());
     });
     container.registerDependency<OrdersHistoryFactory>((){
       return(Function(int type,int pos) onCallBack)=> BlocProvider<OrdersHistoryBloc>(bloc: OrdersHistoryBloc(userDataStore,onCallBack), child:  OrdersHistoryPage());

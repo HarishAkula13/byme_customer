@@ -3,6 +3,7 @@ import 'package:byme_app/common/load_container/load_container.dart';
 import 'package:byme_app/common/textfield/byme_search_field.dart';
 import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
+import 'package:byme_app/di/i_login_page.dart';
 import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:byme_app/model/shop/shop_list_deatils.dart';
 import 'package:flutter/cupertino.dart';
@@ -163,7 +164,9 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                             crossAxisCount: 3,
                             children: List.generate(s.data!.length, (i) => GestureDetector(
                               onTap: (){
-                                _bloc!.addCategorieName.add(s.data![i].title!);
+                                //_bloc!.addCategorieName.add(s.data![i].title!);
+                                Get.to(AppInjector.instance.shopList(s.data![i],_bloc!.address));
+
 
                               },
                               child: Column(

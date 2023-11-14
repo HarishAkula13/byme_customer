@@ -138,10 +138,12 @@ class CartPageState extends State<CartPage>{
                                          ]));
                                    }
                                ),
-                               Spacer(),
-                               IconButton(onPressed: (){
-                                 _bloc!.removeCart(s.data![i]);
-                               }, icon: Icon(Icons.close,color: HexColor("#858E8B"),size: 16,))
+                               //Spacer(),
+                               Expanded(flex: 1,
+                                 child: IconButton(onPressed: (){
+                                   _bloc!.removeCart(s.data![i]);
+                                 }, icon: Icon(Icons.close,color: HexColor("#858E8B"),size: 16,)),
+                               )
                              ],
                            ))
 

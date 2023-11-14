@@ -99,7 +99,7 @@ class ShopMenuPageState extends State<ShopMenuPage> {
                               child: ItemLabelText(text: _bloc!.shopDetails!.shopDetails!.shopAddress,textAlignment: TextAlign.start,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: ByMeColors.text_color,fontWeight: FontWeight.w400),)),
                           const SizedBox(width: 50,),
                         Expanded(
-                            flex:3,
+                            flex:4,
 
                             child: Container(
                               padding: const EdgeInsets.all(10),
@@ -107,7 +107,7 @@ class ShopMenuPageState extends State<ShopMenuPage> {
                                   borderRadius: const BorderRadius.all(Radius.circular(110)),
                                   color:(_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?ByMeColors.green_color.withOpacity(0.2):ByMeColors.text_red_color.withOpacity(0.2),
                                 ),
-                                child: ItemLabelText(text: (_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?"Open Now":"Closes Soon",textAlignment: TextAlign.center,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: (_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?ByMeColors.green_color:ByMeColors.text_red_color,fontWeight: FontWeight.w400),)),
+                                child: ItemLabelText(text: (_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?"Open Now":"Closes Soon",textAlignment: TextAlign.center,maxlines: 1,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: (_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?ByMeColors.green_color:ByMeColors.text_red_color,fontWeight: FontWeight.w400),)),
                           ),
 
                         ],
