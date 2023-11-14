@@ -51,7 +51,7 @@ class ShopMenuPageState extends State<ShopMenuPage> {
                   children: [
                     Stack(
                       children: [
-                        Image.network(_bloc!.shopDetails!.shopDetails!.imageLink!,height: 130,width: Get.width,errorBuilder: (BuildContext context, Object error,
+                        Image.network((_bloc!.shopDetails!.shopDetails!=null)?_bloc!.shopDetails!.shopDetails!.imageLink!:_bloc!.shopDetails!.imageLink! ,height: 130,width: Get.width,errorBuilder: (BuildContext context, Object error,
                             StackTrace? stackTrace) {
                           return Container(
                               height: 130,width: Get.width,
@@ -66,7 +66,7 @@ class ShopMenuPageState extends State<ShopMenuPage> {
                             child:  Row(
                           children: [
                              IconButton( onPressed: () { Navigator.pop(context); },icon:Icon(Icons.arrow_back_ios,color: Colors.white) ),
-                            ItemLabelText(text: _bloc!.shopDetails!.shopDetails!.shopName,style: const TextStyle(color: Colors.white,fontSize: 20,fontFamily: Inter.bold),),
+                            ItemLabelText(text:(_bloc!.shopDetails!.shopDetails!=null)?_bloc!.shopDetails!.shopDetails!.shopName : _bloc!.shopDetails!.shopName,style: const TextStyle(color: Colors.white,fontSize: 20,fontFamily: Inter.bold),),
 
                           ],
                         )),
@@ -96,7 +96,7 @@ class ShopMenuPageState extends State<ShopMenuPage> {
                           const SizedBox(width: 10,),
                           Expanded(
                               flex: 9,
-                              child: ItemLabelText(text: _bloc!.shopDetails!.shopDetails!.shopAddress,textAlignment: TextAlign.start,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: ByMeColors.text_color,fontWeight: FontWeight.w400),)),
+                              child: ItemLabelText(text:(_bloc!.shopDetails!.shopDetails!=null)? _bloc!.shopDetails!.shopDetails!.shopAddress : _bloc!.shopDetails!.shopAddress,textAlignment: TextAlign.start,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: ByMeColors.text_color,fontWeight: FontWeight.w400),)),
                           const SizedBox(width: 50,),
                         Expanded(
                             flex:5,
@@ -105,9 +105,9 @@ class ShopMenuPageState extends State<ShopMenuPage> {
                               padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(Radius.circular(110)),
-                                  color:(_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?ByMeColors.green_color.withOpacity(0.2):ByMeColors.text_red_color.withOpacity(0.2),
+                                  color:(_bloc!.shopDetails!.shopDetails!=null)?(_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?ByMeColors.green_color.withOpacity(0.2):ByMeColors.text_red_color.withOpacity(0.2):(_bloc!.shopDetails!.shopStatus=="True")?ByMeColors.green_color.withOpacity(0.2):ByMeColors.text_red_color.withOpacity(0.2),
                                 ),
-                                child: ItemLabelText(text: (_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?"Open Now":"Closes Soon",textAlignment: TextAlign.center,maxlines: 1,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: (_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?ByMeColors.green_color:ByMeColors.text_red_color,fontWeight: FontWeight.w400),)),
+                                child: ItemLabelText(text:(_bloc!.shopDetails!.shopDetails!=null)? (_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?"Open Now":"Closes Soon":(_bloc!.shopDetails!.shopStatus=="True")?"Open Now":"Closes Soon",textAlignment: TextAlign.center,maxlines: 1,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: (_bloc!.shopDetails!.shopDetails!=null)?(_bloc!.shopDetails!.shopDetails!.shopStatus=="True")?ByMeColors.green_color:ByMeColors.text_red_color:(_bloc!.shopDetails!.shopStatus=="True")?ByMeColors.green_color:ByMeColors.text_red_color,fontWeight: FontWeight.w400),)),
                           ),
 
                         ],

@@ -14,9 +14,9 @@ class EndPoints {
   static const String _devOrderList='hjnqjilzbl.execute-api.ap-south-1.amazonaws.com';
   static const String _devPriceSchedule="vcm4lx6avh.execute-api.ap-south-1.amazonaws.com";
   static const String _devShop='qb3kkl0w03.execute-api.ap-south-1.amazonaws.com';
-  static String terms="https://eutnc.by-me.in/terms-and-conditions";
-  static String privacy="https://eutnc.by-me.in/privacy-policy";
-  static String refund="https://eutnc.by-me.in/refund-policy";
+  static String terms="https://tnc.by-me.in/eu/terms-and-conditions";
+  static String privacy="https://tnc.by-me.in/eu/privacy-policy";
+  static String refund="https://tnc.by-me.in/eu/refund-policy";
 
   static String get _base {return _devBase;}
   static String get _afterLoginBase {return _devAfterLoginBase;}
@@ -47,10 +47,11 @@ class EndPoints {
   static EndPoint get shopOrderPlace => _getEndPriceSchedule(_api + 'shop-order-place');
 
 
-
+  static EndPoint get getShopList => _getEndShop(_api + 'shops-list');
   static EndPoint get getNearShops => _getEndShop(_api + 'shops-list-distance');
   static EndPoint get getShopMenu => _getEndShop(_api + 'shop-menu');
   static EndPoint get addShopItem => _getEndPointCart(_api + 'add-item');
+
 
 
   static EndPoint _getEndPointWithPath(String path) {

@@ -198,7 +198,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                               itemBuilder: (b,j){
                                 return GestureDetector(
                                   onTap:(){
-                                    Get.to(AppInjector.instance.shopMenu( snap.data![j],_bloc!.address));
+                                    Get.to(AppInjector.instance.shopMenu( snap.data![j].shopDetails,_bloc!.address));
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(8.0),

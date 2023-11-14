@@ -109,7 +109,7 @@ class _NearShopsState extends State<NearShops> {
                             padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 10),
                             child: GestureDetector(
                               onTap: (){
-                                Get.to(AppInjector.instance.shopMenu(sp.data![i],bloc!.address));
+                                Get.to(AppInjector.instance.shopMenu(sp.data![i].shopDetails,bloc!.address));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,

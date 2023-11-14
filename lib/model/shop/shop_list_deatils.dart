@@ -23,7 +23,7 @@ class ShopListDetails{
       this.longitude,
       this.shopRating});
 
-  double? distance;
+  dynamic distance;
   ShopListDetails? shopDetails;
   String? phoneNumber;
   String? shopName;

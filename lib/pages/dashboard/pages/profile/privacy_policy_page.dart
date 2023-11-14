@@ -33,7 +33,8 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leadingWidth: 30,
+        leadingWidth: 50,
+
         leading: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.only(left: 8),
