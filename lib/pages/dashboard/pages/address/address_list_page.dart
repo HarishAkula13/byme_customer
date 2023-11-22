@@ -209,7 +209,7 @@ class AddressListPageState extends State<AddressListPage>{
                     left: 10,
                     child: GestureDetector(
                         onTap: (){
-                          Navigator.pop(context);
+                          //Navigator.pop(context);
                         },
                         child: SvgPicture.asset('assets/images/arrow_back.svg'))),
               ],

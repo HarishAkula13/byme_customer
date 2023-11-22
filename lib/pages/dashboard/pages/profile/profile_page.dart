@@ -134,11 +134,11 @@ class ProfilePageState extends State<ProfilePage>{
 
                             ],
                           ),
-                          Padding(
+                         /* Padding(
                             padding: const EdgeInsets.only(top: 10.0,bottom: 10),
                             child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
-                          ),
-                          Row(
+                          ),*/
+                          /*Row(
                             children: [
                               Icon(Icons.settings_sharp,color: HexColor('#858E8B'),),
                               const SizedBox(width: 20,),
@@ -147,6 +147,7 @@ class ProfilePageState extends State<ProfilePage>{
                               Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
                             ],
                           ),
+                          */
                           Padding(
                             padding: const EdgeInsets.only(top: 10.0,bottom: 10),
                             child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),

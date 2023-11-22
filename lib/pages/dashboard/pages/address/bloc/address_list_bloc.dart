@@ -9,18 +9,19 @@ import 'package:byme_app/repositories/end_point/end_point.dart';
 import 'package:byme_app/repositories/profile/Profile_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 import 'dart:ui' as ui;
-
+import 'package:location/location.dart';
 import '../../../../../app/arch/bloc_provider.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
 import '../../../../../model/signup/user_data.dart';
-
+enum Permission{
+  denied,granted
+}
 
 typedef BlocProvider<AddressListBloc> AddressListFactory();
 class AddressListBloc extends BlocBase{
@@ -42,12 +43,13 @@ class AddressListBloc extends BlocBase{
   String? landmark='';
   String? areName='';
   String? _currentAddress='';
+  late PermissionStatus _permissionStatus;
 
 
   AddressListBloc(this.userDataStore){
 
     setListeners();
-    getLocation();
+    requestLocationPermission();
     getAddress();
   }
 
@@ -75,56 +77,47 @@ class AddressListBloc extends BlocBase{
 
   }
 
-  Future<void> getLocation() async {
+  void requestLocationPermission() async{
 
+    Location location =  Location();
+
+    bool _serviceEnabled;
+    Permission _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+    _permissionStatus = await location.hasPermission();
+    if (_permissionStatus == Permission.denied) {
+      _permissionStatus =  await location.requestPermission();
+      if (_permissionStatus != Permission.granted) {
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+    _latLen= LatLng(_locationData.latitude!, _locationData.longitude!);
     Uint8List markIcons = await getImages('assets/images/my_loc.png', 100);
-    _markers.add(Marker(
-      markerId: MarkerId("0"),
-      icon: BitmapDescriptor.fromBytes(markIcons),
-      position: _latLen,
-    ));
+    _markers.add(
+        Marker(
+          markerId: MarkerId("0"),
+          icon: BitmapDescriptor.fromBytes(markIcons),
+          position: LatLng(_locationData.latitude!, _locationData.longitude!),
+        )
+    );
 
+    //print(address);
     _data.add(Tuple2(_latLen,_markers));
-    getUserCurrentLocation().then((value) async {
-      _latLen= LatLng(value.latitude, value.longitude);
-      _markers.add(
-          Marker(
-            markerId: MarkerId("0"),
-            icon: BitmapDescriptor.fromBytes(markIcons),
-            position: LatLng(value.latitude, value.longitude),
-          )
-      );
-
-      GetAddressFromLatLong(value);
-      //print(address);
-      _data.add(Tuple2(_latLen,_markers));
-    });
-
+    GetAddressFromLatLong(LatLng(_locationData.latitude!, _locationData.longitude!));
   }
-  Future<Position> getUserCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    permission = await Geolocator.requestPermission();
-
-    if (permission == LocationPermission.denied) {
-      return Future.error('Location permissions are denied');
-    }
 
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    Position position=await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    return position;
-  }
+
   Future<Uint8List> getImages(String path, int width) async{
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetHeight: width);
@@ -133,7 +126,7 @@ class AddressListBloc extends BlocBase{
 
   }
 
-  Future<void> GetAddressFromLatLong(Position position)async {
+  Future<void> GetAddressFromLatLong(LatLng position)async {
     await placemarkFromCoordinates(
         position.latitude, position.longitude)
         .then((List<Placemark> placemarks) {
