@@ -45,7 +45,7 @@ class AppBloc extends BlocBase{
          _startPage.add(AppInjector.instance.loginPage(0));
        } else {
         // _startPage.add(AppInjector.instance.dashboardPage(0));
-          _startPage.add(AppInjector.instance.addressList());
+          _startPage.add(AppInjector.instance.addressList(0));
       }
      }
 

@@ -35,16 +35,16 @@ class OTPPageState extends State<OTPPage>{
       stream: _bloc!.isLoading,
       bottomSheet:  SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(25),
+          padding: const EdgeInsets.all(25),
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
+              borderRadius: const BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
                   spreadRadius: 0,
                   blurRadius: 16,
-                  offset: Offset(0, -6),
+                  offset: const Offset(0, -6),
                 )
               ]
           ),
@@ -53,20 +53,20 @@ class OTPPageState extends State<OTPPage>{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                  padding: EdgeInsets.only(left: 50),
+                  padding: const EdgeInsets.only(left: 50),
                   child:RichText(
-                      text: TextSpan(style: TextStyle(fontSize: 11), children: [
-                        TextSpan(
+                      text: TextSpan(style: const TextStyle(fontSize: 11), children: [
+                        const TextSpan(
                             text: "STEP: ",
                             style: TextStyle(
                                 color: Colors.grey, fontFamily: Fonts.regular)),
                         TextSpan(text: "1",style: TextStyle(
                             color: ByMeColors.app_color, fontFamily: Fonts.regular)),
-                        TextSpan(
+                        const TextSpan(
                             text: "/",
                             style: TextStyle(
                                 color: Colors.grey, fontFamily: Fonts.regular)),
-                        TextSpan(text: "7",style: TextStyle(
+                        const TextSpan(text: "7",style: TextStyle(
                             color: Colors.grey, fontFamily: Fonts.regular))
                       ]))),
 
@@ -77,14 +77,14 @@ class OTPPageState extends State<OTPPage>{
                   IconButton(onPressed: (){
                     Navigator.pop(context);
                   }, icon: Icon(Icons.arrow_back_ios,size: 24,color: HexColor("#828785"),)),
-                  ItemLabelText(text: "Enter the code \nsent to your phone",style: TextStyle(fontSize: 20,color: Colors.black,fontFamily: Fonts.medium,fontWeight: FontWeight.w600),),
+                  ItemLabelText(text: "Enter the code \nsent to your phone",style: const TextStyle(fontSize: 20,color: Colors.black,fontFamily: Fonts.medium,fontWeight: FontWeight.w600),),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Padding(
-                  padding: EdgeInsets.only(left: 50),
-                  child: ItemLabelText(text: "We have sent the code to ${_bloc!.verifyData!.mobileNumber}",style: TextStyle(fontSize: 13,color: Colors.black,fontFamily: Fonts.regular),)),
-              SizedBox(height: 20,),
+                  padding: const EdgeInsets.only(left: 50),
+                  child: ItemLabelText(text: "We have sent the code to ${_bloc!.verifyData!.mobileNumber}",style: const TextStyle(fontSize: 13,color: Colors.black,fontFamily: Fonts.regular),)),
+              const SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -111,14 +111,26 @@ class OTPPageState extends State<OTPPage>{
                       }
                     });
                   },
-                  rightIcon: Icon(Icons.backspace, color: Colors.black,),
+                  rightIcon: const Icon(Icons.backspace, color: Colors.black,),
                   mainAxisAlignment: MainAxisAlignment.spaceBetween
+              ),
+              const SizedBox(height: 10,),
+              StreamBuilder<String>(
+                initialData: '00:60',
+                stream: _bloc!.isTimer,
+                builder: (context, st) {
+                  return Center(child: TextButton(onPressed: (){
+                    _bloc!.resendOTP();
+                  }, child:  ItemLabelText(text:(st.data=="00:00")?'Resend a code':'Resend a code in  ${st.data}',style: TextStyle(fontSize: 12,color: (st.data=="00:00")?ByMeColors.app_color:ByMeColors.un_select,fontFamily: Fonts.regular))));
+                }
               ),
               customButton(() {
                 _bloc!.navigate(_otp);
 
-              }, ItemLabelText(text:(_bloc!.type==0)?'Proceed':'Verify OTP',style: TextStyle(fontSize: 16,color: Colors.white,fontFamily: Fonts.regular)),'#00B05A','#ffffff',context),
-              SizedBox(height: 20,),
+              }, ItemLabelText(text:(_bloc!.type==0)?'Proceed':'Verify OTP',style: const TextStyle(fontSize: 16,color: Colors.white,fontFamily: Fonts.regular)),'#00B05A','#ffffff',context),
+
+
+              const SizedBox(height: 20,),
               Container(
                 color: Colors.white,
                 alignment: Alignment.center,

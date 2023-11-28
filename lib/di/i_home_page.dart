@@ -107,7 +107,7 @@ extension HomePageExtension on AppInjector {
     });
 
     container.registerDependency<AddressListFactory>((){
-      return()=> BlocProvider<AddressListBloc>(bloc: AddressListBloc(userDataStore), child: AddressListPage());
+      return(screenType)=> BlocProvider<AddressListBloc>(bloc: AddressListBloc(userDataStore,screenType), child: AddressListPage());
     });
 
     container.registerDependency<PrivacyPolicyPageFactory>((){

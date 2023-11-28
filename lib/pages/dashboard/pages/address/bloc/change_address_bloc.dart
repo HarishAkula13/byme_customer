@@ -162,7 +162,8 @@ class ChangeAddressBloc extends BlocBase{
           "address_title": '${user.fullName} ${data['address_title']}',
           "latitude": _latLen.latitude,
           "longitude":_latLen.longitude,
-          "address_type":"eu_del_add"
+          "address_type":"eu_del_add",
+          'add_save_type':data['address_title']
         }).then((value) {
       _isLoading.add(false);
       if(value.error==null){

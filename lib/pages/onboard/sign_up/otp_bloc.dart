@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:byme_app/common/utils/pyc_colors.dart';
@@ -25,13 +26,16 @@ class OTPBloc extends BlocBase{
   UserDataStore? userDataStore;
   int type;
   VerifyUserResponse? verifyData;
-  BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
-  BehaviorSubject<String> _text =BehaviorSubject<String>();
+  final BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
+  final BehaviorSubject<String> _isTimer =BehaviorSubject.seeded('00:30');
+  final BehaviorSubject<String> _text =BehaviorSubject<String>();
   Sink<void> get text => _text;
-
-  PublishSubject<void> _sendOTP = PublishSubject();
+  Stream<String> get isTimer => _isTimer;
+  final PublishSubject<void> _sendOTP = PublishSubject();
   Stream<bool> get isLoading=> _isLoading;
   Sink<void> get sendOTP => _sendOTP;
+  int secondsRemaining = 60;
+  late Timer timer;
 
   OTPBloc(this.loginService,this.userDataStore,this.type,this.verifyData){
 
@@ -39,11 +43,42 @@ class OTPBloc extends BlocBase{
   }
 
   void setListeners() {
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+        if (secondsRemaining > 0) {
+          secondsRemaining--;
+          _isTimer.add('00:$secondsRemaining');
+        } else {
+          _isTimer.add('00:00');
+          timer.cancel();
+        }
 
+    });
 
   }
   void onKeyboardTap(String value) {
 
+  }
+
+  Future<void> resendOTP() async {
+    _isLoading.add(true);
+    loginService!.verifyUser({
+      "environment": EndPoints.env,
+      "phone":  verifyData!.mobileNumber,
+      "device_id": await FirebaseMessaging.instance.getToken()
+    }).then((value) {
+      _isLoading.add(false);
+      secondsRemaining=60;
+      timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+        if (secondsRemaining > 0) {
+          secondsRemaining--;
+          _isTimer.add('00:$secondsRemaining');
+        } else {
+          _isTimer.add('00:00');
+          timer.cancel();
+        }
+
+      });
+    });
   }
 
   Future<void> navigate(String? otp) async {
@@ -63,7 +98,7 @@ class OTPBloc extends BlocBase{
         _isLoading.add(false);
         if(value.data!.key=='registered') {
           await userDataStore!.insert(UserData(fullName: value.data!.fullName,mobileNumber: value.data!.mobileNumber,userId: value.data!.userId,token: value.data!.token));
-          Get.offAll(AppInjector.instance.addressList);
+          Get.offAll(AppInjector.instance.addressList(0));
         }else {
           Get.to(AppInjector.instance.createProfilePage({
           "environment": EndPoints.env,
@@ -89,5 +124,10 @@ class OTPBloc extends BlocBase{
     // printLog("title", '${otp} \n  ${verifyData!.otp.toString()}');
   */
 
+  }
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }

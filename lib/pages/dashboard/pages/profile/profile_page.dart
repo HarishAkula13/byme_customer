@@ -110,15 +110,20 @@ class ProfilePageState extends State<ProfilePage>{
                             padding: const EdgeInsets.only(top: 10.0,bottom: 10),
                             child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
                           ),
-                          Row(
-                            children: [
-                              Icon(Icons.location_on_outlined,color: HexColor('#858E8B'),),
-                              const SizedBox(width: 20,),
-                              ItemLabelText(text: 'Ammavari Peta, Bhattupalli',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
-                              const Spacer(),
-                              Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
+                          InkWell(
+                            onTap: (){
+                              Get.to(AppInjector.instance.addressList(1));
+                            },
+                            child: Row(
+                              children: [
+                                Icon(Icons.location_on_outlined,color: HexColor('#858E8B'),),
+                                const SizedBox(width: 20,),
+                                ItemLabelText(text: 'Add Address',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                                const Spacer(),
+                                Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
 
-                            ],
+                              ],
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 10.0,bottom: 10),

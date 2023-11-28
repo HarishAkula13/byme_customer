@@ -3,20 +3,16 @@ import 'package:byme_app/common/load_container/load_container.dart';
 import 'package:byme_app/common/textfield/byme_search_field.dart';
 import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
-import 'package:byme_app/di/i_login_page.dart';
-import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:byme_app/model/shop/shop_list_deatils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import '../../../../app/arch/bloc_provider.dart';
 import '../../../../common/dialog/bottom_sheet/categories_dialog.dart';
 import '../../../../common/dialog/custom_dialogs.dart';
 import '../../../../common/label/item_label_text.dart';
-import '../../../../common/textfield/byme_text_field.dart';
 import '../../../../common/utilities/byme_colors.dart';
 import '../../../../common/utilities/fonts.dart';
 import '../../../../di/app_injector.dart';
@@ -53,25 +49,25 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                 StreamBuilder<String>(
                   stream: _bloc!.userName,
                   builder: (context, snap) {
-                    return ItemLabelText(text: '${snap.data}',style: TextStyle(fontSize: 22,color: Colors.black,fontFamily: Inter.bold),);
+                    return ItemLabelText(text: '${snap.data}',style: const TextStyle(fontSize: 22,color: Colors.black,fontFamily: Inter.bold),);
                   }
                 ),
-                SizedBox(width: 10,),
+                const SizedBox(width: 10,),
 
                 Row(
                   children: [
-                    Icon((Icons.location_on_outlined),size: 20,color: Colors.grey,),
-                    SizedBox(width: 5,),
+                    const Icon((Icons.location_on_outlined),size: 20,color: Colors.grey,),
+                    const SizedBox(width: 5,),
 
-                    ItemLabelText(text:_bloc!.address!.addressTitle,style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),),
+                    ItemLabelText(text:_bloc!.address!.addressTitle,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular),),
                               ],
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
               onTap: (){
-                Get.to(AppInjector.instance.addressList);
+                Get.to(AppInjector.instance.addressList(1));
               },
                 child: SvgPicture.asset('assets/images/edit.svg',)),
 
@@ -101,7 +97,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                       inputAction: TextInputAction.done,
                       keyboardType: TextInputType.name,
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Row(
                       children: [
                         GestureDetector(
@@ -111,7 +107,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                             },
 
                             child: ItemLabelText(text: 'Shops',style: TextStyle(fontSize: 20,color: san.data==false?Colors.black:ByMeColors.icon_un_select,fontFamily: Inter.medium,fontWeight: FontWeight.w800),)),
-                        Spacer(),
+                        const Spacer(),
                         GestureDetector(
                             onTap: (){
                               _bloc!.addIsService.add(true);
@@ -122,7 +118,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
 
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     (san.data==true)?StreamBuilder<List<Menu>>(
                       initialData: [],
                       stream: _bloc!.menuList,
@@ -146,8 +142,8 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                                   radius: 25,
                                   backgroundColor:HexColor('#E7F6EA'),
                                     child: SvgPicture.asset(s.data![i].icon!)),
-                                SizedBox(height: 10,),
-                                ItemLabelText(text: s.data![i].title!,textAlignment: TextAlign.center,style: TextStyle(fontFamily: Inter.medium,fontSize: 11,color: Colors.black,fontWeight: FontWeight.w400),)
+                                const SizedBox(height: 10,),
+                                ItemLabelText(text: s.data![i].title!,textAlignment: TextAlign.center,style: const TextStyle(fontFamily: Inter.medium,fontSize: 11,color: Colors.black,fontWeight: FontWeight.w400),)
                               ],
                             ),
                           ),),);
@@ -166,8 +162,6 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                               onTap: (){
                                 //_bloc!.addCategorieName.add(s.data![i].title!);
                                 Get.to(AppInjector.instance.shopList(s.data![i],_bloc!.address));
-
-
                               },
                               child: Column(
                                 children: [
@@ -175,15 +169,15 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                                       radius: 25,
                                       backgroundColor:HexColor('#E7F6EA'),
                                       child: SvgPicture.asset(s.data![i].icon!)),
-                                  SizedBox(height: 10,),
-                                  ItemLabelText(text: s.data![i].title!,textAlignment: TextAlign.center,style: TextStyle(fontFamily: Inter.medium,fontSize: 11,color: Colors.black,fontWeight: FontWeight.w400),)
+                                  const SizedBox(height: 10,),
+                                  ItemLabelText(text: s.data![i].title!,textAlignment: TextAlign.center,style: const TextStyle(fontFamily: Inter.medium,fontSize: 11,color: Colors.black,fontWeight: FontWeight.w400),)
                                 ],
                               ),
                             ),),);
                         }
                     ),
-                    SizedBox(height: 20,),
-                    ItemLabelText(text: (san.data==true)?'Orders':"Nearby",style: TextStyle(fontSize: 20,color:  Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w800),),
+                    const SizedBox(height: 20,),
+                    ItemLabelText(text: (san.data==true)?'Orders':"Nearby",style: const TextStyle(fontSize: 20,color:  Colors.black,fontFamily: Inter.medium,fontWeight: FontWeight.w800),),
                     (san.data==false)?SizedBox(
                       height: 100,
                       child: StreamBuilder<List<ShopListDetails>>(
@@ -203,28 +197,27 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                                   child: Container(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      height: 75,
+                                      height: 105,
                                       width: 85,
                                       alignment: Alignment.bottomCenter,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                                          image: DecorationImage(image:
-                                          NetworkImage("https://images.unsplash.com/photo-1579202673506-ca3ce28943ef"),
-                                              fit: BoxFit.fill
+                                      child: Column(
+                                        children: [
+                                          Image.network(snap.data![j].shopDetails!.imageLink!,height: 55,width: 85,),
+                                          Positioned(
+                                            child: Container(
+                                              width: 85,
+                                              decoration: BoxDecoration(
+                                                color: Colors.black.withOpacity(0.4),
+                                                borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
 
-                                        )
+                                              ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(4.0),
+                                                  child: ItemLabelText(text:snap.data![j].shopDetails!.shopName,textAlignment: TextAlign.center,style: const TextStyle(color: Colors.white,fontSize: 10,overflow: TextOverflow.ellipsis,fontFamily: Inter.medium,),),
+                                                )),
+                                          ),
+                                        ],
                                       ),
-                                      child: Container(
-                                        width: Get.width,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black.withOpacity(0.4),
-                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
-
-                                        ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: ItemLabelText(text:snap.data![j].shopDetails!.shopName,textAlignment: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 10,overflow: TextOverflow.ellipsis,fontFamily: Inter.medium,),),
-                                          )),
 
                                     ),
                                   ),
@@ -232,7 +225,7 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                               });
                         }
                       ),
-                    ):SizedBox()
+                    ):const SizedBox()
                   ],
                 );
               }

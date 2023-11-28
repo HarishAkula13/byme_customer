@@ -23,7 +23,7 @@ enum Permission{
   denied,granted
 }
 
-typedef BlocProvider<AddressListBloc> AddressListFactory();
+typedef BlocProvider<AddressListBloc> AddressListFactory(int screenType);
 class AddressListBloc extends BlocBase{
   UserDataStore? userDataStore;
 
@@ -43,10 +43,11 @@ class AddressListBloc extends BlocBase{
   String? landmark='';
   String? areName='';
   String? _currentAddress='';
+  int screenType;
   late PermissionStatus _permissionStatus;
 
 
-  AddressListBloc(this.userDataStore){
+  AddressListBloc(this.userDataStore,this.screenType){
 
     setListeners();
     requestLocationPermission();
