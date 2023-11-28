@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:byme_app/app/arch/bloc_provider.dart';
 import 'package:byme_app/common/fonts/fonts.dart';
 import 'package:byme_app/common/label/item_label_text.dart';
@@ -227,7 +229,7 @@ class ShopMenuPageState extends State<ShopMenuPage> {
         }
       ),
       bottomNavigationBar: Container(
-        height: 64,
+        height: (Platform.isAndroid) ? 64 : 94,
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.15), //color of shadow

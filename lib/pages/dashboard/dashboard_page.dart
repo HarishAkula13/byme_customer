@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:byme_app/di/i_home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +42,7 @@ class DashboardPageState extends State<DashboardPage>{
         },
       ),
       bottomNavigationBar: Container(
-        height: 64,
+        height: (Platform.isAndroid) ? 64 : 94,
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.15), //color of shadow

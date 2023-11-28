@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:byme_app/app/arch/bloc_provider.dart';
 import 'package:byme_app/common/load_container/load_container.dart';
@@ -144,7 +145,7 @@ class _ShopsListPageState extends State<ShopsListPage> {
         }
       ),
       bottomNavigationBar: Container(
-        height: 64,
+        height: (Platform.isAndroid) ? 64 : 94,
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.15), //color of shadow
