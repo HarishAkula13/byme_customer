@@ -32,12 +32,12 @@ class NearShopsBloc extends BlocBase{
 
   void setListeners() {
     List<Menu> categoryList=[
-      Menu(icon: 'assets/images/kg.svg',title: 'General stores',tag: 'KG'),
+      Menu(icon: 'assets/images/kg.svg',title: 'Kirana & General stores',tag: 'KG'),
       Menu(icon: 'assets/images/ph.svg',title: 'Pharmacy',tag: 'PH'),
       Menu(icon: 'assets/images/lab.svg',title: 'Lab Tests',tag: 'LT'),
       Menu(icon: 'assets/images/meat.svg',title: 'Meat & Eggs',tag: 'ME'),
-      Menu(icon: 'assets/images/meat.svg',title: 'Vegetables \n& Fruits',tag: 'FV'),
-      Menu(icon: 'assets/images/meat.svg',title: 'Beverages\n&Food',tag: 'FB'),
+      Menu(icon: 'assets/images/fv.svg',title: 'Fruits & Vegetables',tag: 'FV'),
+      Menu(icon: 'assets/images/fb.svg',title: 'Food & Beverages',tag: 'FB'),
       Menu(icon: 'assets/images/auto.svg',title: 'Hardware',tag: 'HW'),
       Menu(icon: 'assets/images/milk.svg',title: 'Milk & Dairy',tag: 'MD'),
       Menu(icon: 'assets/images/liquor.svg',title: 'Liquor Store',tag: 'LQ'),

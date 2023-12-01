@@ -192,32 +192,33 @@ class HomePageState extends State<HomePage> with CustomDialogMixin{
                               itemBuilder: (b,j){
                                 return GestureDetector(
                                   onTap:(){
-                                    Get.to(AppInjector.instance.shopMenu( snap.data![j].shopDetails,_bloc!.address));
+                                    Get.to(AppInjector.instance.shopMenu(snap.data![j],_bloc!.address));
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      height: 105,
+                                      height: 75,
                                       width: 85,
                                       alignment: Alignment.bottomCenter,
-                                      child: Column(
-                                        children: [
-                                          Image.network(snap.data![j].shopDetails!.imageLink!,height: 55,width: 85,),
-                                          Positioned(
-                                            child: Container(
-                                              width: 85,
-                                              decoration: BoxDecoration(
-                                                color: Colors.black.withOpacity(0.4),
-                                                borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                                          image: DecorationImage(image:
+                                          NetworkImage(snap.data![j].shopDetails!.imageLink!),
+                                              fit: BoxFit.fill
 
-                                              ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(4.0),
-                                                  child: ItemLabelText(text:snap.data![j].shopDetails!.shopName,textAlignment: TextAlign.center,style: const TextStyle(color: Colors.white,fontSize: 10,overflow: TextOverflow.ellipsis,fontFamily: Inter.medium,),),
-                                                )),
-                                          ),
-                                        ],
+                                          )
                                       ),
+                                      child: Container(
+                                          width: Get.width,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black.withOpacity(0.4),
+                                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
+
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: ItemLabelText(text:snap.data![j].shopDetails!.shopName,textAlignment: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 10,overflow: TextOverflow.ellipsis,fontFamily: Inter.medium,),),
+                                          )),
 
                                     ),
                                   ),

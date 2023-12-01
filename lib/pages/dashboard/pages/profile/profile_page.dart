@@ -42,14 +42,17 @@ class ProfilePageState extends State<ProfilePage>{
             backgroundColor: HexColor('#E7F6EA'),
             title: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ItemLabelText(text: (sna.data!=null)? sna.data!.fullName:'',style: const TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black),),
-                  const SizedBox(height: 5,),
-                  ItemLabelText(text: '@${(sna.data!=null)? sna.data!.phoneNumber:''}',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: HexColor('#6F7C75')),)
-                ],
+              child: SizedBox(
+                width: Get.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ItemLabelText(text: (sna.data!=null)? sna.data!.fullName:'',style: const TextStyle(fontSize: 20,fontFamily: Inter.medium,fontWeight: FontWeight.w700,color: Colors.black),),
+                    const SizedBox(height: 5,),
+                    ItemLabelText(text: '@${(sna.data!=null)? sna.data!.phoneNumber:''}',style: TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: HexColor('#6F7C75')),)
+                  ],
+                ),
               ),
             ),
           ),
@@ -125,7 +128,7 @@ class ProfilePageState extends State<ProfilePage>{
                               ],
                             ),
                           ),
-                          Padding(
+                        /*  Padding(
                             padding: const EdgeInsets.only(top: 10.0,bottom: 10),
                             child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
                           ),
@@ -138,7 +141,7 @@ class ProfilePageState extends State<ProfilePage>{
                               Icon(Icons.arrow_forward_ios_sharp,color: HexColor('#C4C4C4'),size: 14,)
 
                             ],
-                          ),
+                          ),*/
                          /* Padding(
                             padding: const EdgeInsets.only(top: 10.0,bottom: 10),
                             child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
@@ -167,6 +170,44 @@ class ProfilePageState extends State<ProfilePage>{
                                 SvgPicture.asset('assets/images/terms.svg'),
                                 const SizedBox(width: 20,),
                                 ItemLabelText(text: 'Terms & Conditions',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                                const Spacer(),
+                                Icon(Icons.chevron_right,color: HexColor('#C4C4C4'),)
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0,bottom: 10),
+                            child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
+                          ),
+                          InkWell(
+                            onTap: (){
+
+                              Get.to(AppInjector.instance.privacyPolicy(1));
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset('assets/images/privacy.svg'),
+                                const SizedBox(width: 20,),
+                                ItemLabelText(text: 'Privacy Policy',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
+                                const Spacer(),
+                                Icon(Icons.chevron_right,color: HexColor('#C4C4C4'),)
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0,bottom: 10),
+                            child: Divider(color: HexColor('#E9E9E9'),thickness: 1,indent: 40,),
+                          ),
+                          InkWell(
+                            onTap: (){
+
+                              Get.to(AppInjector.instance.privacyPolicy(3));
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset('assets/images/refund.svg'),
+                                const SizedBox(width: 20,),
+                                ItemLabelText(text: 'Refund Policy',style: const TextStyle(fontSize: 14,fontFamily: Inter.regular,fontWeight: FontWeight.w400,color: Colors.black),),
                                 const Spacer(),
                                 Icon(Icons.chevron_right,color: HexColor('#C4C4C4'),)
                               ],

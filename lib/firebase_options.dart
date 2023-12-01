@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,15 +49,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBhKgaEa-H9TqL8-B36CseQ2Ur6G1paEwc',
-    appId: '1:479525861138:web:f59313399f9f8de6ef25cb',
-    messagingSenderId: '479525861138',
-    projectId: 'byme-customer',
-    authDomain: 'byme-customer.firebaseapp.com',
-    storageBucket: 'byme-customer.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCc4wDgtwQP5c4GNFqHTdKDU1O7uXjlhBU',
     appId: '1:479525861138:android:6dd6d526fb0bc11cef25cb',
@@ -62,21 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBYM80iO7U_OTgYQ_YMD_zuItjY3i_sSnQ',
-    appId: '1:479525861138:ios:42aabaa167a3beaaef25cb',
+    appId: '1:479525861138:ios:71bd91c63651127bef25cb',
     messagingSenderId: '479525861138',
     projectId: 'byme-customer',
     storageBucket: 'byme-customer.appspot.com',
-    iosClientId: '479525861138-q8eol0blie166fbp66ffpb4oi2uvus6d.apps.googleusercontent.com',
-    iosBundleId: 'com.byme.customer',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBYM80iO7U_OTgYQ_YMD_zuItjY3i_sSnQ',
-    appId: '1:479525861138:ios:1588e166c4f7787cef25cb',
-    messagingSenderId: '479525861138',
-    projectId: 'byme-customer',
-    storageBucket: 'byme-customer.appspot.com',
-    iosClientId: '479525861138-gh0seriaofbcusia8cikk533j43dpcsa.apps.googleusercontent.com',
-    iosBundleId: 'com.byme.app.bymeApp',
+    iosBundleId: 'com.byme.customerapp',
   );
 }

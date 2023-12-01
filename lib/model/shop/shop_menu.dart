@@ -22,7 +22,7 @@ class ShopMenu{
       this.subCategory,
       this.imageLink,
       this.methodOofTransportRequired,
-      this.rating,this.cartQty,this.cart);
+      this.rating,this.cartQty,this.cart,this.flag);
 
   String? shopId;
   List<ShopMenu>? productInfo;
@@ -42,6 +42,7 @@ class ShopMenu{
   @JsonKey(defaultValue: 0)
   int? cartQty;
   String? cart;
+  bool? flag;
 
   factory ShopMenu.fromJson(Map<String,dynamic> json) => _$ShopMenuFromJson(json);
 

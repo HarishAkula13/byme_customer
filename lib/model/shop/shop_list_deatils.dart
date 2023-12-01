@@ -21,7 +21,7 @@ class ShopListDetails{
       this.imageLink,
       this.latitude,
       this.longitude,
-      this.shopRating});
+      this.shopRating,this.flag});
 
   dynamic distance;
   ShopListDetails? shopDetails;
@@ -35,6 +35,7 @@ class ShopListDetails{
   String? latitude;
   String? longitude;
   String? shopRating;
+  bool? flag;
 
   factory ShopListDetails.fromJson(Map<String,dynamic> json) => _$ShopListDetailsFromJson(json);
 

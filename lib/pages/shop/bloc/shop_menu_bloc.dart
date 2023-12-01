@@ -1,6 +1,7 @@
 
 
 import 'package:byme_app/common/utilities/fonts.dart';
+import 'package:byme_app/common/utilities/logger.dart';
 import 'package:byme_app/di/i_home_page.dart';
 import 'package:byme_app/model/address_data/address_data.dart';
 import 'package:byme_app/model/signup/user_data.dart';
@@ -28,8 +29,10 @@ class ShopMenuBloc extends BlocBase{
   final BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   final BehaviorSubject<int> _cartQty =BehaviorSubject.seeded(1);
   final BehaviorSubject<List<ShopMenu>> _isShopMenu =BehaviorSubject.seeded([]);
-  BehaviorSubject<int> _selectedPos= BehaviorSubject.seeded(0);
-
+  final BehaviorSubject<int> _selectedPos= BehaviorSubject.seeded(0);
+  final BehaviorSubject<bool> _isSelectTab= BehaviorSubject.seeded(false);
+  Stream<bool> get isSelectTab => _isSelectTab;
+  Sink<bool> get addIsSelectTab => _isSelectTab;
   Stream<int> get selectedPos => _selectedPos;
   Sink<int> get addSelectedPos => _selectedPos;
   Stream<bool> get isLoading=> _isLoading;
@@ -45,13 +48,13 @@ class ShopMenuBloc extends BlocBase{
 
   }
 
-  void setListeners() {
-
-
+  void setListeners() async{
+    printLog("shopDetails", shopDetails!.shopId);
+    UserData? user=await userDataStore!.getUser();
       _selectedPos.add(1);
       pagesList=[
             ()=> AppInjector.instance.home(addressData),
-            ()=> AppInjector.instance.shopMenu( shopDetails,addressData),
+            ()=> AppInjector.instance.nearShop(addressData),
             ()=> AppInjector.instance.cartPage(addressData),
             ()=> AppInjector.instance.profile((){viewOrders();},addressData),
       ];
@@ -61,6 +64,7 @@ class ShopMenuBloc extends BlocBase{
     ShopService().getShopMenu({
       "environment" : EndPoints.env,
       "shop_id":shopDetails!.shopId,
+      "user_id":user!.userId,
     }).then((value) {
       _isLoading.add(false);
       if(value.data!=null){

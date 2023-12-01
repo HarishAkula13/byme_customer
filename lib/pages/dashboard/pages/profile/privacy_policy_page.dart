@@ -43,7 +43,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
           }, icon: Icon(Icons.arrow_back_ios_new,color: PYCColors.text_Secondary,size: 18,)),
         ),
         automaticallyImplyLeading: false,
-        title: ItemLabelText(text: bloc!.type==1?'Privacy Policy':'Terms of Services',style: TextStyle(color: PYCColors.text_Secondary,fontSize: 18,fontFamily: Fonts.bold),),
+        title: ItemLabelText(text: bloc!.type==1?'Privacy Policy': bloc!.type==2?'Terms of Services':'Refund Policy',style: TextStyle(color: PYCColors.text_Secondary,fontSize: 18,fontFamily: Fonts.bold),),
         backgroundColor: Colors.white,
       ),
       body: LoaderContainer(
@@ -60,7 +60,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
               onWebResourceError: (WebResourceError error) {},
             ),
           )
-          ..loadRequest(Uri.parse(bloc!.type==2?EndPoints.terms:EndPoints.privacy))),
+          ..loadRequest(Uri.parse(bloc!.type==2?EndPoints.terms:bloc!.type==1?EndPoints.privacy:EndPoints.refund))),
     
       ),
 

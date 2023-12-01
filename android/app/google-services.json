@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "479525861138-q8eol0blie166fbp66ffpb4oi2uvus6d.apps.googleusercontent.com",
+              "client_id": "479525861138-gh0seriaofbcusia8cikk533j43dpcsa.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.byme.customer"
+                "bundle_id": "com.byme.app.bymeApp"
               }
             }
           ]
