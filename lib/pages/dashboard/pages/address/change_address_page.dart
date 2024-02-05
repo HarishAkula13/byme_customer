@@ -15,6 +15,7 @@ import '../../../../common/load_container/load_container.dart';
 import '../../../../common/textfield/byme_text_field.dart';
 import '../../../../common/utilities/byme_colors.dart';
 import '../../../../common/utilities/fonts.dart';
+import '../../../../common/validators/validators.dart';
 import '../../../../repositories/end_point/end_point.dart';
 import 'bloc/change_address_bloc.dart';
 
@@ -154,6 +155,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                     hintText: "House/Flat Number",
                     inputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
+                    validationStream: _bloc!.nameValidationMsg,
                     //onChange: _bloc!.name.add,
                   ),
                   const SizedBox(height: 15,),
@@ -163,6 +165,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                     hintText: "Street/Area",
                     inputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
+                    validationStream: _bloc!.streetValidationMsg,
                     //onChange: _bloc!.email.add,
                   ),
                  /* StreamBuilder<String>(
@@ -197,8 +200,10 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                     controller: pinCode,
                     labelText: "",
                     hintText: "PIN Code",
+                    charactersLimit: 6,
                     inputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
+                    validationStream: _bloc!.pincodeValidationMsg,
                     //onChange: _bloc!.email.add,
                   ),
                   const SizedBox(height: 15,),
@@ -208,6 +213,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                     hintText: "Land mark",
                     inputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
+                    validationStream: _bloc!.landMarkValidationMsg,
                     //onChange: _bloc!.email.add,
                   ),
                   const SizedBox(height: 15,),
@@ -215,8 +221,9 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                     controller: addressType,
                     labelText: "",
                     hintText: "Address Title",
-                    inputAction: TextInputAction.next,
+                    inputAction: TextInputAction.done,
                     keyboardType: TextInputType.text,
+                    validationStream: _bloc!.titleValidationMsg,
                     //onChange: _bloc!.email.add,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height*0.15,),
@@ -245,7 +252,16 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                               "pin_code": pinCode.text,
                               "address_title": addressType.text,
                             };
-                            _bloc!.saveManualAddress(map);
+                            _bloc!.saveManualAddress(map,context);
+                          }else{
+                            _bloc!.addNameValidationMsg.add(FormValidator().validateField(houseNumber.text)!);
+                            _bloc!.addStreetValidationMsg.add(FormValidator().validateField(street.text)!);
+                            _bloc!.addPincodeValidationMsg.add(FormValidator().isValidPIN(pinCode.text)!);
+                            _bloc!.addLandMarkValidationMsg.add(FormValidator().validateField(landmark.text)!);
+                            _bloc!.addTitleValidationMsg.add(FormValidator().validateField(addressType.text)!);
+
+
+
                           }
 
                          // Navigator.pop(context);

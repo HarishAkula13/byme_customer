@@ -127,6 +127,9 @@ class SignUpPageState extends State<SignUpPage>{
                   _bloc!.addValidationMsg.add(FormValidator().isValidMobileNumber(_number.text)!);
                   if(FormValidator().isValidMobileNumber(_number.text)!.isEmpty)
                     _bloc!.navigate(_number.text);
+                }else{
+                  _bloc!.addValidationMsg.add(FormValidator().isValidMobileNumber(_number.text)!);
+
                 }
 
 

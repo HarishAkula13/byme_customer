@@ -80,4 +80,19 @@ class ShopService extends BaseAPIService implements ShopAPI{
       }
     });
   }
+
+  @override
+  Future<RequestResponse<ShopMenu>> addOtherShopItem(Map<String, dynamic> data) {
+    return make(RequestType.POST, EndPoints.addOtherShopItem, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        printLog("response", result.data);
+        var data=ShopMenu.fromJson(result.data);
+        return RequestResponse(data: data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
 }

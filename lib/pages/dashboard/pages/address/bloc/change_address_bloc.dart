@@ -30,6 +30,21 @@ class ChangeAddressBloc extends BlocBase{
   BehaviorSubject<bool> _isChange = BehaviorSubject.seeded(false);
   BehaviorSubject<String> _city = BehaviorSubject();
   BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
+  BehaviorSubject<String> _nameValidationMsg =BehaviorSubject<String>();
+  BehaviorSubject<String> _streetValidationMsg =BehaviorSubject<String>();
+  BehaviorSubject<String> _pincodeValidationMsg =BehaviorSubject<String>();
+  BehaviorSubject<String> _landMarkValidationMsg =BehaviorSubject<String>();
+  BehaviorSubject<String> _titleValidationMsg =BehaviorSubject<String>();
+  Sink<String> get addNameValidationMsg => _nameValidationMsg;
+  Stream<String> get nameValidationMsg => _nameValidationMsg;
+  Sink<String> get addStreetValidationMsg => _streetValidationMsg;
+  Stream<String> get streetValidationMsg => _streetValidationMsg;
+  Sink<String> get addPincodeValidationMsg => _pincodeValidationMsg;
+  Stream<String> get pincodeValidationMsg => _pincodeValidationMsg;
+  Sink<String> get addLandMarkValidationMsg => _landMarkValidationMsg;
+  Stream<String> get landMarkValidationMsg => _landMarkValidationMsg;
+  Sink<String> get addTitleValidationMsg => _titleValidationMsg;
+  Stream<String> get titleValidationMsg => _titleValidationMsg;
   Stream<bool> get isLoading=> _isLoading;
   Stream<String> get city => _city;
   Sink<String> get addCity  => _city;
@@ -145,7 +160,7 @@ class ChangeAddressBloc extends BlocBase{
 
 
   }
-  void  saveManualAddress(Map<String,dynamic> data) async {
+  void  saveManualAddress(Map<String,dynamic> data,BuildContext context) async {
     _isLoading.add(true);
     UserData? user= await userDataStore!.getUser();
     _currentAddress='${data['house']},${data['area_name']},${data['landmark']},$cityName,$state,${data['pin_code']}';
@@ -174,6 +189,7 @@ class ChangeAddressBloc extends BlocBase{
             backgroundColor: PYCColors.app_color,
             icon: const Icon(Icons.verified_outlined,color: Colors.white,),
           );
+          Navigator.pop(context);
 
         }
 

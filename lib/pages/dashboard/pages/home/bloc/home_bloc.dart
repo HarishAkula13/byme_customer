@@ -15,6 +15,8 @@ import 'package:intl/intl.dart';
 import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
+import '../../../../../common/fonts/fonts.dart';
+import '../../../../../common/label/item_label_text.dart';
 import '../../../../../common/utilities/logger.dart';
 import '../../../../../di/app_injector.dart';
 import '../../../../../manager/user_data_store/user_data_store.dart';
@@ -137,15 +139,25 @@ class HomeBloc extends BlocBase{
     DashboardService().addCart(data).then((val) {
       _isLoading.add(false);
       if(val.error==null){
-        if(val.data!['message']!=null){
-          Get.snackbar('Success',
-            val.data!['message'],
-            colorText: Colors.white,
-            backgroundColor: ByMeColors.app_color,
-            icon: const Icon(Icons.verified_outlined,color: Colors.white,),
-          );
-          Get.to(AppInjector.instance.dashboardPage(2,address));
+        if(val.data!["status"]!=null){
+          if(val.data!["status"]==3){
+            showAlertDialog(val.data!['key'],data);
+
+
+          }
+
+        }else{
+          if(val.data!['message']!=null){
+            Get.snackbar('Success',
+              val.data!['message'],
+              colorText: Colors.white,
+              backgroundColor: ByMeColors.app_color,
+              icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+            );
+            Get.to(AppInjector.instance.dashboardPage(2,address));
+          }
         }
+
       }
 
     }
@@ -242,12 +254,12 @@ class HomeBloc extends BlocBase{
           '${place.street}, ${place.subLocality},${place.locality},${place.administrativeArea} ,${place.country},${place.postalCode}';
       ShopService().getNearShopList({
         "environment" : EndPoints.env,
-        // "city_name":place.locality,
-        // "latitude": position.latitude,
-        // "longitude":position.longitude
-        "city_name":"Karimnagar",
+         "city_name":place.locality,
+         "latitude": position.latitude,
+         "longitude":position.longitude
+        /*"city_name":"Karimnagar",
         "latitude": 17.4134871,
-        "longitude":78.3012398
+        "longitude":78.3012398*/
       }).then((value) {
         _isLoading.add(false);
         if(value.data!=null){
@@ -261,5 +273,54 @@ class HomeBloc extends BlocBase{
     }).catchError((e) {
       debugPrint(e);
     });
+  }
+
+  showAlertDialog(String msg,Map<String,dynamic> data) {
+    return showDialog<void>(
+      context: Get.context!,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                ItemLabelText( text: msg,style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: ItemLabelText( text:'Replace',style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular,color: Colors.red)),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _isLoading.add(true);
+                DashboardService().addOtherCart(data).then((val) {
+                  _isLoading.add(false);
+                  if(val.error==null){
+                    if(val.data!['message']!=null){
+                      Get.snackbar('Success',
+                        val.data!['message'],
+                        colorText: Colors.white,
+                        backgroundColor: ByMeColors.app_color,
+                        icon: const Icon(Icons.verified_outlined,color: Colors.white,),
+                      );
+                      Get.to(AppInjector.instance.dashboardPage(2,address));
+                    }
+                  }
+
+                }
+                );
+              },
+            ),
+            TextButton(
+              child: ItemLabelText( text:'Cancel',style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular,color: Colors.green)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -24,6 +24,7 @@ class CreateProfileBloc extends BlocBase{
   UserDataStore? userDataStore;
   Map<String,dynamic>? verifyData;
   BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> _isShow =BehaviorSubject.seeded(false);
   BehaviorSubject<String> _name = BehaviorSubject.seeded('');
   BehaviorSubject<String> _email = BehaviorSubject.seeded('');
   PublishSubject<void> _proceed = PublishSubject();
@@ -35,6 +36,8 @@ class CreateProfileBloc extends BlocBase{
   Sink<String> get email => _email;
   Sink<String> get name => _name;
   Stream<bool> get isLoading=> _isLoading;
+  Stream<bool> get isShow=> _isShow;
+  Sink<bool> get addIsShow=> _isShow;
   Sink<void> get proceed => _proceed;
 
   CreateProfileBloc(this.loginService,this.userDataStore,this.verifyData){

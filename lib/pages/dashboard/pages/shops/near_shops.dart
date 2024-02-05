@@ -44,7 +44,7 @@ class _NearShopsState extends State<NearShops> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 50,),
+              const SizedBox(height: 50,),
               StreamBuilder<List<Menu>>(
                   initialData: [],
                   stream: bloc!.shopCategories,
@@ -103,7 +103,7 @@ class _NearShopsState extends State<NearShops> {
                     return ListView.builder(
                         itemCount: sp.data!.length,
                         shrinkWrap: true,
-                        physics:  NeverScrollableScrollPhysics(),
+                        physics:  const NeverScrollableScrollPhysics(),
                         itemBuilder: (b,i){
                           return  Container(
                             padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 10),
@@ -132,11 +132,11 @@ class _NearShopsState extends State<NearShops> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          ItemLabelText(text: sp.data![i].shopDetails!.shopName,textAlignment: TextAlign.center,style:  TextStyle(fontFamily: Inter.medium,fontSize: 14,color: Colors.black,fontWeight: FontWeight.w600),),
-                                          SizedBox(height: 5,),
+                                          ItemLabelText(text: sp.data![i].shopDetails!.shopName,textAlignment: TextAlign.center,style:  const TextStyle(fontFamily: Inter.medium,fontSize: 14,color: Colors.black,fontWeight: FontWeight.w600),),
+                                          const SizedBox(height: 5,),
                                           ItemLabelText(text: sp.data![i].shopDetails!.shopAddress,textAlignment: TextAlign.start,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: ByMeColors.text_unselect_color,fontWeight: FontWeight.w400),),
                                           ItemLabelText(text: "${sp.data![i].distance.toString()}KM Away",textAlignment: TextAlign.center,style:  TextStyle(fontFamily: Inter.medium,fontSize: 12,color: ByMeColors.text_unselect_color,fontWeight: FontWeight.w400),),
-                                          SizedBox(height: 5,),
+                                          const SizedBox(height: 5,),
                                           ItemLabelText(text: (sp.data![i].shopDetails!.shopStatus=="True")?"Open Now":"Closes Soon",textAlignment: TextAlign.center,style:  TextStyle(fontFamily: Inter.regular,fontSize: 12,color: (sp.data![i].shopDetails!.shopStatus=="True")?ByMeColors.green_color:ByMeColors.text_red_color,fontWeight: FontWeight.w400),),
 
                                         ],
@@ -149,7 +149,7 @@ class _NearShopsState extends State<NearShops> {
                                       height: 45,
                                       width: 45,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                                         color: HexColor("#F3F3F3")
                                       ),
                                       child: Icon(Icons.arrow_forward_ios,color: HexColor("#828785"),size: 14,),

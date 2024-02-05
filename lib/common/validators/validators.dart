@@ -45,7 +45,7 @@ class FormValidator {
   String? isValidMobileNumber(String input) {
     final RegExp regex = RegExp(r'^[0-9]{10}$');
 
-    return regex.hasMatch(input)==true?'':'Invalid Mobile Number';
+    return (input.isNotEmpty)?regex.hasMatch(input)==true?'':'Invalid Mobile Number':'Enter Mobile Number';
   }
 
   String? validateName(String? name) {

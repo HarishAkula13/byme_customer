@@ -36,6 +36,7 @@ class EndPoints {
   static EndPoint get getAddressCheck => _getEndPointAddress(_api + 'add-check');
   static EndPoint get getOrderList => _getEndPointOrderList(_api + 'order-list');
   static EndPoint get addCart => _getEndPointCart(_api + 'sn-add-item');
+  static EndPoint get addOtherCart => _getEndPointCart(_api + 'other-service-item-add');
   static EndPoint get cartList => _getEndPointCart(_api + 'fetch-cart');
   static EndPoint get removeCartItem => _getEndPointCart(_api + 'sn-remove-item');
   static EndPoint get priceSchedule => _getEndPriceSchedule(_api + 'sn-price-schedule');
@@ -51,6 +52,7 @@ class EndPoints {
   static EndPoint get getNearShops => _getEndShop(_api + 'shops-list-distance');
   static EndPoint get getShopMenu => _getEndShop(_api + 'shop-menu');
   static EndPoint get addShopItem => _getEndPointCart(_api + 'add-item');
+  static EndPoint get addOtherShopItem => _getEndPointCart(_api + 'other-shop-item-add-item');
 
 
 

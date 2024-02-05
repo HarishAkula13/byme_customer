@@ -15,11 +15,15 @@ void CategoriesDialog(BuildContext context,Function() onClick,HomeBloc bloc,int 
 
   showModalBottomSheet(
     context: context,
-    elevation: 0,
+    elevation: 10,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+    ),
+    backgroundColor: Colors.white,
    // isScrollControlled: true,
     barrierColor: Colors.black.withAlpha(1),
     //backgroundColor: Colors.transparent,
-    isDismissible: false,// Also default
+    //isDismissible: false,// Also default
     builder: (context) => SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(10),

@@ -1,5 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../../common/utilities/logger.dart';
+
+
 class PushNotification {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -11,7 +16,6 @@ class PushNotification {
     // description
     importance: Importance.max,
   );
-
   initialise() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
@@ -37,8 +41,7 @@ class PushNotification {
   }
 
   remoteNotification() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
@@ -53,10 +56,7 @@ class PushNotification {
                 channelDescription: channel.description,
                 icon: android.smallIcon,
               ),
-              iOS: DarwinNotificationDetails(
-
-              )
-          ),
+              iOS: const DarwinNotificationDetails()),
         );
       }
     });
@@ -65,25 +65,43 @@ class PushNotification {
     });
   }
 
-  void _handleMessage(RemoteMessage message) {
-
-
-
-  }
+  void _handleMessage(RemoteMessage message) {}
 
   fcm() {
-
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
       if (message != null) {}
     });
-    const initialzationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-    final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    const initialzationSettingsAndroid =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
+    final DarwinInitializationSettings initializationSettingsIOS =
+    DarwinInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     IOSFlutterLocalNotificationsPlugin().getNotificationAppLaunchDetails();
-    final initializationSettings = InitializationSettings(android: initialzationSettingsAndroid, iOS: initializationSettingsIOS);
+    final initializationSettings = InitializationSettings(
+        android: initialzationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
     remoteNotification();
+  }
+
+  clearNotification(int userId) async {
+    printLog("message.userId", userId);
+    try {
+      await flutterLocalNotificationsPlugin.cancel(userId);
+     // FlutterAppBadger.removeBadge();
+    } catch (e) {
+      debugPrint('Error cancelling notification: $e');
+    }
+  }
+
+  clearAllNotification() async {
+    try {
+      await flutterLocalNotificationsPlugin.cancelAll();
+      //FlutterAppBadger.removeBadge();
+    } catch (e) {
+      debugPrint('Error cancelling notification: $e');
+    }
   }
 
   Future onDidReceiveLocalNotification(
@@ -97,8 +115,6 @@ class PushNotification {
     //   ),
     // );
   }
-
-
 }
 
 PushNotification pushNotification = PushNotification();

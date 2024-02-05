@@ -73,12 +73,12 @@ class NearShopsBloc extends BlocBase{
           '${place.street}, ${place.subLocality},${place.locality},${place.administrativeArea} ,${place.country},${place.postalCode}';
       ShopService().getNearShopList({
         "environment" : EndPoints.env,
-        // "city_name":place.locality,
-        // "latitude": position.latitude,
-        // "longitude":position.longitude
-        "city_name":"Karimnagar",
+         "city_name":place.locality,
+         "latitude": position.latitude,
+         "longitude":position.longitude
+       /* "city_name":"Karimnagar",
         "latitude": 17.4134871,
-        "longitude":78.3012398
+        "longitude":78.3012398*/
       }).then((value) {
         _isLoading.add(false);
         if(value.data!=null){

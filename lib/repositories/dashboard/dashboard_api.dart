@@ -43,4 +43,19 @@ class DashboardService extends BaseAPIService implements DashboardAPI{
       }
     });
   }
+
+  @override
+  Future<RequestResponse<Map<String,dynamic>>> addOtherCart(Map<String,dynamic> data) {
+    return make(RequestType.POST, EndPoints.addOtherCart, body: data,contentType: ContentType.json)
+        .then((result) {
+      if (result.data != null) {
+        // printLog("response", result.data);
+
+        return RequestResponse(data: result.data);
+      } else {
+        printLog("response error", result.error!.error);
+        return RequestResponse(error: result.error);
+      }
+    });
+  }
 }
