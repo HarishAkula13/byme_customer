@@ -15,6 +15,7 @@ abstract class ShopAPI{
   Future<RequestResponse<ShopListDetails>> getNearShopList(Map<String,dynamic> data);
   Future<RequestResponse<ShopMenu>> getShopMenu(Map<String,dynamic> data);
   Future<RequestResponse<ShopMenu>> addShopItem(Map<String,dynamic> data);
+  Future<RequestResponse<ShopMenu>> addOtherShopItem(Map<String,dynamic> data);
 
 }
 class ShopService extends BaseAPIService implements ShopAPI{

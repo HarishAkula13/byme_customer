@@ -31,6 +31,8 @@ ShopMenu _$ShopMenuFromJson(Map<String, dynamic> json) => ShopMenu(
       json['cart_qty'] as int? ?? 0,
       json['cart'] as String?,
       json['flag'] as bool?,
+      json['status'] as int?,
+      json['key'] as String?,
     );
 
 Map<String, dynamic> _$ShopMenuToJson(ShopMenu instance) => <String, dynamic>{
@@ -54,4 +56,6 @@ Map<String, dynamic> _$ShopMenuToJson(ShopMenu instance) => <String, dynamic>{
       'cart_qty': instance.cartQty,
       'cart': instance.cart,
       'flag': instance.flag,
+      'status': instance.status,
+      'key': instance.key,
     };

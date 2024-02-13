@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import 'load_indicator.dart';
@@ -24,7 +25,7 @@ class LoaderContainer extends StatelessWidget {
           backgroundColor: Colors.white,
           body: Stack(
             children: <Widget>[
-              SvgPicture.asset('assets/images/bg.svg'),
+              SvgPicture.asset('assets/images/bg.svg',width: Get.width,fit: BoxFit.fitWidth,),
               if (child != null) ...[child],
               (bottomSheet!=null)?SizedBox():Positioned.fill(child: _getIndicator(s.data ?? false)),
             ],

@@ -109,6 +109,7 @@ class ChangeAddressBloc extends BlocBase{
                 backgroundColor: PYCColors.app_color,
                 icon: const Icon(Icons.verified_outlined,color: Colors.white,),
               );
+              Navigator.pop(Get.context!);
             }else{
               Get.snackbar('Success',
                 "Address updated Successfully",
@@ -116,6 +117,7 @@ class ChangeAddressBloc extends BlocBase{
                 backgroundColor: PYCColors.app_color,
                 icon: const Icon(Icons.verified_outlined,color: Colors.white,),
               );
+              Navigator.pop(Get.context!);
             }
 
 

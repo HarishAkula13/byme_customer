@@ -12,7 +12,7 @@ import '../../../model/shop/shop_menu.dart';
 
 void cartBottomSheet({ShopMenu? menu,  Function(String qty,String itemId)? onCallback,ShopMenuBloc? bloc}){
   showModalBottomSheet(
-      isDismissible: false,
+      isDismissible: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topRight: Radius.circular(15),topLeft:Radius.circular(15)),
       ),

@@ -213,7 +213,7 @@ class HomeBloc extends BlocBase{
         Menu(icon: 'assets/images/lab.svg',title: 'Lab Tests',tag: 'LT'),
         Menu(icon: 'assets/images/meat.svg',title: 'Meat & Eggs',tag: 'ME'),
         Menu(icon: 'assets/images/fv.svg',title: 'Fruits & Vegetables',tag: 'FV'),
-        Menu(icon: 'assets/images/fb.svg',title: 'Food & Beverages',tag: 'FB'),
+        Menu(icon: 'assets/images/fb.svg',title: 'Food & Restaurants',tag: 'FB'),
         Menu(icon: 'assets/images/auto.svg',title: 'Hardware',tag: 'HW'),
         Menu(icon: 'assets/images/milk.svg',title: 'Milk & Dairy',tag: 'MD'),
         Menu(icon: 'assets/images/liquor.svg',title: 'Liquor Store',tag: 'LQ'),

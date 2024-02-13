@@ -11,6 +11,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../app/arch/bloc_provider.dart';
+import '../../../common/fonts/fonts.dart';
+import '../../../common/label/item_label_text.dart';
 import '../../../common/utilities/byme_colors.dart';
 import '../../../di/app_injector.dart';
 import '../../../manager/user_data_store/user_data_store.dart';
@@ -153,41 +155,137 @@ class ShopMenuBloc extends BlocBase{
     }).then((value) {
       _isLoading.add(false);
       if(value.data!=null){
-        if(value.data!.cart!=null){
-          GetBar(
-            messageText:  Row(
-              children: [
-                Text(value.data!.cart!,style: const TextStyle(color: Colors.black,fontFamily: Inter.regular,fontSize: 14),),
-                Spacer(),
-                 GestureDetector(
-                     onTap: (){
-                       addSelectedPos.add(2);
-                     },
-                     child: Text('View cart',style: TextStyle(color: HexColor('#0E8E60'),fontFamily: Inter.medium,fontSize: 12),)),
+        if(value.data!.status!=null){
+          if(value.data!.status==3){
+            showAlertDialog(value.data!.key!,{
+              "environment" : EndPoints.env,
+              "user_id": user!.userId,
+              "menu_id": menu_id,
+              "product_info": {
+                itemId: qty,
+              }
+            });
 
-              ],
-            ),
-            margin: EdgeInsets.only(bottom: 68,left: 5,right: 5),
-            duration: const Duration(seconds: 3),
-            backgroundColor: HexColor('#E7F6EA'),
-            snackPosition: SnackPosition.BOTTOM,
-            animationDuration: const Duration(milliseconds: 500),
-          ).show();
-          for(int i=0;i<menuList!.length;i++){
-            if(menuList![i].productId==itemId){
-              menuList![i].cartQty=int.parse(qty!);
-              break;
-            }
 
           }
 
-          _isShopMenu.add(menuList!);
         }else {
+          if (value.data!.cart != null) {
+            GetBar(
+              messageText: Row(
+                children: [
+                  Text(value.data!.cart!, style: const TextStyle(
+                      color: Colors.black,
+                      fontFamily: Inter.regular,
+                      fontSize: 14),),
+                  Spacer(),
+                  GestureDetector(
+                      onTap: () {
+                        addSelectedPos.add(2);
+                      },
+                      child: Text('View cart', style: TextStyle(
+                          color: HexColor('#0E8E60'),
+                          fontFamily: Inter.medium,
+                          fontSize: 12),)),
 
+                ],
+              ),
+              margin: EdgeInsets.only(bottom: 68, left: 5, right: 5),
+              duration: const Duration(seconds: 3),
+              backgroundColor: HexColor('#E7F6EA'),
+              snackPosition: SnackPosition.BOTTOM,
+              animationDuration: const Duration(milliseconds: 500),
+            ).show();
+            for (int i = 0; i < menuList!.length; i++) {
+              if (menuList![i].productId == itemId) {
+                menuList![i].cartQty = int.parse(qty!);
+                break;
+              }
+            }
+
+            _isShopMenu.add(menuList!);
+          } else {
+
+          }
         }
 
       }
-
     });
   }
+
+  showAlertDialog(String msg,Map<String,dynamic> data) {
+    return showDialog<void>(
+      context: Get.context!,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                ItemLabelText( text: msg,style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: ItemLabelText( text:'Replace',style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular,color: Colors.red)),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _isLoading.add(true);
+                ShopService().addOtherShopItem(data).then((value) {
+                  _isLoading.add(false);
+                  if (value.data!.cart != null) {
+                    GetBar(
+                      messageText: Row(
+                        children: [
+                          Text(value.data!.cart!, style: const TextStyle(
+                              color: Colors.black,
+                              fontFamily: Inter.regular,
+                              fontSize: 14),),
+                          Spacer(),
+                          GestureDetector(
+                              onTap: () {
+                                addSelectedPos.add(2);
+                              },
+                              child: Text('View cart', style: TextStyle(
+                                  color: HexColor('#0E8E60'),
+                                  fontFamily: Inter.medium,
+                                  fontSize: 12),)),
+
+                        ],
+                      ),
+                      margin: EdgeInsets.only(bottom: 68, left: 5, right: 5),
+                      duration: const Duration(seconds: 3),
+                      backgroundColor: HexColor('#E7F6EA'),
+                      snackPosition: SnackPosition.BOTTOM,
+                      animationDuration: const Duration(milliseconds: 500),
+                    ).show();
+                    for (int i = 0; i < menuList!.length; i++) {
+                      if (menuList![i].productId == data['itemId']) {
+                        menuList![i].cartQty = int.parse(data['qty']);
+                        break;
+                      }
+                    }
+
+                    _isShopMenu.add(menuList!);
+                  } else {
+
+                  }
+
+                }
+                );
+              },
+            ),
+            TextButton(
+              child: ItemLabelText( text:'Cancel',style: const TextStyle(fontSize: 14,fontFamily: Fonts.regular,color: Colors.green)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

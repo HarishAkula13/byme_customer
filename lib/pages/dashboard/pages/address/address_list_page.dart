@@ -99,14 +99,22 @@ class AddressListPageState extends State<AddressListPage>{
                       onTap: (){
                         Get.to(AppInjector.instance.changeAddress(null))!.then((value) => _bloc!.getAddress());
                       },
-                      child: Padding(padding: const EdgeInsets.all(15),
-                      child: Row(children: [
-                        SvgPicture.asset('assets/images/plus.svg'),
-                        const SizedBox(width: 10,),
-                        ItemLabelText(text: 'Add Address',style:  TextStyle(fontSize: 14,color: HexColor('#828785'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
-                        const Spacer(),
-                        Icon(Icons.arrow_right,color: HexColor('#828785'),),
-                      ],),),
+                      child: Container(
+                        width: Get.width,
+                        padding: const EdgeInsets.all(15),
+
+                      child: InkWell(
+                        onTap: (){
+                          Get.to(AppInjector.instance.changeAddress(null))!.then((value) => _bloc!.getAddress());
+                        },
+                        child: Row(children: [
+                          SvgPicture.asset('assets/images/plus.svg'),
+                          const SizedBox(width: 10,),
+                          ItemLabelText(text: 'Add Address',style:  TextStyle(fontSize: 14,color: HexColor('#828785'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
+                          const Spacer(),
+                          Icon(Icons.arrow_right,color: HexColor('#828785'),),
+                        ],),
+                      ),),
                     ),
                     Divider(color: HexColor('#CDD0CF'),thickness: 0.5,),
                     Container(
