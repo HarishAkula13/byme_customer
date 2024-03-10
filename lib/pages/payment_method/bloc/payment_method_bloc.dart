@@ -179,9 +179,9 @@ class PaymentmethodBloc extends BlocBase {
           "user_id": mapData['user_id'],
           "address_title": mapData['address_title'],
           "environment": EndPoints.env
-        }).then((value) {
+        }).then((val) {
           _isLoading.add(false);
-          if(value.error==null) {
+          if(val.error==null) {
             GetBar(
               messageText: const Text('Transaction Successful', style: TextStyle(
                   color: Colors.white, fontWeight: FontWeight.w600),),
@@ -197,7 +197,7 @@ class PaymentmethodBloc extends BlocBase {
                 color: Colors.white,
               ),
             ).show();
-            Get.to(AppInjector.instance.dashboardPage(0,address));
+            Get.to(AppInjector.instance.orderDetails(0,value.data!.orderId!));
           }
         });
 

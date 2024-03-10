@@ -100,7 +100,7 @@ extension HomePageExtension on AppInjector {
     });
 
     container.registerDependency<OrdersDetailsFactory>((){
-      return(type)=> BlocProvider<OrderDetailsBloc>(bloc: OrderDetailsBloc(userDataStore,type), child: OrderDetailsPage());
+      return(type,orderId)=> BlocProvider<OrderDetailsBloc>(bloc: OrderDetailsBloc(userDataStore,type,orderId), child: OrderDetailsPage());
     });
     container.registerDependency<ChangeAddressFactory>((){
       return(addressId)=> BlocProvider<ChangeAddressBloc>(bloc: ChangeAddressBloc(LoginService(),userDataStore,addressId), child: const ChangeAddressPage());

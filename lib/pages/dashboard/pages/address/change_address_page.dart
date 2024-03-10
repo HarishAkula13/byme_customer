@@ -86,9 +86,12 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                               Expanded(
                                   flex: 8,
                                   child: ItemLabelText(text: sn.data,style: const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500),)),
-                          Expanded(
-                          flex: 2,
-                          child:ItemLabelText(text: 'CHANGE',style:  TextStyle(fontSize: 14,color: ByMeColors.app_color,fontFamily: Inter.regular,fontWeight: FontWeight.w500),),)
+                          Expanded(flex: 2,
+                          child: GestureDetector(
+                              onTap:(){
+                          _bloc!.addIsChange.add(true);
+                          },
+                              child: ItemLabelText(text: 'CHANGE',style:  TextStyle(fontSize: 14,color: ByMeColors.app_color,fontFamily: Inter.regular,fontWeight: FontWeight.w500),)),)
 
                             ],
                           );
@@ -243,7 +246,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                       Expanded(
                         flex: 4,
                         child: customButton(() {
-                          if(street.text.isNotEmpty&&landmark.text.isNotEmpty&&pinCode.text.isNotEmpty&&addressType.text.isNotEmpty&&houseNumber.text.isNotEmpty){
+                          if(street.text.isNotEmpty&&landmark.text.isNotEmpty&&pinCode.text.isNotEmpty&&addressType.text.isNotEmpty&&houseNumber.text.isNotEmpty&&addressType.text.isNotEmpty){
                             var map={
                               "environment": EndPoints.env,
                               "house": houseNumber.text,
@@ -293,7 +296,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(
                   target: s.data!.item1,
-                  zoom: 14.4746,
+                  zoom: 18,
                 ),
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
@@ -318,7 +321,7 @@ class ChangeAddressPageState extends State<ChangeAddressPage>{
   void updateCamera(LatLng latLng) async{
     CameraPosition cameraPosition = new CameraPosition(
       target: latLng,
-      zoom: 14,
+      zoom: 18,
     );
 
     final GoogleMapController controller = await _controller.future;

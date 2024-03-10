@@ -58,40 +58,44 @@ class AddressListPageState extends State<AddressListPage>{
                     child: ItemLabelText(text: 'Select Location',style: const TextStyle(fontSize: 20,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w700))),
                 Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 4,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                              SvgPicture.asset('assets/images/gps.svg'),
-                              const SizedBox(width: 10,),
-                              Flexible(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ItemLabelText(text: 'Use Current Location',style:  TextStyle(fontSize: 14,color: HexColor('#828785'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
-                                    const SizedBox(height: 5,),
-                                    StreamBuilder<String>(
-                                        initialData: '',
-                                        stream: _bloc!.address,
-                                        builder: (context, s) {
-                                          return ItemLabelText(text: s.data,style:  const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500));
-                                        }
-                                    ),
-                                  ],
+                    GestureDetector(
+                      onTap: (){
+                        Get.to(AppInjector.instance.changeAddress(null))!.then((value) => _bloc!.getAddress());
+                      },child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                SvgPicture.asset('assets/images/gps.svg'),
+                                const SizedBox(width: 10,),
+                                Flexible(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ItemLabelText(text: 'Use Current Location',style:  TextStyle(fontSize: 14,color: HexColor('#828785'),fontFamily: Inter.regular,fontWeight: FontWeight.w500)),
+                                      const SizedBox(height: 5,),
+                                      StreamBuilder<String>(
+                                          initialData: '',
+                                          stream: _bloc!.address,
+                                          builder: (context, s) {
+                                            return ItemLabelText(text: s.data,style:  const TextStyle(fontSize: 14,color: Colors.black,fontFamily: Inter.regular,fontWeight: FontWeight.w500));
+                                          }
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
 
-                            ],),
-                          ),
-                          const Expanded(flex:1,child: Align(alignment:Alignment.centerRight,child: Icon(Icons.arrow_right_outlined)))
-                        ],
+                              ],),
+                            ),
+                            const Expanded(flex:1,child: Align(alignment:Alignment.centerRight,child: Icon(Icons.arrow_right_outlined)))
+                          ],
+                        ),
                       ),
                     ),
                     Divider(color: HexColor('#CDD0CF'),thickness: 0.5,),
@@ -201,13 +205,12 @@ class AddressListPageState extends State<AddressListPage>{
               return (s.data!.item1.latitude>0.0)?Stack(
                 children: [
 
-
                   GoogleMap(
                     markers: Set<Marker>.of(s.data!.item2),
                     mapType: MapType.normal,
                     initialCameraPosition: CameraPosition(
                       target: s.data!.item1,
-                      zoom: 14.4746,
+                      zoom: 18,
                     ),
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
@@ -237,7 +240,7 @@ class AddressListPageState extends State<AddressListPage>{
   void updateCamera(LatLng latLng) async{
     CameraPosition cameraPosition = new CameraPosition(
       target: latLng,
-      zoom: 14,
+      zoom: 18,
     );
 
     final GoogleMapController controller = await _controller.future;

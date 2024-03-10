@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'orders_list.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class OrdersList {
-  List<OrdersList>? orderList;
+  dynamic orderList;
   String? orderType;
   String? orderId;
   String? orderDateTime;

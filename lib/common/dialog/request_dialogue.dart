@@ -122,7 +122,7 @@ void requestDialogue ({String? title,String? des,String? amount,String? subTitle
                     child: customButton(() {
                       Navigator.pop(context);
                       if(subTitle!=null)
-                        Get.to(AppInjector.instance.orderDetails(1));
+                        Get.to(AppInjector.instance.orderDetails(1,""));
                       else {
 
                         bloc.submit.add(null);

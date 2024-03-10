@@ -271,7 +271,8 @@ class ChangeAddressBloc extends BlocBase{
        cityName=place.subLocality;
        landmark=place.street;
        areName=place.street;
-       _currentAddress = '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+      _currentAddress =
+      '${place.street}, ${place.subLocality},${place.locality},${place.administrativeArea} ,${place.country},${place.postalCode}';
       _address.add(_currentAddress!);
     }).catchError((e) {
       debugPrint(e);

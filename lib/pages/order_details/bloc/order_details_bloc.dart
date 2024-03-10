@@ -4,10 +4,11 @@ import '../../../../../manager/user_data_store/user_data_store.dart';
 import '../../../app/arch/bloc_provider.dart';
 
 
-typedef BlocProvider<OrderDetailsBloc> OrdersDetailsFactory(int type);
+typedef BlocProvider<OrderDetailsBloc> OrdersDetailsFactory(int type,String orderId);
 class OrderDetailsBloc extends BlocBase{
   UserDataStore? userDataStore;
   int? type;
+  String orderId;
   BehaviorSubject<bool> _isLoading =BehaviorSubject.seeded(false);
   BehaviorSubject<bool> _isReadService =BehaviorSubject.seeded(true);
   BehaviorSubject<bool> _isReadPilot =BehaviorSubject.seeded(true);
@@ -26,7 +27,7 @@ class OrderDetailsBloc extends BlocBase{
   Sink<String> get service => _service;
   Sink<String> get pilot => _pilot;
   Sink<String> get amount => _amount;
-  OrderDetailsBloc(this.userDataStore,this.type){
+  OrderDetailsBloc(this.userDataStore,this.type,this.orderId){
     _dialogType.add(type!);
     setListeners();
   }

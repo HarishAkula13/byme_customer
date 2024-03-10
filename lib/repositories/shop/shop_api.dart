@@ -30,7 +30,7 @@ class ShopService extends BaseAPIService implements ShopAPI{
         var data=ShopList.fromJson(result.data);
         return RequestResponse(data: data);
       } else {
-        printLog("response error", result.error!.error);
+       // printLog("response error", result.error!.error);
         return RequestResponse(error: result.error);
       }
     });

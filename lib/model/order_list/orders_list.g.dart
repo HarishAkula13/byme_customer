@@ -7,9 +7,7 @@ part of 'orders_list.dart';
 // **************************************************************************
 
 OrdersList _$OrdersListFromJson(Map<String, dynamic> json) => OrdersList(
-      (json['order_list'] as List<dynamic>?)
-          ?.map((e) => OrdersList.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      json['order_list'],
       json['order_type'] as String?,
       json['order_id'] as String?,
       json['order_date_time'] as String?,

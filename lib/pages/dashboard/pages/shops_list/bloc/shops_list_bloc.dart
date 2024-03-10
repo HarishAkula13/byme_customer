@@ -56,47 +56,52 @@ class ShopsListBloc extends BlocBase{
     }).then((value) {
       _isLoading.add(false);
       if(value.error==null){
-        if(value.data!.shops_list!=null){
-          _shopList.add([]);
-          if(menu?.tag=='KG'){
-           // printLog("map", value.data!.shops_list!.KG!.removeAt(value.data!.shops_list!.KG!.length-1));
-            //printLog("map last", value.data!.shops_list!.KG!.removeLast());
-           // ShopListDetails shop=ShopListDetails.fromJson();
-            _shopList.add(value.data!.shops_list!.KG!);
+        if(value.data!=null){
+          if(value.data!.shops_list!=null){
+            _shopList.add([]);
+            if(menu?.tag=='KG'){
+              // printLog("map", value.data!.shops_list!.KG!.removeAt(value.data!.shops_list!.KG!.length-1));
+              //printLog("map last", value.data!.shops_list!.KG!.removeLast());
+              // ShopListDetails shop=ShopListDetails.fromJson();
+              _shopList.add(value.data!.shops_list!.KG!);
 
-          }else  if(menu?.tag=='PH'){
-            _shopList.add(value.data!.shops_list!.PH!);
+            }else  if(menu?.tag=='PH'){
+              _shopList.add(value.data!.shops_list!.PH!);
 
-          }else  if(menu?.tag=='LT'){
-            _shopList.add(value.data!.shops_list!.LT!);
+            }else  if(menu?.tag=='LT'){
+              _shopList.add(value.data!.shops_list!.LT!);
 
-          }else  if(menu?.tag=='FV'){
-            _shopList.add(value.data!.shops_list!.FV!);
+            }else  if(menu?.tag=='FV'){
+              _shopList.add(value.data!.shops_list!.FV!);
 
-          }else  if(menu?.tag=='FB'){
-            _shopList.add(value.data!.shops_list!.FB!);
+            }else  if(menu?.tag=='FB'){
+              _shopList.add(value.data!.shops_list!.FB!);
 
-          }else  if(menu?.tag=='HW'){
-            _shopList.add(value.data!.shops_list!.HW!);
+            }else  if(menu?.tag=='HW'){
+              _shopList.add(value.data!.shops_list!.HW!);
 
-          }else  if(menu?.tag=='MD'){
-            _shopList.add(value.data!.shops_list!.MD!);
+            }else  if(menu?.tag=='MD'){
+              _shopList.add(value.data!.shops_list!.MD!);
 
-          }else  if(menu?.tag=='LQ'){
-            _shopList.add(value.data!.shops_list!.LQ!);
+            }else  if(menu?.tag=='LQ'){
+              _shopList.add(value.data!.shops_list!.LQ!);
 
-          }else  if(menu?.tag=='ME'){
-            _shopList.add(value.data!.shops_list!.ME!);
+            }else  if(menu?.tag=='ME'){
+              _shopList.add(value.data!.shops_list!.ME!);
+
+            }else{
+              _shopList.add([]);
+            }
+
+
 
           }else{
             _shopList.add([]);
           }
-
-
-
         }else{
           _shopList.add([]);
         }
+
       }else{
         _shopList.add([]);
       }
