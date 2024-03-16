@@ -31,7 +31,8 @@ class OrderDetailsPageState extends State<OrderDetailsPage>{
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
+        leading: Icon(Icons.arrow_back_ios_new,color: Colors.black,),
+        automaticallyImplyLeading: true,
         title: ItemLabelText(text: 'New Order',style: TextStyle(fontSize: 22,color: Colors.black,fontFamily: Inter.bold),)
         ,
       ),
@@ -123,6 +124,7 @@ class OrderDetailsPageState extends State<OrderDetailsPage>{
           ],
         ),
       ),
+/*
       bottomSheet: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(20),
@@ -181,6 +183,7 @@ class OrderDetailsPageState extends State<OrderDetailsPage>{
 
         ),
       ),
+*/
     );
 
 

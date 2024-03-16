@@ -55,11 +55,13 @@ class _NearShopsState extends State<NearShops> {
                           itemCount: s.data!.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (b,i){
-                            return  Padding(
+                            return  Container(
+                              width: 100,
+                              height: 100,
+                              alignment: Alignment.center,
                               padding: const EdgeInsets.only(left: 8.0,right: 8.0),
                               child: GestureDetector(
                                 onTap: (){
-
                                 },
                                 child: Column(
                                   children: [
@@ -68,7 +70,9 @@ class _NearShopsState extends State<NearShops> {
                                         backgroundColor:HexColor('#E7F6EA'),
                                         child: SvgPicture.asset(s.data![i].icon!)),
                                     const SizedBox(height: 10,),
-                                    ItemLabelText(text: s.data![i].title!,textAlignment: TextAlign.center,style: const TextStyle(fontFamily: Inter.medium,fontSize: 11,color: Colors.black,fontWeight: FontWeight.w400),)
+                                    ItemLabelText(text: s.data![i].title!,textAlignment: TextAlign.center,maxlines:1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontFamily: Inter.medium,fontSize: 11,color: Colors.black,fontWeight: FontWeight.w400,),)
                                   ],
                                 ),
                               ),
